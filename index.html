@@ -1,522 +1,234 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>LearnHub — 30-Day English Practice (Mobile)</title>
-<meta name="description" content="LearnHub: mobile-first 30-day English speaking practice. Local-only, PWA-ready, swipe cards, PDF export, recordings stored locally." />
-<!-- Minimal styling, Consolas for headings, system font for body for readability -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Daily English Practice</title>
 <style>
-:root{
-  --bg:#f6fbff; --card:#ffffff; --muted:#6b7280;
-  --listen-start:#3b82f6; --speak-start:#10b981; --pron-start:#f59e0b; --vocab-start:#8b5cf6;
-  --accentA:linear-gradient(135deg,#00c6ff,#0072ff);
-  --accentB:linear-gradient(135deg,#ffd6a5,#ff7b7b);
-}
-html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial; background:var(--bg); color:#0f172a;-webkit-font-smoothing:antialiased}
-*{box-sizing:border-box}
-.app{max-width:520px;margin:0 auto;height:100vh;display:flex;flex-direction:column}
-header{padding:12px 14px;display:flex;align-items:center;gap:12px}
-.logo{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;background:linear-gradient(135deg,#6a11cb,#2575fc);font-family:Consolas,monospace}
-h1{font-size:18px;margin:0;font-family:Consolas,monospace}
-.lead{font-size:12px;color:var(--muted);margin-top:4px}
-main{flex:1;display:flex;flex-direction:column;padding:10px}
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:8px;margin-bottom:6px}
-.progress{display:flex;align-items:center;gap:8px}
-.bar{width:170px;height:10px;background:#eef2ff;border-radius:999px;overflow:hidden}
-.fill{height:100%;background:linear-gradient(90deg,#6a11cb,#2575fc);width:0%}
-.small{font-size:12px;color:var(--muted)}
-.deck{position:relative;flex:1;display:flex;align-items:center;justify-content:center;padding:6px}
-.card{width:100%;max-width:460px;background:var(--card);border-radius:16px;box-shadow:0 14px 40px rgba(16,24,40,0.08);padding:14px;position:absolute;touch-action:pan-y;overflow:hidden;display:flex;flex-direction:column;gap:10px}
-.card.hidden{display:none}
-.card-head{display:flex;gap:12px;align-items:center}
-.badge{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;background:linear-gradient(135deg,#00c6ff,#0072ff);font-family:Consolas,monospace}
-.card-title{font-size:16px;margin:0}
-.card-week{font-size:12px;color:var(--muted)}
-.goal{font-size:13px;color:#111;margin-top:6px}
-.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
-.tile{display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfdff);border:1px solid rgba(10,20,40,0.04)}
-.tile .iconwrap{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
-.tile-title{font-size:13px;margin:0;font-weight:700}
-.tile-desc{font-size:12px;color:var(--muted);margin-top:4px}
-.tile .controls{margin-top:8px;display:flex;gap:8px}
-.btn{flex:1;padding:10px;border-radius:10px;border:0;background:linear-gradient(135deg,#00c6ff,#0072ff);color:white;font-weight:700;font-size:13px}
-.btn.secondary{background:linear-gradient(135deg,#ffd6a5,#ff7b7b);color:#111}
-.row{display:flex;gap:8px}
-.vocab{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.chip{background:linear-gradient(180deg,#fff,#fafcff);padding:6px 10px;border-radius:999px;border:1px solid rgba(10,20,40,0.04);font-size:13px}
-.footer{display:flex;align-items:center;justify-content:space-between;padding:10px;border-top:1px solid rgba(10,20,40,0.03)}
-.startbtn{padding:10px 16px;border-radius:12px;background:linear-gradient(135deg,#10b981,#059669);color:white;border:0;font-weight:700}
-.muted{font-size:12px;color:var(--muted)}
-/* swipe animations */
-.dragging{transition:none}
-.slide-in{animation:slideIn .32s ease both}
-@keyframes slideIn{from{transform:translateY(12px) scale(.99);opacity:0}to{transform:none;opacity:1}}
-.slide-out-left{animation:outLeft .28s ease both}
-.slide-out-right{animation:outRight .28s ease both}
-@keyframes outLeft{from{transform:none;opacity:1}to{transform:translateX(-40px) rotate(-4deg);opacity:0}}
-@keyframes outRight{from{transform:none;opacity:1}to{transform:translateX(40px) rotate(4deg);opacity:0}}
-/* controls */
-.timer{font-family:Consolas,monospace;background:#fbfbff;border-radius:8px;padding:6px 8px;font-size:13px;border:1px solid rgba(10,20,40,0.04)}
-.smallcenter{font-size:12px;text-align:center;color:var(--muted)}
-/* responsive */
-@media(min-width:520px){ .app{margin-top:12px} }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 0;
+    background: #f4f4f4;
+    color: #222;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  h1 {
+    margin-bottom: 0.2rem;
+  }
+  .topic {
+    background: #e2e8f0;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-top: 0.3rem;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+  }
+  button {
+    margin-top: 1rem;
+    background: #2d89ef;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  button:disabled {
+    background: #999;
+    cursor: default;
+  }
+  section {
+    margin-bottom: 2rem;
+  }
+  .feedback {
+    background: #d4edda;
+    border-left: 5px solid #28a745;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+  }
+  .progress-list {
+    list-style: none;
+    padding-left: 0;
+  }
+  .progress-list li {
+    background: #fff;
+    padding: 0.7rem;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+  }
+  small {
+    color: #555;
+  }
 </style>
 </head>
 <body>
-<div class="app" id="app">
-  <header>
-    <div class="logo">LH</div>
-    <div>
-      <h1>LearnHub</h1>
-      <div class="lead">Goal: Speak simple sentences · 30 days · Mobile only</div>
-    </div>
-  </header>
 
-  <main>
-    <div class="topbar">
-      <div class="progress">
-        <div class="small">Day <span id="dayNum">1</span> of 30</div>
-        <div class="bar"><div class="fill" id="fill"></div></div>
-        <div class="small" id="progText">0/30</div>
-      </div>
-      <div class="small">Streak: <span id="streak">0</span></div>
-    </div>
+<header>
+  <h1>Daily English Practice</h1>
+  <small>Track your speaking skills progress</small>
+</header>
 
-    <div class="deck" id="deck" aria-live="polite">
-      <!-- cards injected -->
-    </div>
-
-    <div style="padding:8px">
-      <div class="smallcenter">Tip: Watch on YouTube for speed & resolution controls. Timers are optional — practice at your pace.</div>
-    </div>
-  </main>
-
-  <div class="footer">
-    <div class="muted">Local-only · Offline-ready · No uploads</div>
-    <button id="startBtn" class="startbtn">Start</button>
+<section class="topic-section">
+  <h2>Today's Topic</h2>
+  <div class="topic" id="daily-topic">
+    Loading topic...
   </div>
-</div>
+</section>
 
-<!-- lessons JSON (full 30 days) -->
-<script id="lessons" type="application/json">
-[
-  {"day":1,"week":"Week 1 – Build Your Ear & Mouth","goal":"Slow listening, greetings, basic self-introduction.","listening":{"title":"VOA: Meeting People","url":"https://www.youtube.com/results?search_query=VOA+Meeting+People"},"speaking":{"title":"Vanessa: Introduce Yourself","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+introduce+yourself"},"pronunciation":{"title":"Rachel: Pronounce TH","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+pronounce+TH"},"vocab":["Hello","My name is…","I am from…"]},
-  {"day":2,"week":"Week 1 – Build Your Ear & Mouth","goal":"Slow listening, greetings, basic self-introduction.","listening":{"title":"VOA: Where Are You From?","url":"https://www.youtube.com/results?search_query=VOA+Where+Are+You+From"},"speaking":{"title":"Vanessa: How to Start a Conversation","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+how+to+start+a+conversation"},"pronunciation":{"title":"Rachel: Pronounce R","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+pronounce+R"},"vocab":["I live in…","I like…","I work/study…"]},
-  {"day":3,"week":"Week 1 – Build Your Ear & Mouth","goal":"Slow listening, greetings, basic self-introduction.","listening":{"title":"VOA: What is This?","url":"https://www.youtube.com/results?search_query=VOA+What+is+this"},"speaking":{"title":"Vanessa: Daily English Conversation","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+daily+english+conversation"},"pronunciation":{"title":"Rachel: S Sound","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+S+sound"},"vocab":["Object names in your room"]},
-  {"day":4,"week":"Week 1 – Build Your Ear & Mouth","goal":"Slow listening, greetings, basic self-introduction.","listening":{"title":"VOA: What Do You Do?","url":"https://www.youtube.com/results?search_query=VOA+What+do+you+do"},"speaking":{"title":"Vanessa: Talking About Your Job","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+talking+about+your+job"},"pronunciation":{"title":"Rachel: L Sound","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+L+sound"},"vocab":["Job titles","I am a…"]},
-  {"day":5,"week":"Week 1 – Build Your Ear & Mouth","goal":"Slow listening, greetings, basic self-introduction.","listening":{"title":"VOA: Everyday Activities","url":"https://www.youtube.com/results?search_query=VOA+everyday+activities"},"speaking":{"title":"Vanessa: Talking About Your Day","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+talking+about+your+day"},"pronunciation":{"title":"Rachel: V & W Sounds","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+V+W+sounds"},"vocab":["Morning routine verbs"]},
-  {"day":6,"week":"Week 1 – Build Your Ear & Mouth","goal":"Slow listening, greetings, basic self-introduction.","listening":{"title":"VOA: How Old Are You?","url":"https://www.youtube.com/results?search_query=VOA+how+old+are+you"},"speaking":{"title":"Vanessa: Numbers & Age","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+numbers+age"},"pronunciation":{"title":"Rachel: Word Stress","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+word+stress"},"vocab":["Numbers 1–50"]},
-  {"day":7,"week":"Week 1 – Build Your Ear & Mouth","goal":"Review Week 1","listening":{"title":"Re-watch key lessons","url":"https://www.youtube.com/"},"speaking":{"title":"Speak aloud for 2 minutes about yourself","url":"https://www.youtube.com/"},"pronunciation":{"title":"Review pronunciation drills","url":"https://www.youtube.com/"},"vocab":["Review"]},
+<section class="submission-section">
+  <h2>Submit Your Video</h2>
+  <label for="videoLink">Google Drive Video Link:</label>
+  <input type="text" id="videoLink" placeholder="Paste your video shareable link here" />
+  <label for="notes">Any notes or comments:</label>
+  <textarea id="notes" rows="3" placeholder="Optional..."></textarea>
+  <button id="submitBtn">Submit</button>
+</section>
 
-  {"day":8,"week":"Week 2 – Core Conversation Skills","goal":"Questions, answers, small talk.","listening":{"title":"BBC: The English We Speak – Small Talk","url":"https://www.youtube.com/results?search_query=BBC+The+English+We+Speak+small+talk"},"speaking":{"title":"Vanessa: Small Talk in English","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+small+talk"},"pronunciation":{"title":"Rachel: Sentence Stress in English","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+sentence+stress"},"vocab":["What’s your name?","Where are you from?","How are you?"]},
-  {"day":9,"week":"Week 2 – Core Conversation Skills","goal":"Questions, answers, small talk.","listening":{"title":"VOA: At the Store","url":"https://www.youtube.com/results?search_query=VOA+at+the+store"},"speaking":{"title":"Vanessa: Shopping English","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+shopping+english"},"pronunciation":{"title":"Rachel: Linking Words","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+linking+words"},"vocab":["How much is this?","I need…","Do you have…?"]},
-  {"day":10,"week":"Week 2 – Core Conversation Skills","goal":"Questions, answers, small talk.","listening":{"title":"BBC: The English We Speak – No Problem","url":"https://www.youtube.com/results?search_query=BBC+The+English+We+Speak+no+problem"},"speaking":{"title":"Vanessa: Agree & Disagree","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+agree+disagree"},"pronunciation":{"title":"Rachel: Intonation in Questions","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+intonation+questions"},"vocab":["I think…","I agree…","I don't agree…"]},
-  {"day":11,"week":"Week 2 – Core Conversation Skills","goal":"Questions, answers, small talk.","listening":{"title":"VOA: At the Restaurant","url":"https://www.youtube.com/results?search_query=VOA+at+the+restaurant"},"speaking":{"title":"Vanessa: Restaurant English","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+restaurant+english"},"pronunciation":{"title":"Rachel: Pronounce Menu Words","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+menu+words"},"vocab":["I would like…","Can I have…?","Thank you."]},
-  {"day":12,"week":"Week 2 – Core Conversation Skills","goal":"Questions, answers, small talk.","listening":{"title":"BBC: Piece of Cake","url":"https://www.youtube.com/results?search_query=BBC+The+English+We+Speak+piece+of+cake"},"speaking":{"title":"Vanessa: Talking About Hobbies","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+hobbies"},"pronunciation":{"title":"Rachel: Pronouncing ED Endings","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+ed+endings"},"vocab":["I like…","I enjoy…","My hobby is…"]},
-  {"day":13,"week":"Week 2 – Core Conversation Skills","goal":"Questions, answers, small talk.","listening":{"title":"VOA: Talking About Weather","url":"https://www.youtube.com/results?search_query=VOA+talking+about+weather"},"speaking":{"title":"Vanessa: Weather English","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+weather+english"},"pronunciation":{"title":"Rachel: Pronouncing Weather Words","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+weather+words"},"vocab":["It is sunny.","It's raining.","It's hot/cold."]},
-  {"day":14,"week":"Week 2 – Core Conversation Skills","goal":"Review Week 2","listening":{"title":"Rewatch lessons 8–13","url":"https://www.youtube.com/"},"speaking":{"title":"Practice 5 Q&A & record 2–3 min","url":"https://www.youtube.com/"},"pronunciation":{"title":"Review drills","url":"https://www.youtube.com/"},"vocab":["Review"]},
+<section class="feedback-section" style="display:none;">
+  <h2>Feedback</h2>
+  <div class="feedback" id="feedbackText">
+    No feedback yet.
+  </div>
+</section>
 
-  {"day":15,"week":"Week 3 – Speak in Short Sentences","goal":"Describing, giving opinions, connecting ideas.","listening":{"title":"VOA: Describing People","url":"https://www.youtube.com/results?search_query=VOA+describing+people"},"speaking":{"title":"Vanessa: Describing People","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+describing+people"},"pronunciation":{"title":"Rachel: Adjective Stress","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+adjective+stress"},"vocab":["Tall","Short","Young","Old","Friendly","Kind"]},
-  {"day":16,"week":"Week 3 – Speak in Short Sentences","goal":"Describing, giving opinions, connecting ideas.","listening":{"title":"BBC: Break the Ice","url":"https://www.youtube.com/results?search_query=BBC+The+English+We+Speak+break+the+ice"},"speaking":{"title":"Vanessa: Describing Places","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+describing+places"},"pronunciation":{"title":"Rachel: Linking Sounds","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+linking+sounds"},"vocab":["Beautiful","Crowded","Noisy","Quiet","Near","Far"]},
-  {"day":17,"week":"Week 3 – Speak in Short Sentences","goal":"Describing, giving opinions, connecting ideas.","listening":{"title":"VOA: Describing Things","url":"https://www.youtube.com/results?search_query=VOA+describing+things"},"speaking":{"title":"Vanessa: Talk About Things You Like","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+things+you+like"},"pronunciation":{"title":"Rachel: Word Ending Sounds","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+word+ending+sounds"},"vocab":["I like…","I don't like…","It is…","They are…"]},
-  {"day":18,"week":"Week 3 – Speak in Short Sentences","goal":"Describing, giving opinions, connecting ideas.","listening":{"title":"BBC: In Hot Water","url":"https://www.youtube.com/results?search_query=BBC+The+English+We+Speak+in+hot+water"},"speaking":{"title":"Vanessa: Giving Opinions","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+opinions"},"pronunciation":{"title":"Rachel: Intonation for Opinions","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+intonation+opinions"},"vocab":["I think…","In my opinion…","I feel…"]},
-  {"day":19,"week":"Week 3 – Speak in Short Sentences","goal":"Describing, giving opinions, connecting ideas.","listening":{"title":"VOA: Talking About the Past","url":"https://www.youtube.com/results?search_query=VOA+talking+about+the+past"},"speaking":{"title":"Vanessa: Past Tense Practice","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+past+tense"},"pronunciation":{"title":"Rachel: ED Endings","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+ed+endings"},"vocab":["Yesterday","Last week","Before","Ago"]},
-  {"day":20,"week":"Week 3 – Speak in Short Sentences","goal":"Describing, giving opinions, connecting ideas.","listening":{"title":"BBC: Under the Weather","url":"https://www.youtube.com/results?search_query=BBC+The+English+We+Speak+under+the+weather"},"speaking":{"title":"Vanessa: Talking About Health","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+health"},"pronunciation":{"title":"Rachel: Vowel Sounds Practice","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+vowel+sounds"},"vocab":["I feel sick","I have a cold","I am tired"]},
-  {"day":21,"week":"Week 3 – Speak in Short Sentences","goal":"Review Week 3","listening":{"title":"Rewatch lessons 15–20","url":"https://www.youtube.com/"},"speaking":{"title":"Record yourself describing a person/place/thing (1–2 min)","url":"https://www.youtube.com/"},"pronunciation":{"title":"Review drills","url":"https://www.youtube.com/"},"vocab":["Review"]},
-
-  {"day":22,"week":"Week 4 – Real Conversation & Fluency","goal":"Holding conversations, telling short stories, connecting ideas.","listening":{"title":"VOA: Doctor's Office","url":"https://www.youtube.com/results?search_query=VOA+doctor+office"},"speaking":{"title":"Vanessa: Doctor Visit English","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+doctor+visit"},"pronunciation":{"title":"Rachel: Stress in Long Sentences","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+stress+long+sentences"},"vocab":["I have…","It hurts here…","I need medicine."]},
-  {"day":23,"week":"Week 4 – Real Conversation & Fluency","goal":"Holding conversations, telling short stories, connecting ideas.","listening":{"title":"BBC: Call it a Day","url":"https://www.youtube.com/results?search_query=BBC+The+English+We+Speak+call+it+a+day"},"speaking":{"title":"Vanessa: Talking About Work","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+talking+about+work"},"pronunciation":{"title":"Rachel: Linking Words for Fluency","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+linking+for+fluency"},"vocab":["I start at…","I finish at…","I work as…"]},
-  {"day":24,"week":"Week 4 – Real Conversation & Fluency","goal":"Holding conversations, telling short stories, connecting ideas.","listening":{"title":"VOA: Making Travel Plans","url":"https://www.youtube.com/results?search_query=VOA+making+travel+plans"},"speaking":{"title":"Vanessa: Travel English","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+travel+english"},"pronunciation":{"title":"Rachel: Pronouncing Travel Words","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+travel+words"},"vocab":["I'm going to…","I want to visit…","How do I get to…?"]},
-  {"day":25,"week":"Week 4 – Real Conversation & Fluency","goal":"Holding conversations, telling short stories, connecting ideas.","listening":{"title":"BBC: Once in a Blue Moon","url":"https://www.youtube.com/results?search_query=BBC+The+English+We+Speak+once+in+a+blue+moon"},"speaking":{"title":"Vanessa: Talking About the Past Week","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+past+week"},"pronunciation":{"title":"Rachel: Natural Reductions","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+natural+reductions"},"vocab":["Last weekend…","A few days ago…","Recently…"]},
-  {"day":26,"week":"Week 4 – Real Conversation & Fluency","goal":"Holding conversations, telling short stories, connecting ideas.","listening":{"title":"VOA: Giving Directions","url":"https://www.youtube.com/results?search_query=VOA+giving+directions"},"speaking":{"title":"Vanessa: Directions in English","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+directions"},"pronunciation":{"title":"Rachel: Pronouncing Place Names","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+place+names"},"vocab":["Go straight…","Turn left…","It’s next to…"]},
-  {"day":27,"week":"Week 4 – Real Conversation & Fluency","goal":"Holding conversations, telling short stories, connecting ideas.","listening":{"title":"BBC: Keep an Eye On","url":"https://www.youtube.com/results?search_query=BBC+The+English+We+Speak+keep+an+eye+on"},"speaking":{"title":"Vanessa: Telling a Short Story","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+telling+a+story"},"pronunciation":{"title":"Rachel: Storytelling Rhythm","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+storytelling+rhythm"},"vocab":["First","Then","After that","Finally"]},
-  {"day":28,"week":"Week 4 – Real Conversation & Fluency","goal":"Holding conversations, telling short stories, connecting ideas.","listening":{"title":"VOA: At the Bank","url":"https://www.youtube.com/results?search_query=VOA+at+the+bank"},"speaking":{"title":"Vanessa: Banking English","url":"https://www.youtube.com/results?search_query=Speak+English+With+Vanessa+banking"},"pronunciation":{"title":"Rachel: Numbers & Money","url":"https://www.youtube.com/results?search_query=Rachel%27s+English+numbers+money"},"vocab":["I want to open an account.","I need to withdraw money."]},
-  {"day":29,"week":"Week 4 – Real Conversation & Fluency","goal":"Review Week 4","listening":{"title":"Rewatch 3–4 favorite lessons","url":"https://www.youtube.com/"},"speaking":{"title":"Record a 2–3 minute story","url":"https://www.youtube.com/"},"pronunciation":{"title":"Polish problematic sounds","url":"https://www.youtube.com/"},"vocab":["Review"]},
-  {"day":30,"week":"Final Challenge","goal":"Final challenge — record a 3–4 minute talk.","listening":{"title":"Celebrate & reflect","url":"https://www.youtube.com/"},"speaking":{"title":"Final challenge: 3–4 minute video","url":"https://www.youtube.com/"},"pronunciation":{"title":"Final polish","url":"https://www.youtube.com/"},"vocab":["Introduce yourself","Describe routine","Tell a short story"]}
-]
-</script>
-
-<!-- jsPDF CDN for PDF export (works when online). Fallback uses text file -->
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<section class="progress-section">
+  <h2>Progress Log</h2>
+  <ul class="progress-list" id="progressList">
+    <li>No submissions yet.</li>
+  </ul>
+</section>
 
 <script>
-/* LearnHub improved single-file app
-   Features:
-    - Full 30-day JSON (above)
-    - Tinder-like swipe cards
-    - Four activity tiles per day with SVG icons
-    - Optional timers (user starts each)
-    - Watch opens YouTube search/link externally
-    - Download PDF per lesson (jsPDF when online)
-    - Recordings saved to IndexedDB, play & download
-    - Local storage of progress & notes
-    - Unlock logic: can proceed but nudged; default unlock one-by-one
-*/
+// Sample beginner topics cycle for demonstration:
+const topics = [
+  "Introduce Yourself and Talk About Your Hobbies",
+  "Describe Your Daily Routine",
+  "Talk About Your Favorite Food and Why You Like It",
+  "Describe Your Family Members",
+  "Explain Your Favorite Place to Visit",
+  "Talk About a Movie or Book You Recently Enjoyed",
+  "Describe Your Goals for Learning English"
+];
 
-(function(){
-  'use strict';
+// Store data in localStorage for persistence:
+const STORAGE_KEY = 'dailyEnglishPracticeData';
 
-  // helpers for DOM
-  const $ = sel => document.querySelector(sel);
-  const deck = $('#deck'), dayNumEl = $('#dayNum'), fillEl = $('#fill'), progText = $('#progText'), startBtn = $('#startBtn'), streakEl = $('#streak');
+// Load saved data or init:
+let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+  submissions: [],
+  currentTopicIndex: 0,
+  feedbacks: []
+};
 
-  const lessons = JSON.parse(document.getElementById('lessons').textContent);
-  const TOTAL = lessons.length;
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
 
-  // storage keys
-  const LS_PROGRESS = 'learnhub_v2_progress';
-  const LS_NOTES = 'learnhub_v2_notes';
-  const REC_IDX = 'learnhub_v2_recs';
+// Show current topic:
+function showTopic() {
+  const topicElem = document.getElementById('daily-topic');
+  topicElem.textContent = topics[data.currentTopicIndex] || "No topic for today.";
+}
 
-  // IndexedDB wrapper for blobs
-  const DB = 'learnhub_db_v2', STORE = 'recs';
-  function openDB(){ return new Promise((res,rej)=>{ const rq = indexedDB.open(DB,1); rq.onupgradeneeded = e => { const db = e.target.result; if(!db.objectStoreNames.contains(STORE)) db.createObjectStore(STORE,{keyPath:'id'}); }; rq.onsuccess = e => res(e.target.result); rq.onerror = e => rej(e.target.error); }); }
-  async function idbPut(obj){ const db = await openDB(); return new Promise((res,rej)=>{ const tx = db.transaction(STORE,'readwrite'); tx.objectStore(STORE).put(obj); tx.oncomplete = () => res(); tx.onerror=()=>rej(tx.error); }); }
-  async function idbGet(id){ const db = await openDB(); return new Promise((res,rej)=>{ const tx = db.transaction(STORE,'readonly'); const rq = tx.objectStore(STORE).get(id); rq.onsuccess = () => res(rq.result); rq.onerror=()=>rej(rq.error); }); }
-  async function idbDelete(id){ const db = await openDB(); return new Promise((res,rej)=>{ const tx = db.transaction(STORE,'readwrite'); const rq = tx.objectStore(STORE).delete(id); rq.onsuccess=()=>res(); rq.onerror=()=>rej(rq.error); }); }
-  async function idbAll(){ const db = await openDB(); return new Promise((res,rej)=>{ const tx = db.transaction(STORE,'readonly'); const out=[]; const cur = tx.objectStore(STORE).openCursor(); cur.onsuccess = e => { const c = e.target.result; if(c){ out.push(c.value); c.continue(); } else res(out); }; cur.onerror=()=>rej(cur.error); }); }
-
-  // load/save progress
-  function loadProgress(){ try{ const raw = localStorage.getItem(LS_PROGRESS); if(!raw) return {currentDay:1,completed:{},streak:0,lastDate:null}; return JSON.parse(raw);}catch(e){return {currentDay:1,completed:{},streak:0,lastDate:null};} }
-  function saveProgress(p){ localStorage.setItem(LS_PROGRESS, JSON.stringify(p)); }
-  let progress = loadProgress();
-
-  function loadNotes(){ try{ const raw = localStorage.getItem(LS_NOTES); return raw?JSON.parse(raw):{}; }catch(e){return {} } }
-  function saveNotes(n){ localStorage.setItem(LS_NOTES, JSON.stringify(n)); }
-  let notes = loadNotes();
-
-  function loadRecIndex(){ try{ return JSON.parse(localStorage.getItem(REC_IDX) || '{}'); }catch(e){return {}; } }
-  function saveRecIndex(idx){ localStorage.setItem(REC_IDX, JSON.stringify(idx)); }
-  let recIndex = loadRecIndex();
-
-  // UI render
-  let cardEls = [];
-  function renderDeck(){
-    deck.innerHTML=''; cardEls=[];
-    lessons.forEach((l,i)=>{
-      const unlocked = (i+1) <= progress.currentDay || !!progress.completed[i+1];
-      const done = !!progress.completed[i+1];
-      const c = document.createElement('article'); c.className='card slide-in'; c.dataset.day = l.day;
-      c.innerHTML = `
-        <div class="card-head">
-          <div class="badge">${l.day}</div>
-          <div style="flex:1">
-            <div class="card-title">Day ${l.day} — ${l.title || ''}</div>
-            <div class="card-week">${l.week || ''}</div>
-            <div class="goal">${l.goal || ''}</div>
-          </div>
-        </div>
-
-        <div class="tiles">
-          <div class="tile" data-action="listening" data-type="listening" style="border-left:4px solid rgba(59,130,246,0.12)">
-            <div class="iconwrap" style="background:linear-gradient(135deg,#60a5fa,#3b82f6)">${svgListen()}</div>
-            <div style="flex:1">
-              <div class="tile-title">${l.listening.title}</div>
-              <div class="tile-desc">${short(l.listening.title)}</div>
-              <div class="controls">
-                <button class="btn" data-action="watch">Watch</button>
-                <button class="btn secondary" data-action="timer" data-min="15">Timer</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="tile" data-action="speaking" data-type="speaking" style="border-left:4px solid rgba(16,185,129,0.12)">
-            <div class="iconwrap" style="background:linear-gradient(135deg,#34d399,#10b981)">${svgSpeak()}</div>
-            <div style="flex:1">
-              <div class="tile-title">${l.speaking.title}</div>
-              <div class="tile-desc">${short(l.speaking.title)}</div>
-              <div class="controls">
-                <button class="btn" data-action="open-speak">Practice</button>
-                <button class="btn secondary" data-action="timer" data-min="15">Timer</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="tile" data-action="pron" data-type="pronunciation" style="border-left:4px solid rgba(245,158,11,0.12)">
-            <div class="iconwrap" style="background:linear-gradient(135deg,#fb923c,#f59e0b)">${svgPron()}</div>
-            <div style="flex:1">
-              <div class="tile-title">${l.pronunciation.title}</div>
-              <div class="tile-desc">${short(l.pronunciation.title)}</div>
-              <div class="controls">
-                <button class="btn" data-action="watch-pron">Watch</button>
-                <button class="btn secondary" data-action="timer" data-min="10">Timer</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="tile" data-action="vocab" data-type="vocab" style="border-left:4px solid rgba(139,92,246,0.12)">
-            <div class="iconwrap" style="background:linear-gradient(135deg,#a78bfa,#8b5cf6)">${svgVocab()}</div>
-            <div style="flex:1">
-              <div class="tile-title">Vocabulary</div>
-              <div class="tile-desc">${(l.vocab||[]).slice(0,3).join(', ')}</div>
-              <div class="controls">
-                <button class="btn" data-action="open-vocab">Open</button>
-                <button class="btn secondary" data-action="timer" data-min="5">Timer</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
-          <button class="btn" data-action="pdf">Download PDF</button>
-          <button class="btn secondary" data-action="mark">${done? 'Completed' : 'Mark Complete'}</button>
-        </div>
-
-        <div class="muted" style="margin-top:8px"> ${unlocked? (done? 'Lesson completed — great job!' : 'Unlocked — go practice!') : 'Locked — finish previous lesson to unlock'}</div>
-
-        <div class="speak-panel" style="margin-top:10px"></div>
-        <div class="record-list"></div>
-      `;
-      if(!unlocked){
-        const overlay = document.createElement('div'); overlay.style.position='absolute'; overlay.style.inset='0'; overlay.style.background='linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))'; overlay.style.display='flex'; overlay.style.alignItems='center'; overlay.style.justifyContent='center'; overlay.style.color='var(--muted)'; overlay.style.fontSize='14px'; overlay.textContent='Locked — complete previous day to unlock'; c.appendChild(overlay);
-      }
-      deck.appendChild(c); cardEls.push(c);
-    });
-
-    // position and z-index so top of array shows first day by default
-    cardEls.forEach((el,idx)=>{ el.style.zIndex = 200 - idx; });
-    updateProgressUI();
+// Update progress list:
+function updateProgress() {
+  const list = document.getElementById('progressList');
+  list.innerHTML = '';
+  if(data.submissions.length === 0){
+    list.innerHTML = '<li>No submissions yet.</li>';
+    return;
   }
+  data.submissions.forEach((sub, idx) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<strong>Topic:</strong> ${topics[sub.topicIndex]}<br>
+    <strong>Video Link:</strong> <a href="${sub.videoLink}" target="_blank" rel="noopener">${sub.videoLink}</a><br>
+    <strong>Notes:</strong> ${sub.notes || '-'}<br>
+    <small>Submitted on: ${new Date(sub.timestamp).toLocaleString()}</small>`;
+    list.appendChild(li);
+  });
+}
 
-  function short(text,max=40){ return text.length>max? text.slice(0,max-1)+'…': text }
-
-  // progress UI update
-  function updateProgressUI(){
-    const doneCount = Object.keys(progress.completed||{}).length;
-    fillEl.style.width = Math.round((doneCount/TOTAL)*100) + '%';
-    progText.textContent = `${doneCount}/${TOTAL}`;
-    dayNumEl.textContent = progress.currentDay;
-    streakEl.textContent = progress.streak||0;
+// Handle feedback display for last submission:
+function showFeedback() {
+  const feedbackSection = document.querySelector('.feedback-section');
+  const feedbackText = document.getElementById('feedbackText');
+  if(data.feedbacks.length === 0){
+    feedbackSection.style.display = 'none';
+    return;
   }
+  const lastFeedback = data.feedbacks[data.feedbacks.length -1];
+  feedbackText.textContent = lastFeedback.text;
+  feedbackSection.style.display = 'block';
+}
 
-  // show card for a given day
-  function showCard(day){
-    // hide all, show only target
-    cardEls.forEach(el=> el.style.display='none');
-    const el = cardEls.find(c=>Number(c.dataset.day)===day);
-    if(!el) return;
-    el.style.display='block'; el.classList.add('slide-in');
-    attachHandlers(el);
-    updateRecordList(el);
+// On submit:
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const videoLink = document.getElementById('videoLink').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+  if(!videoLink){
+    alert('Please enter your Google Drive video link.');
+    return;
   }
+  // Add submission:
+  data.submissions.push({
+    topicIndex: data.currentTopicIndex,
+    videoLink,
+    notes,
+    timestamp: Date.now()
+  });
 
-  // attach card handlers (only once)
-  function attachHandlers(card){
-    if(card._attached) return; card._attached = true;
-    const day = Number(card.dataset.day);
-    // clicks
-    card.addEventListener('click', async (e)=>{
-      const action = e.target.closest('[data-action]')?.dataset.action;
-      if(!action) return;
-      const lesson = lessons[day-1];
-      if(action==='watch' || action==='watch-pron'){ window.open(lesson.listening.url || lesson.pronunciation.url, '_blank'); }
-      else if(action==='pdf'){ generatePDF(lesson); }
-      else if(action==='mark'){ markComplete(day, card); }
-      else if(action==='open-speak'){ openSpeakPanel(lesson, card); }
-      else if(action==='open-vocab'){ openVocabPanel(lesson, card); }
-      else if(action==='timer'){ const mins = Number(e.target.dataset.min)||5; startTimer(mins, e.target); }
-    });
+  // For demo, simulate generic feedback here:
+  const genericFeedback = "Good effort! Work on speaking clearly and expanding your sentences.";
 
-    // swipe handlers for card
-    let startX=0, startY=0, dx=0, dragging=false;
-    card.addEventListener('touchstart', (ev)=>{ const t = ev.touches[0]; startX=t.clientX; startY=t.clientY; dx=0; dragging=true; card.classList.add('dragging'); });
-    card.addEventListener('touchmove', (ev)=>{ if(!dragging) return; const t=ev.touches[0]; dx = t.clientX - startX; card.style.transform = `translateX(${dx}px) rotate(${dx*0.02}deg)`; });
-    card.addEventListener('touchend', (ev)=>{ dragging=false; card.classList.remove('dragging'); card.style.transition='transform .25s ease'; if(Math.abs(dx)>80){ if(dx < 0) swipeNext(card); else swipePrev(card); } else { card.style.transform='translateX(0)'; setTimeout(()=>card.style.transition=''); } });
-  }
+  data.feedbacks.push({
+    topicIndex: data.currentTopicIndex,
+    text: genericFeedback,
+    timestamp: Date.now()
+  });
 
-  function swipeNext(card){
-    const cur = Number(card.dataset.day);
-    const next = Math.min(TOTAL, cur+1);
-    // if locked and not completed current, nudged but allow jump (user asked they can jump)
-    const isLocked = next > progress.currentDay && !progress.completed[next];
-    // animate
-    card.classList.add('slide-out-left');
-    setTimeout(()=>{ showCard(next); if(!isLocked && next>progress.currentDay) progress.currentDay = next; saveProgress(progress); updateProgressUI(); }, 260);
-  }
-  function swipePrev(card){ const cur = Number(card.dataset.day); const prev = Math.max(1, cur-1); card.classList.add('slide-out-right'); setTimeout(()=>{ showCard(prev); },260); }
+  // Move to next topic:
+  data.currentTopicIndex = (data.currentTopicIndex + 1) % topics.length;
 
-  // mark complete logic
-  function markComplete(day, card){
-    if(progress.completed[day]) return;
-    progress.completed[day] = true;
-    const today = new Date().toISOString().slice(0,10);
-    if(progress.lastDate){
-      const pd = new Date(progress.lastDate); pd.setDate(pd.getDate()+1); const pdStr = pd.toISOString().slice(0,10);
-      if(pdStr === today) progress.streak = (progress.streak||0) + 1; else progress.streak = 1;
-    } else progress.streak = 1;
-    progress.lastDate = today;
-    if(progress.currentDay < 30) progress.currentDay = Math.max(progress.currentDay, day+1);
-    saveProgress(progress); updateProgressUI();
-    // update card status
-    const sub = card.querySelector('.muted'); if(sub) sub.textContent = 'Lesson completed — great job!';
-    confetti(card);
-  }
+  saveData();
+  showTopic();
+  updateProgress();
+  showFeedback();
 
-  // confetti simple
-  function confetti(anchor){
-    const el = document.createElement('div'); el.style.position='absolute'; el.style.inset='0'; el.style.pointerEvents='none'; anchor.appendChild(el);
-    for(let i=0;i<14;i++){ const d = document.createElement('div'); d.textContent = '•'; d.style.position='absolute'; d.style.left='50%'; d.style.top='30%'; d.style.transform='translate(-50%,-50%)'; d.style.fontSize='18px'; d.style.opacity='0.95'; d.style.color = i%2? '#ffb86b':'#7afcff'; el.appendChild(d); const tx=(Math.random()*200-100); const ty=(Math.random()*200-20); d.animate([{transform:'translate(-50%,-50%)', opacity:1},{transform:`translate(${tx}px,${ty}px)`, opacity:0}],{duration:900+Math.random()*400, easing:'cubic-bezier(.2,.8,.2,1)'}); }
-    setTimeout(()=>el.remove(),1400);
-  }
+  // Clear input fields:
+  document.getElementById('videoLink').value = '';
+  document.getElementById('notes').value = '';
 
-  // Timer UI: opens a small prompt and counts down in place
-  function startTimer(mins, btn){
-    const minutes = Number(mins)||5;
-    const total = minutes * 60;
-    let sec = total;
-    const original = btn.textContent;
-    btn.disabled = true;
-    const timerEl = document.createElement('div'); timerEl.className='timer'; timerEl.textContent = `${pad(Math.floor(sec/60))}:${pad(sec%60)}`; btn.parentElement.appendChild(timerEl);
-    const t = setInterval(()=>{ sec--; timerEl.textContent = `${pad(Math.floor(sec/60))}:${pad(sec%60)}`; if(sec<=0){ clearInterval(t); timerEl.remove(); btn.disabled=false; btn.textContent=original; alert('Timer finished — good job!'); } },1000);
-    function pad(n){ return String(n).padStart(2,'0'); }
-  }
+  alert('Submission received. Feedback updated.');
+});
 
-  // Speak panel with record/play/download saved to IndexedDB
-  function openSpeakPanel(lesson, card){
-    const day = lesson.day;
-    const panel = card.querySelector('.speak-panel');
-    if(panel.innerHTML.trim() !== ""){
-      panel.innerHTML = '';
-      return;
-    }
-    panel.innerHTML = `
-      <div style="font-size:13px;margin-bottom:6px">Repeat aloud. Record and save locally. Saved recordings are private on your device.</div>
-      <div style="display:flex;gap:8px">
-        <button class="btn" data-rec="start">Record</button>
-        <button class="btn secondary" data-rec="stop">Stop</button>
-      </div>
-      <div class="record-list" style="margin-top:8px"></div>
-    `;
-    attachRecordControls(panel, day, card);
-    updateRecordList(card);
-  }
+// Initialize page:
+showTopic();
+updateProgress();
+showFeedback();
 
-  function attachRecordControls(panel, day, card){
-    const list = panel.querySelector('.record-list');
-    let media=null, chunks=[];
-    panel.addEventListener('click', async (e)=>{
-      const cmd = e.target.dataset.rec;
-      if(cmd==='start'){
-        if(!navigator.mediaDevices) return alert('Recording not supported on this device');
-        try{
-          const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-          media = new MediaRecorder(stream);
-          chunks = [];
-          media.ondataavailable = evt => { if(evt.data && evt.data.size) chunks.push(evt.data); };
-          media.onstop = async () => {
-            const blob = new Blob(chunks, {type:'audio/webm'});
-            const id = Date.now();
-            await idbPut({id, day, blob});
-            recIndex[day] = recIndex[day] || [];
-            recIndex[day].push(id);
-            saveRecIndex(recIndex);
-            updateRecordList(card);
-            alert('Saved recording locally. You can play or download it.');
-          };
-          media.start();
-          e.target.textContent = 'Recording...';
-        } catch(err){ alert('Recording failed: '+err.message); }
-      } else if(cmd==='stop'){
-        if(media && media.state !== 'inactive'){ media.stop(); try{ media.stream.getTracks().forEach(t=>t.stop()); }catch(e){} panel.querySelector('[data-rec="start"]').textContent='Record'; }
-      }
-    });
-  }
-
-  // update record list display in card
-  async function updateRecordList(card){
-    const day = Number(card.dataset.day);
-    const listEl = card.querySelector('.record-list');
-    if(!listEl) return;
-    listEl.innerHTML = '';
-    const idx = recIndex[day] || [];
-    const rev = idx.slice().reverse();
-    for(const id of rev){
-      try{
-        const rec = await idbGet(id);
-        if(!rec) continue;
-        const row = document.createElement('div');
-        row.className='record-list-item';
-        row.style.display='flex'; row.style.justifyContent='space-between'; row.style.alignItems='center'; row.style.marginTop='6px';
-        const left = document.createElement('div'); left.textContent = new Date(id).toLocaleString();
-        const right = document.createElement('div');
-        const playBtn = document.createElement('button'); playBtn.className='btn'; playBtn.textContent='Play'; playBtn.addEventListener('click', ()=>{ const url = URL.createObjectURL(rec.blob); const a = document.createElement('audio'); a.src=url; a.controls=true; a.autoplay=true; listEl.appendChild(a); const d = document.createElement('a'); d.href=url; d.download=`day-${day}-rec-${id}.webm`; d.textContent='Download'; d.style.display='block'; listEl.appendChild(d); });
-        const delBtn = document.createElement('button'); delBtn.className='btn secondary'; delBtn.textContent='Delete'; delBtn.addEventListener('click', async ()=>{ if(confirm('Delete this recording?')){ await idbDelete(id); recIndex[day] = (recIndex[day]||[]).filter(x=>x!==id); saveRecIndex(recIndex); updateRecordList(card); } });
-        right.appendChild(playBtn); right.appendChild(delBtn);
-        row.appendChild(left); row.appendChild(right); listEl.appendChild(row);
-      }catch(e){ console.warn(e); }
-    }
-    if(rev.length===0) listEl.innerHTML = '<div class="muted" style="font-size:13px">No recordings yet</div>';
-  }
-
-  // Vocab panel simple modal-like
-  function openVocabPanel(lesson, card){
-    const overlay = document.createElement('div'); overlay.style.position='fixed'; overlay.style.inset='0'; overlay.style.background='rgba(0,0,0,0.4)'; overlay.style.display='flex'; overlay.style.alignItems='center'; overlay.style.justifyContent='center';
-    const box = document.createElement('div'); box.style.width='92%'; box.style.maxWidth='420px'; box.style.background='white'; box.style.borderRadius='12px'; box.style.padding='12px';
-    box.innerHTML = `<div style="font-weight:700;margin-bottom:6px">Vocabulary</div><div style="font-size:14px">${(lesson.vocab||[]).map(v=>`<div class="chip" style="display:inline-block;margin-right:6px;margin-bottom:6px">${v}</div>`).join('')}</div><div style="margin-top:10px;display:flex;justify-content:flex-end"><button class="btn secondary" id="closeVocab">Close</button></div>`;
-    overlay.appendChild(box); document.body.appendChild(overlay);
-    $('#closeVocab').addEventListener('click', ()=> overlay.remove());
-  }
-
-  // PDF generation: try jsPDF if available, else fallback to text file
-  function generatePDF(lesson){
-    try{
-      if(window.jspdf){
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({unit:'pt',format:'a4'});
-        doc.setFont('Courier');
-        doc.setFontSize(16);
-        doc.text(`Day ${lesson.day} - ${lesson.title}`,40,60);
-        doc.setFontSize(12);
-        doc.text(`Goal: ${lesson.goal}`,40,90);
-        doc.text('Listening: ' + (lesson.listening.title || ''),40,120);
-        doc.text('Speaking: ' + (lesson.speaking.title || ''),40,140);
-        doc.text('Pronunciation: ' + (lesson.pronunciation.title || ''),40,160);
-        doc.text('Vocabulary: ' + (lesson.vocab||[]).join(', '),40,190);
-        doc.text('YouTube (open link):',40,220);
-        doc.setTextColor(0,0,255);
-        doc.text(lesson.listening.url || lesson.speaking.url || '',40,240);
-        doc.save(`learnhub-day-${lesson.day}.pdf`);
-        return;
-      }
-    }catch(e){ console.warn('PDF error',e); }
-    // fallback to text download
-    const txt = `Day ${lesson.day} - ${lesson.title}\n\nGoal: ${lesson.goal}\n\nListening: ${lesson.listening.title}\nSpeaking: ${lesson.speaking.title}\nPronunciation: ${lesson.pronunciation.title}\n\nVocabulary: ${(lesson.vocab||[]).join(', ')}\n\nVideo: ${lesson.listening.url || lesson.speaking.url}\n`;
-    const blob = new Blob([txt], {type:'text/plain'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `learnhub-day-${lesson.day}.txt`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),2000);
-  }
-
-  // small svg icons
-  function svgListen(){ return `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v10" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 8a8 8 0 0 1 16 0" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`; }
-  function svgSpeak(){ return `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 15a2 2 0 0 1-2 2H9l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`; }
-  function svgPron(){ return `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h18" stroke="white" stroke-width="1.6" stroke-linecap="round"/><path d="M7 8v8" stroke="white" stroke-width="1.6" stroke-linecap="round"/><path d="M17 8v8" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>`; }
-  function svgVocab(){ return `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="18" height="16" rx="2" stroke="white" stroke-width="1.4"/><path d="M8 10h8" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>`; }
-
-  // small helper pad
-  function pad(n){ return String(n).padStart(2,'0'); }
-
-  // initial render + show current
-  renderDeck();
-  showCard(progress.currentDay);
-
-  startBtn.addEventListener('click', ()=> showCard(progress.currentDay));
-
-  // expose reset in console for now
-  window.LearnHub = {
-    resetAll: async ()=>{ if(!confirm('Reset all progress and delete recordings?')) return; localStorage.removeItem(LS_PROGRESS); localStorage.removeItem(LS_NOTES); localStorage.removeItem(REC_IDX); const db = await openDB(); const tx = db.transaction(STORE,'readwrite'); tx.objectStore(STORE).clear(); tx.oncomplete = ()=> location.reload(); },
-    progress: progress,
-    lessons: lessons
-  };
-
-  // register a tiny service worker for cache (works when served via HTTP(S))
-  if('serviceWorker' in navigator){
-    try{
-      const sw = `self.addEventListener('install', e => { self.skipWaiting(); }); self.addEventListener('activate', e => { self.clients.claim(); }); self.addEventListener('fetch', e => { e.respondWith(fetch(e.request).catch(()=>caches.match(e.request))); });`;
-      const blob = new Blob([sw], {type:'application/javascript'}); const swUrl = URL.createObjectURL(blob);
-      navigator.serviceWorker.register(swUrl).catch(()=>{});
-    }catch(e){ console.warn(e); }
-  }
-
-})();
 </script>
+
 </body>
 </html>
+
+
