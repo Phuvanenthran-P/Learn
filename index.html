@@ -1,332 +1,414 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Day 1 — Introduce Yourself | 30-Day English Practice</title>
-  <style>
-    :root{--bg:#f7fafc;--card:#fff;--accent:#0b61d8;--muted:#6b7280}
-    *{box-sizing:border-box}
-    body{font-family:Inter,system-ui,Roboto,Arial;margin:0;background:var(--bg);color:#0f172a}
-    .container{max-width:980px;margin:28px auto;padding:20px}
-    header{display:flex;align-items:center;gap:14px}
-    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#6fb3ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
-    h1{margin:0;font-size:1.5rem}
-    p.lead{margin:6px 0 18px;color:var(--muted)}
-    .grid{display:grid;grid-template-columns:1fr 340px;gap:18px}
-    @media(max-width:900px){.grid{grid-template-columns:1fr}.sidebar{order:2}}
-    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.06);}
-    .section{margin-bottom:14px}
-    .small{font-size:.95rem;color:var(--muted)}
-    .btn{background:var(--accent);color:white;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
-    .ghost{background:transparent;border:1px solid rgba(11,97,216,0.12);color:var(--accent)}
-    textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eefc;font-family:inherit}
-    input[type=text]{width:100%;padding:8px;border-radius:8px;border:1px solid #e6eefc}
-    ul{padding-left:18px}
-    .check{display:flex;align-items:center;gap:10px}
-    .timer{font-family:monospace;font-size:1.2rem}
-    .meta{font-size:0.9rem;color:var(--muted)}
-    .video-wrap{border-radius:8px;overflow:hidden;border:1px solid #eef2ff}
-    .controls{display:flex;gap:8px;margin-top:10px}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>LearnHub — 30-Day English Practice (Mobile)</title>
+<meta name="description" content="LearnHub: mobile-first 30-day English speaking practice. Local-only, PWA-ready, swipe cards, PDF export, recordings stored locally." />
+<link rel="manifest" href="/manifest.json" />
+<style>
+  /* Basic reset and mobile-first layout */
+  :root{
+    --bg:#fbfdff; --card:#ffffff; --accent1:linear-gradient(135deg,#00c6ff,#0072ff); --accent2:linear-gradient(135deg,#ffd6a5,#ff7b7b);
+    --muted:#6b7280; --success:#16a34a; --danger:#ef4444; --glass: rgba(255,255,255,0.6);
+  }
+  html,body{height:100%;margin:0;font-family: Consolas, "Courier New", monospace, system-ui, -apple-system; background:var(--bg); color:#0f172a; -webkit-font-smoothing:antialiased}
+  *{box-sizing:border-box}
+  .app{max-width:460px;margin:0 auto;height:100vh;display:flex;flex-direction:column}
+
+  header{padding:14px 16px;background:transparent;display:flex;align-items:center;gap:12px}
+  .logo{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;background:linear-gradient(135deg,#6a11cb,#2575fc)}
+  h1{font-size:18px;margin:0}
+  .lead{font-size:12px;color:var(--muted)}
+
+  main{flex:1;display:flex;flex-direction:column;padding:12px}
+
+  /* Card container */
+  .deck{position:relative;flex:1;display:flex;align-items:center;justify-content:center;padding:8px}
+  .card{width:100%;max-width:420px;background:var(--card);border-radius:16px;box-shadow:0 10px 30px rgba(16,24,40,0.08);padding:16px;position:absolute;touch-action:pan-y;overflow:hidden}
+  .card.hidden{display:none}
+
+  .card-head{display:flex;align-items:center;gap:12px}
+  .badge{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;background:linear-gradient(135deg,#00c6ff,#0072ff)}
+  .title{font-size:16px;margin:0}
+  .sub{font-size:12px;color:var(--muted)}
+
+  .sections{margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .section-btn{background:linear-gradient(180deg,#fff,#fafcff);border-radius:10px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px;border:1px solid rgba(10,20,40,0.04)}
+  .icon{width:36px;height:36px}
+  .section-label{font-size:12px}
+
+  .body{margin-top:12px;font-size:14px;line-height:1.35;color:#0f172a}
+  .vocab{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:linear-gradient(135deg,#fff,#f6fbff);padding:6px 10px;border-radius:999px;font-size:12px;border:1px solid rgba(10,20,40,0.04)}
+
+  .actions{display:flex;gap:8px;margin-top:14px}
+  .btn{flex:1;padding:10px;border-radius:10px;border:0;background:linear-gradient(135deg,#00c6ff,#0072ff);color:white;font-weight:700}
+  .btn.secondary{background:linear-gradient(135deg,#ffd6a5,#ff7b7b);color:#111}
+  .muted{font-size:12px;color:var(--muted);margin-top:8px}
+
+  footer{padding:10px 12px;border-top:1px solid rgba(10,20,40,0.03);display:flex;align-items:center;justify-content:space-between}
+  .progress{display:flex;align-items:center;gap:8px}
+  .progress .bar{width:160px;height:10px;background:#f1f5f9;border-radius:999px;overflow:hidden}
+  .progress .fill{height:100%;background:linear-gradient(90deg,#6a11cb,#2575fc);width:0%}
+  .small{font-size:12px;color:var(--muted)}
+
+  /* swipe animation */
+  .dragging{transition:none}
+  .slide-in-right{animation:slideInRight .36s ease both}
+  .slide-in-left{animation:slideInLeft .36s ease both}
+  .slide-out-left{animation:slideOutLeft .28s ease both}
+  .slide-out-right{animation:slideOutRight .28s ease both}
+  @keyframes slideInRight{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+  @keyframes slideInLeft{from{transform:translateX(-40px);opacity:0}to{transform:none;opacity:1}}
+  @keyframes slideOutLeft{from{transform:none;opacity:1}to{transform:translateX(-40px);opacity:0}}
+  @keyframes slideOutRight{from{transform:none;opacity:1}to{transform:translateX(40px);opacity:0}}
+
+  /* responsive tweaks */
+  @media(min-width:480px){.app{margin-top:12px}}
+
+  /* small helpers for pdf and recordings list */
+  .controls-row{display:flex;gap:8px;margin-top:10px}
+  .record-list{margin-top:8px;font-size:13px}
+  .record-item{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-radius:8px;background:#fbfbff;border:1px solid rgba(10,20,40,0.02);margin-bottom:6px}
+</style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">EN</div>
-      <div>
-        <h1>Day 1 — Introduce Yourself</h1>
-        <p class="lead">Objective: Learn and confidently say short self-introductions. Routine: 15 min listening • 15 min speaking • 10 min pronunciation • 5 min vocabulary & notes.</p>
-      </div>
-    </header>
+<div class="app" id="app">
+  <header>
+    <div class="logo">LH</div>
+    <div>
+      <h1>LearnHub</h1>
+      <div class="lead">30-day speaking — mobile only</div>
+    </div>
+  </header>
 
-    <div class="grid" style="margin-top:18px">
-      <main>
-        <div class="card section">
-          <h2 style="margin-top:0">Daily Objective</h2>
-          <p class="small">By the end of this lesson you will be able to:</p>
-          <ul>
-            <li>Introduce yourself using 2–3 simple sentences (name, country, job/study).</li>
-            <li>Pronounce your name and common greetings clearly.</li>
-            <li>Recognize and repeat short sentences from a slow English video.</li>
-          </ul>
-        </div>
-
-        <div class="card section">
-          <h2 style="margin-top:0">Activity Breakdown</h2>
-          <ol class="small">
-            <li><strong>Listening (15 min):</strong> Watch the VOA "Meeting People" video and repeat full sentences aloud.</li>
-            <li><strong>Speaking (15 min):</strong> Follow Vanessa's "Introduce Yourself" video — pause and repeat after each line; record once.</li>
-            <li><strong>Pronunciation (10 min):</strong> Practice /th/ and /r/ using short drills.</li>
-            <li><strong>Vocab & Notes (5 min):</strong> Write 5 new words and make one sentence for each.</li>
-          </ol>
-        </div>
-
-        <div class="card section">
-          <h2 style="margin-top:0">Listening — YouTube Lesson (15 min)</h2>
-          <div class="video-wrap">
-            <div style="position:relative;padding-bottom:56.25%;height:0">
-              <iframe src="https://www.youtube.com/embed/7usN8qGizEw" title="VOA Meeting People" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
-            </div>
-          </div>
-          <p class="meta">Tip: Turn on subtitles if you need them. Watch at 0.9x or 0.75x if the speech feels fast.</p>
-        </div>
-
-        <div class="card section">
-          <h2 style="margin-top:0">Speaking — Guided Practice (15 min)</h2>
-          <div class="video-wrap">
-            <div style="position:relative;padding-bottom:56.25%;height:0">
-              <iframe src="https://www.youtube.com/embed/WcU4t6M-fqo" title="Speak English With Vanessa - Introduce Yourself" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
-            </div>
-          </div>
-          <p class="small" style="margin-top:8px">Speaking Prompts — pause the video and say each aloud 3×:</p>
-          <ol>
-            <li>"Hello. My name is [your name]."</li>
-            <li>"I am from [your city/country]."</li>
-            <li>"I work as a [job] / I study [subject]."</li>
-          </ol>
-
-          <div style="margin-top:10px">
-            <label class="small">Record your speaking practice (optional):</label>
-            <div class="controls">
-              <button class="btn" id="recStart">Start Recording</button>
-              <button class="ghost" id="recStop">Stop</button>
-              <button class="ghost" id="playLast">Play Last</button>
-              <button class="ghost" id="downloadLast">Download</button>
-            </div>
-            <p class="meta" id="recStatus">No recording yet.</p>
-          </div>
-        </div>
-
-        <div class="card section">
-          <h2 style="margin-top:0">Pronunciation Practice (10 min)</h2>
-          <p class="small">Short drills — repeat aloud 10 times each:</p>
-          <ul>
-            <li>"think / thought / through" (practice /th/)</li>
-            <li>"right / write / road" (practice /r/)</li>
-            <li>Short phrase: "Nice to meet you." — say it smoothly three times.</li>
-          </ul>
-          <p class="meta">Tip: Place your hand gently on your throat to feel vibrations for voiced sounds (like /v/ and /z/).</p>
-        </div>
-
-        <div class="card section">
-          <h2 style="margin-top:0">Vocabulary (5 min)</h2>
-          <p class="small">Write these 5 words and make one sentence for each.</p>
-          <ol>
-            <li>Name</li>
-            <li>Country</li>
-            <li>Work / Job</li>
-            <li>Study / Learn</li>
-            <li>Nice / Friendly</li>
-          </ol>
-        </div>
-
-      </main>
-
-      <aside class="sidebar">
-        <div class="card">
-          <h3 style="margin-top:0">Day 1 — Quick Tools</h3>
-          <div class="meta">Timer (set for 45 minutes total):</div>
-          <div style="margin-top:8px;text-align:center">
-            <div class="timer" id="timerDisplay">45:00</div>
-            <div class="controls" style="justify-content:center;margin-top:8px">
-              <button class="btn" id="timerStart">Start</button>
-              <button class="ghost" id="timerPause">Pause</button>
-              <button class="ghost" id="timerReset">Reset</button>
-            </div>
-          </div>
-
-          <div style="height:12px"></div>
-          <div>
-            <label class="small">Checklist</label>
-            <div style="margin-top:8px" id="checklist">
-              <label class="check"><input type="checkbox" id="ch_listening"> Listening (15 min)</label>
-              <label class="check"><input type="checkbox" id="ch_speaking"> Speaking (15 min)</label>
-              <label class="check"><input type="checkbox" id="ch_pron"> Pronunciation (10 min)</label>
-              <label class="check"><input type="checkbox" id="ch_vocab"> Vocab & Notes (5 min)</label>
-            </div>
-          </div>
-
-          <div style="height:12px"></div>
-          <div>
-            <label class="small">Notes / Reflection</label>
-            <textarea id="notes" placeholder="What went well? What to improve?" rows="6"></textarea>
-            <div style="display:flex;gap:8px;margin-top:8px">
-              <button class="btn" id="saveBtn">Save Progress</button>
-              <button class="ghost" id="clearBtn">Clear</button>
-            </div>
-            <p class="meta" id="saveStatus">Progress not saved.</p>
-          </div>
-
-          <div style="height:12px"></div>
-          <div>
-            <label class="small">Export</label>
-            <div style="display:flex;gap:8px;margin-top:8px">
-              <button class="ghost" id="exportCSV">Export CSV</button>
-              <button class="ghost" id="exportJSON">Export JSON</button>
-            </div>
-          </div>
-        </div>
-
-        <div style="height:12px"></div>
-        <div class="card">
-          <h4 style="margin-top:0">Resources</h4>
-          <ul class="small">
-            <li><a href="https://www.youtube.com/c/VOALearningEnglish" target="_blank">VOA Learning English</a></li>
-            <li><a href="https://www.youtube.com/c/SpeakEnglishWithVanessa" target="_blank">Speak English With Vanessa</a></li>
-            <li><a href="https://www.youtube.com/c/rachelsenglish" target="_blank">Rachel's English</a></li>
-            <li><a href="https://www.youtube.com/user/bbclearningenglish" target="_blank">BBC Learning English</a></li>
-          </ul>
-        </div>
-
-      </aside>
+  <main>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 4px">
+      <div class="small">Day <span id="currentDayNum">1</span> of 30</div>
+      <div class="small">Streak: <span id="streak">0</span></div>
     </div>
 
-    <footer style="text-align:center;margin-top:18px;color:var(--muted)">Day 1 — Practice, record, save, repeat. Compare your first recording with future ones to measure progress.</footer>
-  </div>
+    <div class="deck" id="deck" aria-live="polite">
+      <!-- Cards will be injected here -->
+    </div>
 
-  <script>
-    // Simple save/load for Day 1
-    const storageKey = 'day1_progress_v1';
-    const timerDisplay = document.getElementById('timerDisplay');
-    const timerStart = document.getElementById('timerStart');
-    const timerPause = document.getElementById('timerPause');
-    const timerReset = document.getElementById('timerReset');
-    const saveBtn = document.getElementById('saveBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const exportCSV = document.getElementById('exportCSV');
-    const exportJSON = document.getElementById('exportJSON');
-    const recStart = document.getElementById('recStart');
-    const recStop = document.getElementById('recStop');
-    const playLast = document.getElementById('playLast');
-    const downloadLast = document.getElementById('downloadLast');
-    const recStatus = document.getElementById('recStatus');
+    <div style="padding:6px">
+      <div class="muted">Tip: swipe left to go next, swipe right to go back. Tap "Watch Video" to open YouTube for best playback controls.</div>
+    </div>
+  </main>
 
-    let state = {
-      checklist: { listening:false, speaking:false, pronunciation:false, vocabulary:false },
-      notes: '',
-      recordings: []
-    };
+  <footer>
+    <div class="progress">
+      <div class="small">Progress</div>
+      <div class="bar"><div class="fill" id="progFill"></div></div>
+      <div class="small" id="progText">0/30</div>
+    </div>
+    <div>
+      <button class="btn" id="startBtn">Start</button>
+    </div>
+  </footer>
+</div>
 
-    // load saved state
-    function load() {
-      try {
-        const raw = localStorage.getItem(storageKey);
-        if (!raw) return;
-        state = JSON.parse(raw);
-        // apply to UI
-        document.getElementById('ch_listening').checked = state.checklist.listening;
-        document.getElementById('ch_speaking').checked = state.checklist.speaking;
-        document.getElementById('ch_pron').checked = state.checklist.pronunciation;
-        document.getElementById('ch_vocab').checked = state.checklist.vocabulary;
-        document.getElementById('notes').value = state.notes || '';
-        if (state.recordings && state.recordings.length) recStatus.textContent = state.recordings[state.recordings.length-1].label;
-        else recStatus.textContent = 'No recording yet.';
-        document.getElementById('saveStatus').textContent = 'Progress loaded.';
-      } catch (e) { console.error(e); }
-    }
-    load();
+<!-- Lessons JSON embedded -->
+<script id="lessons-data" type="application/json">
+[
+  {"day":1,"title":"Greetings","speaking":"Say: Hello. My name is ___. Nice to meet you.","listening":"Watch a short VOA greetings video.","vocab":["Hello","Hi","Good morning","Nice to meet you"],"video":"https://www.youtube.com/watch?v=7usN8qGizEw"},
+  {"day":2,"title":"Introduce Yourself","speaking":"Introduce your name and where you are from.","listening":"Watch Vanessa's introduction video.","vocab":["Name","From","Country","Work"],"video":"https://www.youtube.com/watch?v=WcU4t6M-fqo"},
+  {"day":3,"title":"Common Questions","speaking":"Practice: How are you? Where are you from?","listening":"Listen to short dialogues.","vocab":["How are you?","Where?","What?"],"video":"https://www.youtube.com/watch?v=4WxV3Zpwb2k"},
+  {"day":4,"title":"Daily Activities","speaking":"Talk about your daily routine.","listening":"Watch a video about daily activities.","vocab":["Morning","Work","Study","Eat"],"video":"https://www.youtube.com/watch?v=14bUJmg84us"},
+  {"day":5,"title":"Numbers & Age","speaking":"Practice saying numbers and your age.","listening":"Listen to number practice.","vocab":["One","Two","Three","Four"],"video":"https://www.youtube.com/watch?v=Sdq_rOXUwcY"},
+  {"day":6,"title":"Shopping English","speaking":"Practice: How much is this?","listening":"At the store dialogue.","vocab":["How much","Price","Cost","Buy"],"video":"https://www.youtube.com/watch?v=UbYH_6fSPx4"},
+  {"day":7,"title":"Review Week 1","speaking":"Review the first week's phrases.","listening":"Re-watch your favorite videos.","vocab":["Review","Practice"],"video":"https://www.youtube.com/watch?v=7usN8qGizEw"},
+  {"day":8,"title":"Small Talk","speaking":"Practice small talk starters.","listening":"Video about small talk.","vocab":["Nice","Small talk","Chat"],"video":"https://www.youtube.com/watch?v=4-Q3qL5Iu5g"},
+  {"day":9,"title":"At the Restaurant","speaking":"Practice ordering food.","listening":"Restaurant phrases.","vocab":["Menu","Order","Bill","Table"],"video":"https://www.youtube.com/watch?v=6JH_wFkQpQU"},
+  {"day":10,"title":"Expressing Opinions","speaking":"Practice: I think..., I like...","listening":"Opinion phrases.","vocab":["I think","In my opinion","Agree","Disagree"],"video":"https://www.youtube.com/watch?v=mbi9HH6QdVw"},
+  {"day":11,"title":"Describing People","speaking":"Describe a friend.","listening":"Descriptive language.","vocab":["Tall","Short","Kind","Friendly"],"video":"https://www.youtube.com/watch?v=YwN2V6X2iVY"},
+  {"day":12,"title":"Describing Places","speaking":"Describe your city.","listening":"Place descriptions.","vocab":["City","Village","Busy","Quiet"],"video":"https://www.youtube.com/watch?v=3cG4r_d9SQQ"},
+  {"day":13,"title":"Talking About Weather","speaking":"Say weather phrases.","listening":"Weather dialog.","vocab":["Sunny","Rainy","Hot","Cold"],"video":"https://www.youtube.com/watch?v=jq8C3Tz8Yb4"},
+  {"day":14,"title":"Review Week 2","speaking":"Review phrases.","listening":"Re-watch best bits.","vocab":["Review"],"video":"https://www.youtube.com/watch?v=Qy0HXdc77Eo"},
+  {"day":15,"title":"Talking About Past","speaking":"Practice past tense sentences.","listening":"Past events video.","vocab":["Yesterday","Last week","Ago"],"video":"https://www.youtube.com/watch?v=uvcK8cFJZ9Q"},
+  {"day":16,"title":"Health & Feelings","speaking":"Practice explaining how you feel.","listening":"Health conversation.","vocab":["Sick","Tired","Healthy"],"video":"https://www.youtube.com/watch?v=ZTnYfXvRewE"},
+  {"day":17,"title":"Directions","speaking":"Practice giving directions.","listening":"Asking for direction.","vocab":["Left","Right","Straight","Near"],"video":"https://www.youtube.com/watch?v=8ll4ZKfZxB4"},
+  {"day":18,"title":"Travel English","speaking":"Practice travel phrases.","listening":"Travel planning.","vocab":["Ticket","Station","Hotel","Flight"],"video":"https://www.youtube.com/watch?v=US7G8WjaTPc"},
+  {"day":19,"title":"Telling Stories","speaking":"Tell a short story.","listening":"Storytelling rhythm.","vocab":["First","Then","Finally"],"video":"https://www.youtube.com/watch?v=0T4gUgV9r7I"},
+  {"day":20,"title":"Bank & Money","speaking":"Bank phrases practice.","listening":"Bank example.","vocab":["Withdraw","Deposit","Account"],"video":"https://www.youtube.com/watch?v=nXLHXc8ip9c"},
+  {"day":21,"title":"Review Week 3","speaking":"Review and record.","listening":"Pick best lessons.","vocab":["Review"],"video":"https://www.youtube.com/watch?v=YRLy9D5Zpds"},
+  {"day":22,"title":"Job & Work","speaking":"Talk about your job.","listening":"Work phrases.","vocab":["Job","Office","Work","Shift"],"video":"https://www.youtube.com/watch?v=9lY-7lDTU-4"},
+  {"day":23,"title":"Making Plans","speaking":"Plan with a friend.","listening":"Planning dialogue.","vocab":["Plan","Meet","Time","Place"],"video":"https://www.youtube.com/watch?v=US7G8WjaTPc"},
+  {"day":24,"title":"Shopping Conversations","speaking":"Practice returns and refunds.","listening":"Customer service dialogs.","vocab":["Return","Refund","Receipt"],"video":"https://www.youtube.com/watch?v=UbYH_6fSPx4"},
+  {"day":25,"title":"Hobbies & Interests","speaking":"Talk about hobbies.","listening":"Hobby talk.","vocab":["Music","Sports","Reading"],"video":"https://www.youtube.com/watch?v=RE_kPRGOKI8"},
+  {"day":26,"title":"Pronunciation Drills","speaking":"Practice problem sounds.","listening":"Pronunciation guide.","vocab":["TH","R","L"],"video":"https://www.youtube.com/watch?v=d3WZl0fXcYg"},
+  {"day":27,"title":"Fluency Practice","speaking":"Shadow short clips.","listening":"Shadowing technique.","vocab":["Speak","Repeat","Shadow"],"video":"https://www.youtube.com/watch?v=GnyuhvIwtfA"},
+  {"day":28,"title":"Final Story","speaking":"Prepare your 2-minute story.","listening":"Listen and prepare.","vocab":["Story","Remember","Describe"],"video":"https://www.youtube.com/watch?v=0T4gUgV9r7I"},
+  {"day":29,"title":"Review Week 4","speaking":"Polish your recordings.","listening":"Best-of lessons.","vocab":["Review"],"video":"https://www.youtube.com/watch?v=7usN8qGizEw"},
+  {"day":30,"title":"Final Challenge","speaking":"Record a 3-minute talk.","listening":"Celebrate and reflect.","vocab":["Challenge","Reflect","Celebrate"],"video":"https://www.youtube.com/watch?v=WcU4t6M-fqo"}
+]
+</script>
 
-    // save state
-    function save() {
-      state.checklist.listening = document.getElementById('ch_listening').checked;
-      state.checklist.speaking = document.getElementById('ch_speaking').checked;
-      state.checklist.pronunciation = document.getElementById('ch_pron').checked;
-      state.checklist.vocabulary = document.getElementById('ch_vocab').checked;
-      state.notes = document.getElementById('notes').value;
-      localStorage.setItem(storageKey, JSON.stringify(state));
-      document.getElementById('saveStatus').textContent = 'Progress saved.';
-    }
-    saveBtn.addEventListener('click', save);
+<script>
+/* LearnHub single-file app (mobile PWA, local-only) */
+(function(){
+  'use strict';
+  // parse lessons
+  const lessons = JSON.parse(document.getElementById('lessons-data').textContent);
 
-    clearBtn.addEventListener('click', ()=>{
-      if (!confirm('Clear saved progress for Day 1?')) return;
-      state = { checklist: { listening:false, speaking:false, pronunciation:false, vocabulary:false }, notes:'', recordings:[] };
-      localStorage.removeItem(storageKey);
-      document.getElementById('ch_listening').checked = false;
-      document.getElementById('ch_speaking').checked = false;
-      document.getElementById('ch_pron').checked = false;
-      document.getElementById('ch_vocab').checked = false;
-      document.getElementById('notes').value = '';
-      document.getElementById('saveStatus').textContent = 'Cleared.';
-      recStatus.textContent = 'No recording yet.';
+  // keys in localStorage
+  const LS_KEYS = { progress: 'learnhub_progress_v1', notes: 'learnhub_notes_v1', recordingsIndex: 'learnhub_recs_idx_v1' };
+
+  // simple IndexedDB wrapper for storing blobs (recordings)
+  const DB_NAME = 'learnhub_db_v1';
+  const DB_STORE = 'recordings';
+  let dbPromise = null;
+  function openDB(){
+    if(dbPromise) return dbPromise;
+    dbPromise = new Promise((resolve, reject)=>{
+      const rq = indexedDB.open(DB_NAME,1);
+      rq.onupgradeneeded = e=>{ const db = e.target.result; if(!db.objectStoreNames.contains(DB_STORE)) db.createObjectStore(DB_STORE,{keyPath:'id'}); };
+      rq.onsuccess = e=> resolve(e.target.result);
+      rq.onerror = e=> reject(e.target.error);
     });
+    return dbPromise;
+  }
+  async function idbPut(item){ const db = await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(DB_STORE,'readwrite'); tx.objectStore(DB_STORE).put(item); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); }); }
+  async function idbGet(id){ const db=await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(DB_STORE,'readonly'); const rq=tx.objectStore(DB_STORE).get(id); rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error); }); }
+  async function idbDelete(id){ const db=await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(DB_STORE,'readwrite'); const rq=tx.objectStore(DB_STORE).delete(id); rq.onsuccess=()=>res(); rq.onerror=()=>rej(rq.error); }); }
+  async function idbAll(){ const db=await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(DB_STORE,'readonly'); const out=[]; const cur=tx.objectStore(DB_STORE).openCursor(); cur.onsuccess=e=>{ const c=e.target.result; if(c){ out.push(c.value); c.continue(); } else res(out); }; cur.onerror=()=>rej(cur.error); }); }
 
-    exportCSV.addEventListener('click', ()=>{
-      const rows = [ ['field','value'],['listening',state.checklist.listening],['speaking',state.checklist.speaking],['pronunciation',state.checklist.pronunciation],['vocabulary',state.checklist.vocabulary],['notes',`"${(state.notes||'').replace(/"/g,'""')}"`]];
-      const csv = rows.map(r=>r.join(',')).join('\n');
-      navigator.clipboard.writeText(csv).then(()=>alert('CSV copied to clipboard'));
-    });
-    exportJSON.addEventListener('click', ()=>{
-      navigator.clipboard.writeText(JSON.stringify(state, null, 2)).then(()=>alert('JSON copied to clipboard'));
-    });
+  // progress structure: { currentDay: number, completed: {1:true,2:false,...}, streak: number }
+  function loadProgress(){ const raw = localStorage.getItem(LS_KEYS.progress); if(!raw) return { currentDay:1, completed:{}, streak:0, lastCompletedDate:null }; try{return JSON.parse(raw);}catch(e){return { currentDay:1, completed:{}, streak:0, lastCompletedDate:null }; } }
+  function saveProgress(p){ localStorage.setItem(LS_KEYS.progress, JSON.stringify(p)); }
+  const progress = loadProgress();
 
-    // Timer logic (45 mins default)
-    let totalSeconds = 45*60;
-    let timerInterval = null;
-    function renderTimer() {
-      const m = Math.floor(totalSeconds/60).toString().padStart(2,'0');
-      const s = (totalSeconds%60).toString().padStart(2,'0');
-      timerDisplay.textContent = `${m}:${s}`;
-    }
-    renderTimer();
-    timerStart.addEventListener('click', ()=>{
-      if (timerInterval) return;
-      timerInterval = setInterval(()=>{
-        if (totalSeconds>0) { totalSeconds--; renderTimer(); }
-        else { clearInterval(timerInterval); timerInterval=null; alert('Timer finished'); }
-      },1000);
-    });
-    timerPause.addEventListener('click', ()=>{ if (timerInterval) { clearInterval(timerInterval); timerInterval=null; }});
-    timerReset.addEventListener('click', ()=>{ if (timerInterval) { clearInterval(timerInterval); timerInterval=null; } totalSeconds = 45*60; renderTimer(); });
+  // notes per day
+  function loadNotes(){ const raw = localStorage.getItem(LS_KEYS.notes); try{return raw?JSON.parse(raw):{};}catch(e){return{};} }
+  function saveNotes(notes){ localStorage.setItem(LS_KEYS.notes, JSON.stringify(notes)); }
+  let notes = loadNotes();
 
-    // Recording (simple using MediaRecorder, saved as blob URLs in-memory + persisted metadata)
-    let mediaRecorder = null;
-    let chunks = [];
-    let lastBlobUrl = null;
+  // recordings index metadata
+  function loadRecIndex(){ const raw = localStorage.getItem(LS_KEYS.recordingsIndex); try{return raw?JSON.parse(raw):{};}catch(e){return{};} }
+  function saveRecIndex(idx){ localStorage.setItem(LS_KEYS.recordingsIndex, JSON.stringify(idx)); }
+  let recIndex = loadRecIndex();
 
-    recStart.addEventListener('click', async ()=>{
-      if (!navigator.mediaDevices) return alert('Recording not supported in this browser');
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        chunks = [];
-        mediaRecorder.ondataavailable = e=>{ if (e.data && e.data.size) chunks.push(e.data); };
-        mediaRecorder.onstop = ()=>{
-          const blob = new Blob(chunks, { type: 'audio/webm' });
-          const url = URL.createObjectURL(blob);
-          lastBlobUrl = url;
-          const label = `Recording ${new Date().toLocaleString()}`;
-          state.recordings = state.recordings || [];
-          state.recordings.push({ label, url });
-          localStorage.setItem(storageKey, JSON.stringify(state));
-          recStatus.textContent = label;
-          alert('Recording saved locally in the browser. Use Download to save to your device.');
-        };
-        mediaRecorder.start();
-        recStatus.textContent = 'Recording...';
-      } catch (e) { console.error(e); alert('Could not start recording: ' + e.message); }
-    });
+  // DOM refs
+  const deck = document.getElementById('deck');
+  const currentDayNum = document.getElementById('currentDayNum');
+  const progFill = document.getElementById('progFill');
+  const progText = document.getElementById('progText');
+  const startBtn = document.getElementById('startBtn');
+  const streakEl = document.getElementById('streak');
 
-    recStop.addEventListener('click', ()=>{
-      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-        mediaRecorder.stop();
-        try { mediaRecorder.stream.getTracks().forEach(t=>t.stop()); } catch(e){}
+  // build cards
+  let cardEls = [];
+  function renderDeck(){ deck.innerHTML = ''; cardEls = []; lessons.forEach((lesson,i)=>{
+    const unlocked = (i+1) <= progress.currentDay || !!progress.completed[i+1];
+    const done = !!progress.completed[i+1];
+
+    const card = document.createElement('article'); card.className='card slide-in-right';
+    card.setAttribute('data-day', lesson.day);
+
+    card.innerHTML = `
+      <div class="card-head">
+        <div class="badge">${lesson.day}</div>
+        <div>
+          <div class="title">Day ${lesson.day} — ${lesson.title}</div>
+          <div class="sub">${unlocked? (done? 'Completed':'Unlocked') : 'Locked'}</div>
+        </div>
+      </div>
+
+      <div class="sections" role="list">
+        <button class="section-btn" data-action="speaking" aria-label="Speaking">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v10" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 7h14" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 19h8" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="section-label">Speak</div>
+        </button>
+        <button class="section-btn" data-action="listening" aria-label="Listening">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v18" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 8a8 8 0 0 1 16 0" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="section-label">Listen</div>
+        </button>
+        <button class="section-btn" data-action="vocab" aria-label="Vocabulary">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#111" stroke-width="1.6"/><path d="M8 12h8" stroke="#111" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <div class="section-label">Vocab</div>
+        </button>
+      </div>
+
+      <div class="body">${lesson.speaking}</div>
+      <div class="vocab" aria-hidden="false">${lesson.vocab.map(v=>`<div class="chip">${v}</div>`).join('')}</div>
+
+      <div class="actions">
+        <button class="btn" data-action="watch">Watch Video</button>
+        <button class="btn secondary" data-action="pdf">Download PDF</button>
+      </div>
+
+      <div class="muted">${lesson.listening}</div>
+
+      <div class="controls-row">
+        <button class="btn" data-action="mark">Mark Complete</button>
+      </div>
+
+      <div class="record-list" aria-live="polite"></div>
+    `;
+
+    // locked overlay
+    if(!unlocked){ const overlay = document.createElement('div'); overlay.style.position='absolute'; overlay.style.inset='0'; overlay.style.background='linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.6))'; overlay.style.display='flex'; overlay.style.alignItems='center'; overlay.style.justifyContent='center'; overlay.style.fontSize='14px'; overlay.style.color='var(--muted)'; overlay.textContent='Locked — complete previous day to unlock'; card.appendChild(overlay); }
+
+    deck.appendChild(card); cardEls.push(card);
+  });
+
+    // position z-order: last lesson on top visually
+    cardEls.forEach((el,idx)=>{ el.style.zIndex = 100 - idx; el.style.transform = 'translateX(0)'; });
+    updateUI();
+  }
+
+  // update progress UI
+  function updateUI(){ currentDayNum.textContent = progress.currentDay; const doneCount = Object.keys(progress.completed||{}).length; progFill.style.width = Math.round((doneCount/lessons.length)*100) + '%'; progText.textContent = `${doneCount}/${lessons.length}`; streakEl.textContent = progress.streak||0; }
+
+  // initial render
+  renderDeck();
+
+  // start button goes to current card (top)
+  startBtn.addEventListener('click', ()=>{ showCard(progress.currentDay); });
+
+  // show specific day by bringing its card to top and animating
+  function showCard(day){ const idx = lessons.findIndex(l=>l.day===day); if(idx<0) return; // move target card to top visually
+    // rearrange: we will hide others except nearby for performance
+    cardEls.forEach((c,i)=>{ c.classList.remove('slide-in-left','slide-in-right'); c.style.display='none'; });
+    const card = cardEls[idx]; card.style.display='block'; card.classList.add('slide-in-right'); attachCardHandlers(card); updateRecordList(card); }
+
+  // attach handlers for a card
+  function attachCardHandlers(card){ if(card._attached) return; card._attached = true;
+    // click handlers for section buttons
+    card.addEventListener('click', async (e)=>{
+      const act = e.target.closest('[data-action]')?.dataset.action; if(!act) return;
+      const day = Number(card.dataset.day);
+      const lesson = lessons.find(l=>l.day===day);
+      if(act==='watch'){ // open youtube link externally
+        window.open(lesson.video, '_blank');
+      } else if(act==='pdf'){
+        generatePDF(lesson);
+      } else if(act==='mark'){
+        markComplete(day, card);
+      } else if(act==='speaking'){
+        openSpeaking(lesson,card);
+      } else if(act==='listening'){
+        alert('Tap "Watch Video" to open the YouTube video for better playback controls.');
+        window.open(lesson.video,'_blank');
+      } else if(act==='vocab'){
+        openVocab(lesson);
       }
     });
 
-    playLast.addEventListener('click', ()=>{
-      if (!lastBlobUrl && state.recordings && state.recordings.length) lastBlobUrl = state.recordings[state.recordings.length-1].url;
-      if (!lastBlobUrl) return alert('No recording available');
-      const a = document.createElement('audio'); a.src = lastBlobUrl; a.controls = true; a.autoplay = true; document.body.appendChild(a);
+    // swipe handlers
+    let startX=0, startY=0, dx=0, dy=0, dragging=false;
+    card.addEventListener('touchstart', (ev)=>{ const t=ev.touches[0]; startX=t.clientX; startY=t.clientY; dx=0; dy=0; dragging=true; card.classList.add('dragging'); });
+    card.addEventListener('touchmove', (ev)=>{ if(!dragging) return; const t=ev.touches[0]; dx = t.clientX - startX; dy = t.clientY - startY; // horizontal only
+      card.style.transform = `translateX(${dx}px) rotate(${dx*0.02}deg)`; });
+    card.addEventListener('touchend', (ev)=>{ dragging=false; card.classList.remove('dragging'); if(Math.abs(dx)>100 && Math.abs(dx)>Math.abs(dy)){
+        if(dx<0) swipeNext(card); else swipePrev(card);
+      } else {
+        // snap back
+        card.style.transition='transform .25s ease'; card.style.transform='translateX(0)'; setTimeout(()=>card.style.transition='');
+      }
     });
+  }
 
-    downloadLast.addEventListener('click', ()=>{
-      if (!lastBlobUrl && state.recordings && state.recordings.length) lastBlobUrl = state.recordings[state.recordings.length-1].url;
-      if (!lastBlobUrl) return alert('No recording available');
-      const a = document.createElement('a'); a.href = lastBlobUrl; a.download = 'day1_recording.webm'; a.click();
+  // helper: find next unlocked index
+  function nextDayIndex(curIdx){ for(let i=curIdx+1;i<lessons.length;i++){ return i; } return null; }
+
+  // swipe next
+  function swipeNext(card){ const cur = Number(card.dataset.day); const curIdx = lessons.findIndex(l=>l.day===cur); const nextIdx = curIdx+1; if(nextIdx>=lessons.length) { // last
+      // bounce
+      card.style.transition='transform .25s ease'; card.style.transform='translateX(-30px)'; setTimeout(()=>{ card.style.transform='translateX(0)'; card.style.transition=''; },250); return; }
+    // if next locked and not completed current, prevent
+    const unlocked = (nextIdx+1) <= progress.currentDay || !!progress.completed[nextIdx+1]; if(!unlocked){ // show message
+      card.style.transition='transform .25s ease'; card.style.transform='translateX(-30px)'; setTimeout(()=>{ card.style.transform='translateX(0)'; card.style.transition=''; },250); return; }
+    // animate out and show next
+    card.classList.add('slide-out-left'); setTimeout(()=>{ showCard(lessons[nextIdx].day); },280);
+  }
+  function swipePrev(card){ const cur = Number(card.dataset.day); const curIdx = lessons.findIndex(l=>l.day===cur); const prevIdx = curIdx-1; if(prevIdx<0) { card.style.transition='transform .25s ease'; card.style.transform='translateX(30px)'; setTimeout(()=>{ card.style.transform='translateX(0)'; card.style.transition=''; },250); return; } card.classList.add('slide-out-right'); setTimeout(()=>{ showCard(lessons[prevIdx].day); },280); }
+
+  // mark complete
+  function markComplete(day, card){ if(progress.completed[day]) return; progress.completed[day]=true; // update streak logic simple: if lastCompletedDate is yesterday increment else reset
+    const today = new Date().toISOString().slice(0,10);
+    const prevDate = progress.lastCompletedDate;
+    if(prevDate){ const pd = new Date(prevDate); pd.setDate(pd.getDate()+1); const pdStr = pd.toISOString().slice(0,10); if(pdStr===today) progress.streak = (progress.streak||0)+1; else progress.streak=1; } else progress.streak=1;
+    progress.lastCompletedDate = today;
+    // unlock next
+    if(progress.currentDay < 30) progress.currentDay = Math.max(progress.currentDay, day+1);
+    saveProgress(progress); updateUI(); // confetti simple
+    card.querySelector('.sub').textContent = 'Completed'; card.querySelector('.sub').style.color='var(--success)'; animateUnlock(card);
+  }
+
+  function animateUnlock(card){ // small confetti effect (simple)
+    const el = document.createElement('div'); el.style.position='absolute'; el.style.inset='0'; el.style.pointerEvents='none'; card.appendChild(el);
+    for(let i=0;i<12;i++){ const c=document.createElement('div'); c.textContent='•'; c.style.position='absolute'; c.style.left='50%'; c.style.top='30%'; c.style.transform=`translate(-50%,-50%)`; c.style.fontSize='18px'; c.style.opacity='0.95'; c.style.color = (i%2? '#ffb86b':'#7afcff'); el.appendChild(c); const tx = (Math.random()*200-100); const ty = (Math.random()*200-20); c.animate([{transform:'translate(-50%,-50%)', opacity:1},{transform:`translate(${tx}px,${ty}px)`, opacity:0}],{duration:900+Math.random()*400, easing:'cubic-bezier(.2,.8,.2,1)'}); }
+    setTimeout(()=>{ el.remove(); },1400);
+  }
+
+  // open speaking panel: record/play/download UI
+  function openSpeaking(lesson,card){ // show modal-like area within card
+    const day = lesson.day;
+    let panel = card.querySelector('.speak-panel'); if(panel){ panel.classList.toggle('hidden'); return; }
+    panel = document.createElement('div'); panel.className='speak-panel'; panel.style.marginTop='12px'; panel.innerHTML = `
+      <div style="font-size:13px;margin-bottom:8px">Repeat aloud after the phrase. Record and save locally.</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn" data-rec="start">Record</button>
+        <button class="btn secondary" data-rec="stop">Stop</button>
+      </div>
+      <div class="record-list" style="margin-top:8px"></div>
+    `;
+    card.appendChild(panel);
+    const rlist = panel.querySelector('.record-list'); function refreshList(){ const idx = recIndex[day]||[]; rlist.innerHTML = ''; idx.slice().reverse().forEach(id=>{ const rec = document.createElement('div'); rec.className='record-item'; rec.innerHTML = `<div>${new Date(id).toLocaleString()}</div><div><button data-id="${id}" class="btn">Play</button><button data-del="${id}" class="btn secondary">Delete</button></div>`; rlist.appendChild(rec); }); }
+    refreshList();
+
+    let media = null; let chunks = [];
+    panel.addEventListener('click', async (e)=>{
+      if(e.target.dataset.rec==='start'){
+        if(!navigator.mediaDevices) return alert('Recording not supported');
+        try{ const stream = await navigator.mediaDevices.getUserMedia({audio:true}); media = new MediaRecorder(stream); chunks=[]; media.ondataavailable = ev=>{ if(ev.data && ev.data.size) chunks.push(ev.data); }; media.onstop = async ()=>{ const blob = new Blob(chunks,{type:'audio/webm'}); const id = Date.now(); await idbPut({id, day, blob}); recIndex[day]=recIndex[day]||[]; recIndex[day].push(id); saveRecIndex(recIndex); refreshList(); alert('Saved recording locally. Use Play to listen or Download from Play UI.'); }; media.start(); }catch(err){ alert('Recording failed: ' + err.message); }
+      } else if(e.target.dataset.rec==='stop'){
+        if(media && media.state!=='inactive'){ media.stop(); try{ media.stream.getTracks().forEach(t=>t.stop()); }catch(e){} }
+      } else if(e.target.dataset.id){ const id = Number(e.target.dataset.id); const rec = await idbGet(id); if(!rec){ alert('Recording not found'); return; } const url = URL.createObjectURL(rec.blob); const a = document.createElement('audio'); a.src=url; a.controls=true; a.autoplay=true; panel.appendChild(a); // also show download link
+        const d = document.createElement('a'); d.href=url; d.download = `day-${day}-rec-${id}.webm`; d.textContent='Download'; d.style.display='block'; d.style.marginTop='6px'; panel.appendChild(d);
+      } else if(e.target.dataset.del){ const id = Number(e.target.dataset.del); if(confirm('Delete this recording?')){ await idbDelete(id); recIndex[day] = (recIndex[day]||[]).filter(x=>x!==id); saveRecIndex(recIndex); refreshList(); } }
     });
+  }
 
-  </script>
+  function updateRecordList(card){ const day = Number(card.dataset.day); const listEl = card.querySelector('.record-list'); listEl.innerHTML=''; const idx = recIndex[day]||[]; idx.slice().reverse().forEach(id=>{ const row = document.createElement('div'); row.className='record-item'; row.innerHTML = `<div>${new Date(id).toLocaleString()}</div><div><button class="btn" data-play="${id}">Play</button> <button class="btn secondary" data-del="${id}">Delete</button></div>`; listEl.appendChild(row); }); listEl.addEventListener('click', async (e)=>{ const id = Number(e.target.dataset.play); const del = Number(e.target.dataset.del); if(id){ const rec = await idbGet(id); if(!rec) return alert('Recording missing'); const url = URL.createObjectURL(rec.blob); const a = document.createElement('audio'); a.src=url; a.controls=true; a.autoplay=true; listEl.appendChild(a); const down = document.createElement('a'); down.href=url; down.download=`day-${day}-rec-${id}.webm`; down.textContent='Download'; down.style.display='block'; listEl.appendChild(down); } if(del){ if(confirm('Delete?')){ await idbDelete(del); recIndex[day]=recIndex[day].filter(x=>x!==del); saveRecIndex(recIndex); updateRecordList(card); } } }); }
+
+  // vocab popup
+  function openVocab(lesson){ alert('Vocabulary:\n' + lesson.vocab.join(', ')); }
+
+  // PDF generation using jsPDF if available, else plain text download
+  function generatePDF(lesson){ // try to use jsPDF if loaded
+    try{
+      if(window.jspdf){ const { jsPDF } = window.jspdf; const doc = new jsPDF({unit:'pt',format:'a4'}); doc.setFont('Courier'); doc.setFontSize(16); doc.text(`Day ${lesson.day} - ${lesson.title}`,40,60); doc.setFontSize(12); doc.text('Speaking:\n' + lesson.speaking,40,100); doc.text('Listening:\n' + lesson.listening,40,160); doc.text('Vocabulary: ' + lesson.vocab.join(', '),40,220); doc.text('Video link: ' + lesson.video,40,260); doc.save(`learnhub-day-${lesson.day}.pdf`); return; }
+    }catch(e){ console.warn('jsPDF error',e); }
+    // fallback: download a .txt file
+    const txt = `Day ${lesson.day} - ${lesson.title}\n\nSpeaking:\n${lesson.speaking}\n\nListening:\n${lesson.listening}\n\nVocabulary:\n${lesson.vocab.join(', ')}\n\nVideo: ${lesson.video}`;
+    const blob = new Blob([txt],{type:'text/plain'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`learnhub-day-${lesson.day}.txt`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),2000);
+  }
+
+  // add keyboard / gesture to open current day on load
+  window.addEventListener('load', ()=>{ // if progress.currentDay card available, show it
+    showCard(progress.currentDay);
+    updateUI();
+  });
+
+  // service worker register using blob for single-file deploy
+  if('serviceWorker' in navigator){ try{
+    const swCode = `self.addEventListener('install',e=>{self.skipWaiting();});self.addEventListener('activate',e=>{self.clients.claim();});self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));});`;
+    const blob = new Blob([swCode],{type:'application/javascript'}); const swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).catch(()=>{});
+  }catch(e){console.warn('SW failed',e);} }
+
+  // expose reset and debug for user via console (or later UI)
+  window.LearnHub = { progress, saveProgress, lessons, resetAll: ()=>{ if(confirm('Reset all progress and delete recordings?')){ localStorage.removeItem(LS_KEYS.progress); localStorage.removeItem(LS_KEYS.notes); localStorage.removeItem(LS_KEYS.recordingsIndex); // clear db
+        openDB().then(db=>{ const tx=db.transaction(DB_STORE,'readwrite'); tx.objectStore(DB_STORE).clear(); tx.oncomplete=()=>{ location.reload(); }; }); } } };
+
+})();
+</script>
+
+<!-- Optional jsPDF CDN for better PDF feature when online (not required) -->
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </body>
 </html>
