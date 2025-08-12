@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>30-Day English Practice — Tracker</title>
+<style>
+  :root{
+    --bg:#f8fafc; --card:#ffffff; --muted:#64748b; --accent:#0f172a; --primary:#0369a1; --success:#16a34a; --danger:#dc2626;
+  }
+  body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--accent);margin:0;padding:20px;}
+  .container{max-width:1100px;margin:0 auto;}
+  header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;}
+  h1{font-size:20px;margin:0;}
+  p.lead{margin:4px 0 0;color:var(--muted);font-size:13px;}
+  .card{background:var(--card);border-radius:10px;padding:14px;box-shadow:0 2px 6px rgba(2,6,23,0.06);}
+  .grid{display:grid;gap:12px;}
+  .grid.cols-3{grid-template-columns:1fr 320px;}
+  nav.days{max-height:60vh;overflow:auto;padding:8px;}
+  .day-btn{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;border:1px solid #eef2f7;background:#fbfdff;margin-bottom:8px;cursor:pointer;}
+  .day-btn.selected{border-left:4px solid var(--primary);background:#f1f8fb;}
+  .small{font-size:13px;color:var(--muted);}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;}
+  .btn{padding:8px 10px;border-radius:8px;border:0;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;}
+  .btn.ghost{background:#eef2f7;color:var(--primary);}
+  .btn.warn{background:orange;}
+  .btn.danger{background:var(--danger);}
+  input[type="text"],input[type="url"],textarea,select{width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef6;font-size:14px;box-sizing:border-box}
+  .links-list{display:flex;flex-direction:column;gap:8px}
+  .link-row{display:flex;justify-content:space-between;align-items:center;padding:8px;background:#fbfdff;border-radius:8px;border:1px solid #eef2f7;}
+  .muted{color:var(--muted)}
+  .progress{height:12px;background:#eef2f7;border-radius:999px;overflow:hidden}
+  .progress > div{height:100%;background:linear-gradient(90deg,var(--primary),#0ea5a0)}
+  footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+  .top-actions{display:flex;gap:8px;align-items:center}
+  .file-input{display:none}
+  @media(max-width:800px){ .grid.cols-3{grid-template-columns:1fr} nav.days{max-height:200px} header{flex-direction:column;align-items:flex-start} }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>30-Day English Practice — Tracker</h1>
+        <p class="lead">Follow your daily plan, add YouTube links, mark completion, export/import progress. Saved locally in your browser.</p>
+      </div>
+      <div class="top-actions">
+        <input id="search" type="text" placeholder="Search days or notes" style="padding:8px;border-radius:8px;border:1px solid #e6eef6"/>
+        <button id="exportBtn" class="btn">Export JSON</button>
+        <label class="btn ghost" style="cursor:pointer">
+          Import
+          <input id="importFile" class="file-input" type="file" accept="application/json">
+        </label>
+        <button id="resetBtn" class="btn danger">Reset</button>
+      </div>
+    </header>
+
+    <section class="grid cols-3" style="gap:16px">
+      <aside>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <div>
+              <strong>Plan Overview</strong>
+              <div class="small">Progress: <span id="progressText">0%</span></div>
+            </div>
+            <div style="text-align:right">
+              <div class="small">Total: <strong>30</strong></div>
+              <div class="small">Completed: <strong id="completedCount">0</strong></div>
+            </div>
+          </div>
+          <div class="progress" style="margin-bottom:10px"><div id="progressBar" style="width:0%"></div></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button id="goDay1" class="btn ghost">Go to Day 1</button>
+            <button id="goNext" class="btn">Next Incomplete</button>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="card">
+          <div style="margin-bottom:8px"><strong>Days</strong> <span class="small">({<span id="shownCount">30</span>})</span></div>
+          <nav class="days" id="daysList"></nav>
+        </div>
+      </aside>
+
+      <main>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+            <div>
+              <h2 id="dayTitle" style="margin:0">Day 1</h2>
+              <div class="small" id="dayNotesMini">No notes yet.</div>
+            </div>
+            <div style="text-align:right">
+              <button id="toggleComplete" class="btn">Mark Complete</button>
+            </div>
+          </div>
+
+          <hr style="margin:12px 0;border:none;border-top:1px solid #eef2f7"/>
+
+          <div style="margin-bottom:12px">
+            <label class="small">Notes</label>
+            <textarea id="notes" rows="3" placeholder="Daily notes or practice instruction..."></textarea>
+          </div>
+
+          <div style="margin-bottom:12px">
+            <div style="display:flex;gap:8px;align-items:center">
+              <div style="flex:1">
+                <label class="small">Link title (optional)</label>
+                <input id="linkTitle" type="text" placeholder="e.g., VOA: Meeting People"/>
+              </div>
+              <div style="flex:2">
+                <label class="small">YouTube URL</label>
+                <input id="linkUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." />
+              </div>
+              <div style="align-self:end">
+                <button id="addLinkBtn" class="btn">Add Link</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 style="margin:6px 0">YouTube Links</h3>
+            <div class="links-list" id="linksList"></div>
+          </div>
+
+          <hr style="margin:12px 0;border:none;border-top:1px solid #eef2f7"/>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <button id="copyDayJSON" class="btn ghost">Copy Day JSON</button>
+            <button id="listenTTS" class="btn">Listen (TTS)</button>
+            <button id="downloadDay" class="btn ghost">Download Day</button>
+            <select id="jumpSelect" style="padding:8px;border-radius:8px;border:1px solid #e6eef6">
+              <option value="">Jump to day...</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="card">
+          <strong>Actions</strong>
+          <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+            <button id="exportJson" class="btn">Export Full JSON</button>
+            <button id="importJson" class="btn ghost" onclick="document.getElementById('importFile').click()">Import JSON</button>
+            <button id="resetAll" class="btn danger">Reset Plan</button>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <footer>
+      Built for you — the app stores progress locally in your browser. Export JSON for backup.
+    </footer>
+  </div>
+
+<script>
+/* Single-file 30-day tracker */
+const STORAGE_KEY = 'english_plan_v1_singlefile';
+
+const prefilled = [
+  { id:1, title: "Day 1 — Greetings & Intro", notes: "Hello, My name is..., I am from...", links:[
+    {title:"VOA: Meeting People", url:"https://www.youtube.com/watch?v=7usN8qGizEw"},
+    {title:"Vanessa: Introduce Yourself", url:"https://www.youtube.com/watch?v=WcU4t6M-fqo"},
+    {title:"Rachel: Pronounce TH", url:"https://www.youtube.com/watch?v=d3WZl0fXcYg"}
+  ], completed:false},
+  { id:2, title: "Day 2 — Where Are You From?", notes: "I live in..., I like..., I work/study...", links:[
+    {title:"VOA: Where Are You From?", url:"https://www.youtube.com/watch?v=4WxV3Zpwb2k"},
+    {title:"Vanessa: How to Start a Conversation", url:"https://www.youtube.com/watch?v=2Sfp4D9mH6Q"},
+    {title:"Rachel: Pronounce R", url:"https://www.youtube.com/watch?v=ljwG9VWotR4"}
+  ], completed:false},
+  { id:3, title: "Day 3 — Objects & Everyday Words", notes: "Object names in your room.", links:[
+    {title:"VOA: What is This?", url:"https://www.youtube.com/watch?v=fs5BBpfG6a0"},
+    {title:"Vanessa: Daily English Conversation", url:"https://www.youtube.com/watch?v=GnyuhvIwtfA"},
+    {title:"Rachel: S Sound", url:"https://www.youtube.com/watch?v=8OB1HlxX_bM"}
+  ], completed:false},
+  { id:4, title: "Day 4 — Jobs & Work", notes: "I am a...", links:[
+    {title:"VOA: What Do You Do?", url:"https://www.youtube.com/watch?v=_Ub94igNdGQ"},
+    {title:"Vanessa: Talking About Your Job", url:"https://www.youtube.com/watch?v=1HjYGVYCM9g"},
+    {title:"Rachel: L Sound", url:"https://www.youtube.com/watch?v=fs5ViC0NcyU"}
+  ], completed:false},
+  { id:5, title: "Day 5 — Daily Routines", notes: "Morning routine verbs.", links:[
+    {title:"VOA: Everyday Activities", url:"https://www.youtube.com/watch?v=14bUJmg84us"},
+    {title:"Vanessa: Talking About Your Day", url:"https://www.youtube.com/watch?v=-9HZT_YaD1A"},
+    {title:"Rachel: V & W Sounds", url:"https://www.youtube.com/watch?v=wG7t9Y7m76I"}
+  ], completed:false},
+  { id:6, title: "Day 6 — Numbers & Age", notes: "Numbers 1–50.", links:[
+    {title:"VOA: How Old Are You?", url:"https://www.youtube.com/watch?v=Sdq_rOXUwcY"},
+    {title:"Vanessa: Numbers & Age", url:"https://www.youtube.com/watch?v=lZs0vWnZn1w"},
+    {title:"Rachel: Word Stress", url:"https://www.youtube.com/watch?v=EjWltvS_a38"}
+  ], completed:false},
+  { id:7, title: "Day 7 — Review Day", notes: "Review and speak about yourself for 2 minutes.", links:[], completed:false}
+];
+
+// build initial 30-day array
+function buildInitial(){
+  const arr = Array.from({length:30}, (_,i) => {
+    const base = { id: i+1, title: `Day ${i+1}`, notes:'', links:[], completed:false};
+    const p = prefilled.find(x=>x.id===base.id);
+    return p ? {...base, ...p} : base;
+  });
+  return arr;
+}
+
+let days = [];
+let selectedDayId = 1;
+
+/* load */
+function load(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      days = JSON.parse(raw);
+    } else {
+      days = buildInitial();
+      save();
+    }
+  } catch(e){
+    console.error('Load error', e);
+    days = buildInitial();
+    save();
+  }
+}
+
+/* save */
+function save(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(days));
+}
+
+/* UI elements */
+const daysList = document.getElementById('daysList');
+const dayTitle = document.getElementById('dayTitle');
+const dayNotesMini = document.getElementById('dayNotesMini');
+const notesEl = document.getElementById('notes');
+const linksList = document.getElementById('linksList');
+const linkTitle = document.getElementById('linkTitle');
+const linkUrl = document.getElementById('linkUrl');
+const addLinkBtn = document.getElementById('addLinkBtn');
+const toggleCompleteBtn = document.getElementById('toggleComplete');
+const progressBar = document.getElementById('progressBar');
+const progressText = document.getElementById('progressText');
+const completedCount = document.getElementById('completedCount');
+const exportBtn = document.getElementById('exportBtn');
+const exportJsonBtn = document.getElementById('exportJson');
+const importFile = document.getElementById('importFile');
+const resetBtn = document.getElementById('resetBtn');
+const resetAll = document.getElementById('resetAll');
+const copyDayJSON = document.getElementById('copyDayJSON');
+const listenTTS = document.getElementById('listenTTS');
+const downloadDayBtn = document.getElementById('downloadDay');
+const jumpSelect = document.getElementById('jumpSelect');
+const searchInput = document.getElementById('search');
+const goDay1 = document.getElementById('goDay1');
+const goNext = document.getElementById('goNext');
+const shownCount = document.getElementById('shownCount');
+
+function renderDaysList(filter=''){
+  daysList.innerHTML='';
+  const filtered = days.filter(d => d.title.toLowerCase().includes(filter) || (d.notes||'').toLowerCase().includes(filter));
+  shownCount.textContent = filtered.length;
+  filtered.forEach(d => {
+    const btn = document.createElement('div');
+    btn.className = 'day-btn' + (d.id===selectedDayId ? ' selected' : '');
+    btn.title = d.title;
+    btn.innerHTML = `<div><div style="font-weight:600">${d.title}</div><div class="small">${d.links.length} links</div></div>
+      <div>${d.completed?'<span style="padding:6px;border-radius:6px;background:#d1fae5;color:#065f46;font-size:12px">Done</span>':'<span style="padding:6px;border-radius:6px;background:#f1f5f9;color:#475569;font-size:12px">Pending</span>'}</div>`;
+    btn.addEventListener('click', ()=>{ selectedDayId = d.id; render(); window.scrollTo({top:0,behavior:'smooth'}); });
+    daysList.appendChild(btn);
+  });
+  // populate jump select
+  jumpSelect.innerHTML = '<option value="">Jump to day...</option>';
+  days.forEach(d=> { const o = document.createElement('option'); o.value=d.id; o.textContent=d.title; jumpSelect.appendChild(o); });
+}
+
+function renderSelected(){
+  const day = days.find(x=>x.id===selectedDayId);
+  if(!day) return;
+  dayTitle.textContent = day.title;
+  dayNotesMini.textContent = day.notes || 'No notes yet.';
+  notesEl.value = day.notes || '';
+  // links
+  linksList.innerHTML='';
+  if(day.links.length===0){
+    linksList.innerHTML = '<div class="small muted">No links yet.</div>';
+  } else {
+    day.links.forEach((l, idx) => {
+      const row = document.createElement('div');
+      row.className = 'link-row';
+      row.innerHTML = `<div style="max-width:80%"><a href="${l.url}" target="_blank" rel="noreferrer" style="font-weight:600">${escapeHtml(l.title||l.url)}</a><div class="small muted">${escapeHtml(l.url)}</div></div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <a class="btn ghost" href="${l.url}" target="_blank" rel="noreferrer" style="padding:6px 8px;font-size:13px">Open</a>
+          <button class="btn" style="background:#ef4444" data-idx="${idx}">Remove</button>
+        </div>`;
+      const removeBtn = row.querySelector('button');
+      removeBtn.addEventListener('click', ()=>{ removeLink(selectedDayId, idx); });
+      linksList.appendChild(row);
+    });
+  }
+  toggleCompleteBtn.textContent = day.completed ? 'Mark Incomplete' : 'Mark Complete';
+}
+
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, (m)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+
+function renderProgress(){
+  const done = days.filter(d=>d.completed).length;
+  const pct = Math.round((done/days.length)*100);
+  progressBar.style.width = pct + '%';
+  progressText.textContent = pct + '%';
+  completedCount.textContent = done;
+}
+
+function render(filter=''){
+  renderDaysList(filter);
+  renderSelected();
+  renderProgress();
+}
+
+/* actions */
+function toggleComplete(){
+  const idx = days.findIndex(d=>d.id===selectedDayId);
+  if(idx<0) return;
+  days[idx].completed = !days[idx].completed;
+  save();
+  render(searchInput.value.trim().toLowerCase());
+}
+
+function addLink(){
+  const title = linkTitle.value.trim();
+  const url = linkUrl.value.trim();
+  if(!url) { alert('Enter a YouTube URL'); return; }
+  const idx = days.findIndex(d=>d.id===selectedDayId);
+  if(idx<0) return;
+  days[idx].links.push({ title: title || url, url });
+  save();
+  linkTitle.value=''; linkUrl.value='';
+  render(searchInput.value.trim().toLowerCase());
+}
+
+function removeLink(dayId, index){
+  const idx = days.findIndex(d=>d.id===dayId);
+  if(idx<0) return;
+  days[idx].links.splice(index,1);
+  save();
+  render(searchInput.value.trim().toLowerCase());
+}
+
+function updateNotes(){
+  const idx = days.findIndex(d=>d.id===selectedDayId);
+  if(idx<0) return;
+  days[idx].notes = notesEl.value;
+  save();
+  render(searchInput.value.trim().toLowerCase());
+}
+
+function exportFullJSON(){
+  const dataStr = JSON.stringify(days, null, 2);
+  const blob = new Blob([dataStr], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'english_plan_backup.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportCurrentDay(){
+  const day = days.find(d=>d.id===selectedDayId);
+  if(!day) return;
+  const text = `${day.title}\n\nNotes:\n${day.notes||''}\n\nLinks:\n${day.links.map(l=>l.url).join('\\n')}\n`;
+  const blob = new Blob([text], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `${day.title.replace(/\s+/g,'_')}.txt`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyDayToClipboard(){
+  const day = days.find(d=>d.id===selectedDayId);
+  if(!day) return;
+  navigator.clipboard.writeText(JSON.stringify(day, null, 2)).then(()=> alert('Day JSON copied to clipboard'));
+}
+
+function speakDay(){
+  const day = days.find(d=>d.id===selectedDayId);
+  if(!day) return;
+  const speak = `${day.title}. ${day.notes || 'No notes.'} Links: ${day.links.map(l=>l.title).join(', ')}`;
+  const u = new SpeechSynthesisUtterance(speak);
+  window.speechSynthesis.speak(u);
+}
+
+function importJSONFile(file){
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if(!Array.isArray(imported) || imported.length !== 30){
+        if(!confirm('Imported JSON does not look like a 30-day plan array. Continue and try to merge?')) return;
+      }
+      // basic validation: if array length matches, replace
+      if(Array.isArray(imported) && imported.length===30){
+        days = imported;
+        save();
+        selectedDayId = 1;
+        render();
+        alert('Import successful');
+      } else {
+        alert('Invalid file format. Expected 30-day plan array. Import aborted.');
+      }
+    } catch(err){
+      alert('Failed to parse JSON file.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetPlan(){
+  if(!confirm('Reset all progress and restore initial plan? This will erase local changes.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  days = buildInitial();
+  selectedDayId = 1;
+  save();
+  render();
+}
+
+/* events */
+addLinkBtn.addEventListener('click', addLink);
+toggleCompleteBtn.addEventListener('click', toggleComplete);
+notesEl.addEventListener('blur', updateNotes);
+exportBtn.addEventListener('click', exportFullJSON);
+exportJsonBtn.addEventListener('click', exportFullJSON);
+importFile.addEventListener('change', (e)=> importJSONFile(e.target.files[0]));
+resetBtn.addEventListener('click', resetPlan);
+resetAll.addEventListener('click', resetPlan);
+copyDayJSON.addEventListener('click', copyDayToClipboard);
+listenTTS.addEventListener('click', speakDay);
+downloadDayBtn.addEventListener('click', exportCurrentDay);
+jumpSelect.addEventListener('change', (e)=>{ const v = parseInt(e.target.value); if(v){ selectedDayId = v; render(); }});
+searchInput.addEventListener('input', (e)=> render(e.target.value.trim().toLowerCase()));
+document.getElementById('goDay1').addEventListener('click', ()=>{ selectedDayId = 1; render(); window.scrollTo({top:0,behavior:'smooth'})});
+document.getElementById('goNext').addEventListener('click', ()=>{
+  const next = days.find(d=>!d.completed);
+  if(next) { selectedDayId = next.id; render(); window.scrollTo({top:0,behavior:'smooth'}) } else alert('All days completed!');
+});
+
+/* initial load */
+load();
+render();
+
+/* keyboard quick save on Ctrl+S */
+window.addEventListener('keydown', (e)=> {
+  if((e.ctrlKey || e.metaKey) && e.key === 's'){ e.preventDefault(); save(); alert('Saved'); }
+});
+
+/* small safeguard: sync notes changes on blur and periodically */
+setInterval(()=>{ save(); }, 10000);
+</script>
+</body>
+</html>
