@@ -1,578 +1,332 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>English Practice — Personal Learning Hub</title>
-<style>
-  :root{
-    --bg:#f5f8fb;--card:#ffffff;--muted:#6b7280;--accent:#2563eb;--accent-2:#10b981;
-    --border: #e6edf7; --danger:#ef4444; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  }
-  body{margin:0;background:linear-gradient(180deg,var(--bg),#eef6ff);color:#0f172a;}
-  header{padding:18px 20px;border-bottom:1px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:space-between;gap:12px}
-  header h1{margin:0;font-size:18px}
-  .container{max-width:1100px;margin:20px auto;padding:18px}
-  nav{display:flex;gap:8px;flex-wrap:wrap}
-  .tab{background:var(--card);padding:8px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent}
-  .tab.active{border-color:var(--accent);box-shadow:0 2px 8px rgba(37,99,235,0.08)}
-  .grid{display:grid;grid-template-columns:1fr 380px;gap:16px}
-  @media (max-width:980px){.grid{grid-template-columns:1fr}}
-  .card{background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--border);box-shadow:0 4px 20px rgba(15,23,42,0.03)}
-  h2{margin:0 0 10px 0;font-size:16px}
-  small{color:var(--muted)}
-  /* lists and forms */
-  .row{display:flex;gap:8px;align-items:center}
-  input,textarea,select{padding:8px;border-radius:8px;border:1px solid var(--border);width:100%;box-sizing:border-box;font-size:14px}
-  button{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:white;cursor:pointer}
-  button.ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
-  .list{max-height:300px;overflow:auto;margin-top:8px;display:flex;flex-direction:column;gap:8px}
-  .item{padding:10px;border-radius:10px;border:1px solid var(--border);display:flex;justify-content:space-between;gap:8px;align-items:center}
-  .meta{color:var(--muted);font-size:13px}
-  .pill{background:#f1f8ff;color:var(--accent);padding:4px 8px;border-radius:999px;font-size:12px}
-  .controls{display:flex;gap:6px}
-  .muted-btn{background:transparent;border:1px solid var(--border);padding:6px;border-radius:8px;cursor:pointer}
-  .danger{background:var(--danger);color:white;border:0}
-  .center{text-align:center}
-  /* progress chart */
-  #progressCanvas{width:100%;height:180px;border-radius:8px;background:linear-gradient(180deg,#ffffff,#fbfdff);border:1px solid var(--border)}
-  .quote{font-style:italic;color:var(--muted);padding:10px 12px;border-radius:8px;background:#fbfeff}
-  /* small */
-  .small{font-size:13px}
-  footer{padding:12px 20px;text-align:center;color:var(--muted);font-size:13px;margin-top:18px}
-  .tts-btn{background:var(--accent-2);color:white;padding:6px;border-radius:8px;border:0}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Day 1 — Introduce Yourself | 30-Day English Practice</title>
+  <style>
+    :root{--bg:#f7fafc;--card:#fff;--accent:#0b61d8;--muted:#6b7280}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Roboto,Arial;margin:0;background:var(--bg);color:#0f172a}
+    .container{max-width:980px;margin:28px auto;padding:20px}
+    header{display:flex;align-items:center;gap:14px}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#6fb3ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    h1{margin:0;font-size:1.5rem}
+    p.lead{margin:6px 0 18px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr 340px;gap:18px}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}.sidebar{order:2}}
+    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.06);}
+    .section{margin-bottom:14px}
+    .small{font-size:.95rem;color:var(--muted)}
+    .btn{background:var(--accent);color:white;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .ghost{background:transparent;border:1px solid rgba(11,97,216,0.12);color:var(--accent)}
+    textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eefc;font-family:inherit}
+    input[type=text]{width:100%;padding:8px;border-radius:8px;border:1px solid #e6eefc}
+    ul{padding-left:18px}
+    .check{display:flex;align-items:center;gap:10px}
+    .timer{font-family:monospace;font-size:1.2rem}
+    .meta{font-size:0.9rem;color:var(--muted)}
+    .video-wrap{border-radius:8px;overflow:hidden;border:1px solid #eef2ff}
+    .controls{display:flex;gap:8px;margin-top:10px}
+  </style>
 </head>
 <body>
-<header>
-  <div>
-    <h1>English Practice • Personal Learning Hub</h1>
-    <small>Single-file — localStorage • TTS • Speech Recognition</small>
-  </div>
-  <nav id="navTabs" aria-label="Navigation"></nav>
-</header>
+  <div class="container">
+    <header>
+      <div class="logo">EN</div>
+      <div>
+        <h1>Day 1 — Introduce Yourself</h1>
+        <p class="lead">Objective: Learn and confidently say short self-introductions. Routine: 15 min listening • 15 min speaking • 10 min pronunciation • 5 min vocabulary & notes.</p>
+      </div>
+    </header>
 
-<main class="container">
-  <div class="grid">
-    <div>
-      <!-- DAILY PLAN -->
-      <section id="dailyPlan" class="card" aria-labelledby="dailyPlanTitle">
-        <h2 id="dailyPlanTitle">Daily Plan</h2>
-        <small>Set and update your daily study schedule.</small>
-        <div style="margin-top:12px;display:grid;gap:8px">
-          <div class="row">
-            <select id="planType">
-              <option value="Speaking">Speaking</option>
-              <option value="Listening">Listening</option>
-              <option value="Reading">Reading</option>
-              <option value="Writing">Writing</option>
-            </select>
-            <input id="planTask" placeholder="Task (e.g., '10-minute conversation practice')" />
-            <button id="addPlanBtn">Add</button>
-          </div>
-          <div id="planList" class="list small"></div>
+    <div class="grid" style="margin-top:18px">
+      <main>
+        <div class="card section">
+          <h2 style="margin-top:0">Daily Objective</h2>
+          <p class="small">By the end of this lesson you will be able to:</p>
+          <ul>
+            <li>Introduce yourself using 2–3 simple sentences (name, country, job/study).</li>
+            <li>Pronounce your name and common greetings clearly.</li>
+            <li>Recognize and repeat short sentences from a slow English video.</li>
+          </ul>
         </div>
-      </section>
 
-      <!-- YOUTUBE HUB -->
-      <section id="youtubeHub" class="card" style="margin-top:14px">
-        <h2>YouTube Learning Hub</h2>
-        <small>Categorize videos (Grammar, Pronunciation, Conversation, etc.)</small>
-        <div style="margin-top:12px;display:grid;gap:8px">
-          <div class="row">
-            <select id="ytCategory">
-              <option>Grammar</option><option>Pronunciation</option><option>Conversation</option><option>Listening</option><option>Other</option>
-            </select>
-            <input id="ytTitle" placeholder="Video title (short)" />
-          </div>
-          <div class="row">
-            <input id="ytUrl" placeholder="YouTube URL (https://...)" />
-            <button id="addYtBtn">Add</button>
-          </div>
-          <div id="ytList" class="list"></div>
+        <div class="card section">
+          <h2 style="margin-top:0">Activity Breakdown</h2>
+          <ol class="small">
+            <li><strong>Listening (15 min):</strong> Watch the VOA "Meeting People" video and repeat full sentences aloud.</li>
+            <li><strong>Speaking (15 min):</strong> Follow Vanessa's "Introduce Yourself" video — pause and repeat after each line; record once.</li>
+            <li><strong>Pronunciation (10 min):</strong> Practice /th/ and /r/ using short drills.</li>
+            <li><strong>Vocab & Notes (5 min):</strong> Write 5 new words and make one sentence for each.</li>
+          </ol>
         </div>
-      </section>
 
-      <!-- VOCABULARY TRACKER -->
-      <section id="vocabCard" class="card" style="margin-top:14px">
-        <h2>Vocabulary Tracker</h2>
-        <small>Add words, meaning and example. Click speaker icon to hear pronunciation.</small>
-        <div style="margin-top:12px;display:grid;gap:8px">
-          <div class="row">
-            <input id="wordText" placeholder="Word" />
-            <input id="wordMeaning" placeholder="Meaning" />
+        <div class="card section">
+          <h2 style="margin-top:0">Listening — YouTube Lesson (15 min)</h2>
+          <div class="video-wrap">
+            <div style="position:relative;padding-bottom:56.25%;height:0">
+              <iframe src="https://www.youtube.com/embed/7usN8qGizEw" title="VOA Meeting People" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
+            </div>
           </div>
-          <textarea id="wordExample" placeholder="Example sentence"></textarea>
-          <div class="row">
-            <button id="addWordBtn">Add Word</button>
-            <button id="importSample" class="ghost">Import Sample Words</button>
-          </div>
-          <div id="vocabList" class="list"></div>
+          <p class="meta">Tip: Turn on subtitles if you need them. Watch at 0.9x or 0.75x if the speech feels fast.</p>
         </div>
-      </section>
 
-      <!-- SPEAKING PRACTICE LOG -->
-      <section id="practiceCard" class="card" style="margin-top:14px">
-        <h2>Speaking Practice Log</h2>
-        <small>Record practice sessions and mistakes to review later.</small>
-        <div style="margin-top:12px;display:grid;gap:8px">
-          <input id="practiceTopic" placeholder="Topic (e.g., 'Ordering food')" />
-          <textarea id="practiceNotes" placeholder="Notes or mistakes (what went wrong)"></textarea>
-          <div class="row">
-            <button id="addPracticeBtn">Add Log</button>
-            <button id="startPronCheck" class="ghost">Pronunciation Check</button>
+        <div class="card section">
+          <h2 style="margin-top:0">Speaking — Guided Practice (15 min)</h2>
+          <div class="video-wrap">
+            <div style="position:relative;padding-bottom:56.25%;height:0">
+              <iframe src="https://www.youtube.com/embed/WcU4t6M-fqo" title="Speak English With Vanessa - Introduce Yourself" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
+            </div>
           </div>
-          <div id="practiceList" class="list"></div>
+          <p class="small" style="margin-top:8px">Speaking Prompts — pause the video and say each aloud 3×:</p>
+          <ol>
+            <li>"Hello. My name is [your name]."</li>
+            <li>"I am from [your city/country]."</li>
+            <li>"I work as a [job] / I study [subject]."</li>
+          </ol>
+
+          <div style="margin-top:10px">
+            <label class="small">Record your speaking practice (optional):</label>
+            <div class="controls">
+              <button class="btn" id="recStart">Start Recording</button>
+              <button class="ghost" id="recStop">Stop</button>
+              <button class="ghost" id="playLast">Play Last</button>
+              <button class="ghost" id="downloadLast">Download</button>
+            </div>
+            <p class="meta" id="recStatus">No recording yet.</p>
+          </div>
         </div>
-      </section>
+
+        <div class="card section">
+          <h2 style="margin-top:0">Pronunciation Practice (10 min)</h2>
+          <p class="small">Short drills — repeat aloud 10 times each:</p>
+          <ul>
+            <li>"think / thought / through" (practice /th/)</li>
+            <li>"right / write / road" (practice /r/)</li>
+            <li>Short phrase: "Nice to meet you." — say it smoothly three times.</li>
+          </ul>
+          <p class="meta">Tip: Place your hand gently on your throat to feel vibrations for voiced sounds (like /v/ and /z/).</p>
+        </div>
+
+        <div class="card section">
+          <h2 style="margin-top:0">Vocabulary (5 min)</h2>
+          <p class="small">Write these 5 words and make one sentence for each.</p>
+          <ol>
+            <li>Name</li>
+            <li>Country</li>
+            <li>Work / Job</li>
+            <li>Study / Learn</li>
+            <li>Nice / Friendly</li>
+          </ol>
+        </div>
+
+      </main>
+
+      <aside class="sidebar">
+        <div class="card">
+          <h3 style="margin-top:0">Day 1 — Quick Tools</h3>
+          <div class="meta">Timer (set for 45 minutes total):</div>
+          <div style="margin-top:8px;text-align:center">
+            <div class="timer" id="timerDisplay">45:00</div>
+            <div class="controls" style="justify-content:center;margin-top:8px">
+              <button class="btn" id="timerStart">Start</button>
+              <button class="ghost" id="timerPause">Pause</button>
+              <button class="ghost" id="timerReset">Reset</button>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+          <div>
+            <label class="small">Checklist</label>
+            <div style="margin-top:8px" id="checklist">
+              <label class="check"><input type="checkbox" id="ch_listening"> Listening (15 min)</label>
+              <label class="check"><input type="checkbox" id="ch_speaking"> Speaking (15 min)</label>
+              <label class="check"><input type="checkbox" id="ch_pron"> Pronunciation (10 min)</label>
+              <label class="check"><input type="checkbox" id="ch_vocab"> Vocab & Notes (5 min)</label>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+          <div>
+            <label class="small">Notes / Reflection</label>
+            <textarea id="notes" placeholder="What went well? What to improve?" rows="6"></textarea>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button class="btn" id="saveBtn">Save Progress</button>
+              <button class="ghost" id="clearBtn">Clear</button>
+            </div>
+            <p class="meta" id="saveStatus">Progress not saved.</p>
+          </div>
+
+          <div style="height:12px"></div>
+          <div>
+            <label class="small">Export</label>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button class="ghost" id="exportCSV">Export CSV</button>
+              <button class="ghost" id="exportJSON">Export JSON</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+        <div class="card">
+          <h4 style="margin-top:0">Resources</h4>
+          <ul class="small">
+            <li><a href="https://www.youtube.com/c/VOALearningEnglish" target="_blank">VOA Learning English</a></li>
+            <li><a href="https://www.youtube.com/c/SpeakEnglishWithVanessa" target="_blank">Speak English With Vanessa</a></li>
+            <li><a href="https://www.youtube.com/c/rachelsenglish" target="_blank">Rachel's English</a></li>
+            <li><a href="https://www.youtube.com/user/bbclearningenglish" target="_blank">BBC Learning English</a></li>
+          </ul>
+        </div>
+
+      </aside>
     </div>
 
-    <aside>
-      <!-- Quote -->
-      <div class="card">
-        <h2>Motivational Quote</h2>
-        <div id="quoteBox" class="quote small"></div>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <button id="newQuote" class="ghost">New Quote</button>
-          <button id="speakQuote" class="tts-btn">Hear Quote</button>
-        </div>
-      </div>
-
-      <!-- Progress Tracker -->
-      <div class="card" style="margin-top:12px">
-        <h2>Progress Tracker</h2>
-        <small>Track score (0–100) for weekly or daily checks.</small>
-        <div style="margin-top:8px;display:grid;gap:8px">
-          <div class="row">
-            <input id="progressDate" type="date" />
-            <input id="progressScore" type="number" min="0" max="100" placeholder="Score" />
-          </div>
-          <div class="row">
-            <button id="addProgressBtn">Add Entry</button>
-            <button id="clearProgress" class="ghost">Clear</button>
-          </div>
-          <canvas id="progressCanvas"></canvas>
-        </div>
-      </div>
-
-      <!-- Quick TTS / Recognition -->
-      <div class="card" style="margin-top:12px">
-        <h2>Speech Tools</h2>
-        <small>Use TTS or check pronunciation. Works best in Chrome/Edge on HTTPS.</small>
-        <div style="margin-top:10px;display:grid;gap:8px">
-          <input id="ttsText" placeholder="Type phrase to speak" />
-          <div class="row">
-            <select id="voiceSelect"></select>
-            <input id="rate" type="number" value="1" step="0.1" style="width:80px" />
-          </div>
-          <div class="row">
-            <button id="speakBtn">Speak</button>
-            <button id="stopBtn" class="ghost">Stop</button>
-          </div>
-          <hr />
-          <input id="recTarget" placeholder="Phrase to repeat for pronunciation check" />
-          <div class="row">
-            <button id="startRecBtn">Start Recognition</button>
-            <button id="stopRecBtn" class="ghost">Stop</button>
-          </div>
-          <div id="recResult" class="small muted"></div>
-        </div>
-      </div>
-    </aside>
+    <footer style="text-align:center;margin-top:18px;color:var(--muted)">Day 1 — Practice, record, save, repeat. Compare your first recording with future ones to measure progress.</footer>
   </div>
-</main>
 
-<footer>
-  Built for focused, practical English practice • Stored locally in your browser • Ready for GitHub Pages
-</footer>
+  <script>
+    // Simple save/load for Day 1
+    const storageKey = 'day1_progress_v1';
+    const timerDisplay = document.getElementById('timerDisplay');
+    const timerStart = document.getElementById('timerStart');
+    const timerPause = document.getElementById('timerPause');
+    const timerReset = document.getElementById('timerReset');
+    const saveBtn = document.getElementById('saveBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const exportCSV = document.getElementById('exportCSV');
+    const exportJSON = document.getElementById('exportJSON');
+    const recStart = document.getElementById('recStart');
+    const recStop = document.getElementById('recStop');
+    const playLast = document.getElementById('playLast');
+    const downloadLast = document.getElementById('downloadLast');
+    const recStatus = document.getElementById('recStatus');
 
-<script>
-/* -----------------------
-  Storage keys & helpers
--------------------------*/
-const STORAGE = {
-  plan: 'ep_plan',
-  yt: 'ep_yt',
-  vocab: 'ep_vocab',
-  practice: 'ep_practice',
-  progress: 'ep_progress',
-  quoteSeed: 'ep_quoteSeed'
-};
+    let state = {
+      checklist: { listening:false, speaking:false, pronunciation:false, vocabulary:false },
+      notes: '',
+      recordings: []
+    };
 
-function load(key, fallback){ try{ const s = localStorage.getItem(key); return s? JSON.parse(s): fallback; }catch(e){ return fallback; } }
-function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
-
-/* -----------------------
-  Initialization
--------------------------*/
-document.addEventListener('DOMContentLoaded', ()=> {
-  initNav();
-  loadAll();
-  wireUpButtons();
-  populateVoiceList();
-  drawProgress();
-  setDefaultDate();
-  pickQuote();
-});
-
-/* -----------------------
-  NAV TABS (simple)
--------------------------*/
-function initNav(){
-  const tabs=[{id:'dailyPlan',name:'Daily Plan'},{id:'youtubeHub',name:'YouTube Hub'},{id:'vocabCard',name:'Vocabulary'},{id:'practiceCard',name:'Practice Log'},{id:'progressCanvas',name:'Progress'}];
-  const nav=document.getElementById('navTabs');
-  tabs.forEach((t,i)=>{
-    const btn=document.createElement('div'); btn.className='tab'; btn.textContent=t.name;
-    if(i===0) btn.classList.add('active');
-    btn.onclick=()=>{ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); btn.classList.add('active'); document.getElementById(t.id).scrollIntoView({behavior:'smooth',block:'start'})}
-    nav.appendChild(btn);
-  });
-}
-
-/* -----------------------
-  DAILY PLAN
--------------------------*/
-function renderPlans(){
-  const list = load(STORAGE.plan, []);
-  const el = document.getElementById('planList');
-  el.innerHTML = '';
-  list.forEach((p, idx)=>{
-    const item=document.createElement('div'); item.className='item';
-    const left=document.createElement('div'); left.innerHTML=`<strong>${p.type}</strong><div class="meta">${p.task}</div>`;
-    const right=document.createElement('div'); right.className='controls';
-    const del=document.createElement('button'); del.className='muted-btn'; del.textContent='Delete';
-    del.onclick=()=>{ list.splice(idx,1); save(STORAGE.plan,list); renderPlans(); }
-    right.appendChild(del);
-    item.appendChild(left); item.appendChild(right); el.appendChild(item);
-  });
-}
-document.getElementById('addPlanBtn').addEventListener('click', ()=>{
-  const type=document.getElementById('planType').value;
-  const task=document.getElementById('planTask').value.trim();
-  if(!task) return alert('Enter a task');
-  const list=load(STORAGE.plan,[]); list.unshift({type,task,when:Date.now()}); save(STORAGE.plan,list); document.getElementById('planTask').value=''; renderPlans();
-});
-
-/* -----------------------
-  YOUTUBE HUB
--------------------------*/
-function isYouTube(url){
-  return /youtu(?:be\.com|\.be)/i.test(url);
-}
-function renderYt(){
-  const arr=load(STORAGE.yt,[]);
-  const el=document.getElementById('ytList'); el.innerHTML='';
-  arr.forEach((v,idx)=>{
-    const item=document.createElement('div'); item.className='item';
-    const left=document.createElement('div'); left.innerHTML=`<strong>${v.title}</strong><div class="meta">${v.category} • ${v.url}</div>`;
-    const right=document.createElement('div'); right.className='controls';
-    const open=document.createElement('button'); open.className='muted-btn'; open.textContent='Open'; open.onclick=()=>window.open(v.url,'_blank');
-    const del=document.createElement('button'); del.className='muted-btn'; del.textContent='Delete'; del.onclick=()=>{ arr.splice(idx,1); save(STORAGE.yt,arr); renderYt();}
-    right.appendChild(open); right.appendChild(del);
-    item.appendChild(left); item.appendChild(right); el.appendChild(item);
-  });
-}
-document.getElementById('addYtBtn').addEventListener('click', ()=>{
-  const title=document.getElementById('ytTitle').value.trim();
-  const url=document.getElementById('ytUrl').value.trim();
-  const category=document.getElementById('ytCategory').value;
-  if(!url || !isYouTube(url)) return alert('Please add a valid YouTube URL');
-  const arr=load(STORAGE.yt,[]); arr.unshift({title: title||'Untitled',url,category,added:Date.now()}); save(STORAGE.yt,arr);
-  document.getElementById('ytTitle').value=''; document.getElementById('ytUrl').value=''; renderYt();
-});
-
-/* -----------------------
-  VOCABULARY TRACKER
--------------------------*/
-function renderVocab(){
-  const arr=load(STORAGE.vocab,[]);
-  const el=document.getElementById('vocabList'); el.innerHTML='';
-  arr.forEach((w,idx)=>{
-    const item=document.createElement('div'); item.className='item';
-    const left=document.createElement('div'); left.innerHTML=`<strong>${w.word}</strong><div class="meta">${w.meaning}</div><div class="meta">${w.example||''}</div>`;
-    const right=document.createElement('div'); right.className='controls';
-    const speak=document.createElement('button'); speak.className='tts-btn'; speak.textContent='🔊'; speak.onclick=()=> speakText(w.word);
-    const edit=document.createElement('button'); edit.className='muted-btn'; edit.textContent='Edit';
-    edit.onclick=()=>{ document.getElementById('wordText').value=w.word; document.getElementById('wordMeaning').value=w.meaning; document.getElementById('wordExample').value=w.example||''; arr.splice(idx,1); save(STORAGE.vocab,arr); renderVocab(); window.scrollTo({top:document.getElementById('vocabCard').offsetTop,behavior:'smooth'}); }
-    const del=document.createElement('button'); del.className='muted-btn'; del.textContent='Delete'; del.onclick=()=>{ arr.splice(idx,1); save(STORAGE.vocab,arr); renderVocab(); }
-    right.appendChild(speak); right.appendChild(edit); right.appendChild(del);
-    item.appendChild(left); item.appendChild(right); el.appendChild(item);
-  });
-}
-document.getElementById('addWordBtn').addEventListener('click', ()=>{
-  const word=document.getElementById('wordText').value.trim();
-  const meaning=document.getElementById('wordMeaning').value.trim();
-  const example=document.getElementById('wordExample').value.trim();
-  if(!word || !meaning) return alert('Word and meaning required');
-  const arr=load(STORAGE.vocab,[]); arr.unshift({word,meaning,example,added:Date.now()}); save(STORAGE.vocab,arr);
-  document.getElementById('wordText').value=''; document.getElementById('wordMeaning').value=''; document.getElementById('wordExample').value='';
-  renderVocab();
-});
-document.getElementById('importSample').addEventListener('click', ()=>{
-  const sample=[{word:'articulate',meaning:'able to express ideas clearly',example:'She became more articulate after practice.'},{word:'fluency',meaning:'ability to speak a language smoothly',example:'Daily conversation improves fluency.'}];
-  const arr=load(STORAGE.vocab,[]); save(STORAGE.vocab, sample.concat(arr)); renderVocab();
-});
-
-/* -----------------------
-  PRACTICE LOG
--------------------------*/
-function renderPractice(){
-  const arr=load(STORAGE.practice,[]);
-  const el=document.getElementById('practiceList'); el.innerHTML='';
-  arr.forEach((p,idx)=>{
-    const item=document.createElement('div'); item.className='item';
-    const left=document.createElement('div'); left.innerHTML=`<strong>${p.topic}</strong><div class="meta">${new Date(p.when).toLocaleString()}</div><div class="meta">${p.notes}</div>`;
-    const right=document.createElement('div'); right.className='controls';
-    const del=document.createElement('button'); del.className='muted-btn'; del.textContent='Delete'; del.onclick=()=>{ arr.splice(idx,1); save(STORAGE.practice,arr); renderPractice(); }
-    right.appendChild(del);
-    item.appendChild(left); item.appendChild(right); el.appendChild(item);
-  });
-}
-document.getElementById('addPracticeBtn').addEventListener('click', ()=>{
-  const topic=document.getElementById('practiceTopic').value.trim();
-  const notes=document.getElementById('practiceNotes').value.trim();
-  if(!topic) return alert('Enter a topic');
-  const arr=load(STORAGE.practice,[]); arr.unshift({topic,notes,when:Date.now()}); save(STORAGE.practice,arr);
-  document.getElementById('practiceTopic').value=''; document.getElementById('practiceNotes').value=''; renderPractice();
-});
-
-/* -----------------------
-  PROGRESS TRACKER (simple line chart)
--------------------------*/
-function renderProgressList(){ /* not needed visually, chart enough */ }
-function drawProgress(){
-  const entries=load(STORAGE.progress,[]);
-  const canvas=document.getElementById('progressCanvas');
-  const ctx=canvas.getContext('2d');
-  // resize for device pixel ratio
-  const DPR = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * DPR;
-  canvas.height = rect.height * DPR;
-  ctx.scale(DPR,DPR);
-  // background
-  ctx.clearRect(0,0,rect.width,rect.height);
-  ctx.font='12px Arial';
-  // prepare
-  if(entries.length === 0){
-    ctx.fillStyle='#94a3b8'; ctx.textAlign='center'; ctx.fillText('No progress entries yet — add a date + score (0–100)', rect.width/2, rect.height/2);
-    return;
-  }
-  // sort by date ascending
-  const data = entries.slice().sort((a,b)=> new Date(a.date)-new Date(b.date));
-  const padding=28;
-  const w = rect.width - padding*2;
-  const h = rect.height - padding*2;
-  const scores = data.map(d=>Number(d.score));
-  const minScore = Math.min(...scores,0);
-  const maxScore = Math.max(...scores,100);
-  const range = Math.max(1, maxScore - minScore);
-  // axes
-  ctx.strokeStyle='#e6edf7'; ctx.lineWidth=1;
-  ctx.beginPath();
-  for(let i=0;i<=4;i++){
-    const y = padding + (h * i/4);
-    ctx.moveTo(padding,y); ctx.lineTo(padding+w,y);
-  }
-  ctx.stroke();
-  // points+path
-  ctx.beginPath(); ctx.lineWidth=2; ctx.strokeStyle='#2563eb';
-  data.forEach((d,i)=>{
-    const x = padding + (w * i / Math.max(1,data.length-1));
-    const y = padding + h - ((Number(d.score)-minScore)/range)*h;
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-  });
-  ctx.stroke();
-  // draw points
-  data.forEach((d,i)=>{
-    const x = padding + (w * i / Math.max(1,data.length-1));
-    const y = padding + h - ((Number(d.score)-minScore)/range)*h;
-    ctx.beginPath(); ctx.fillStyle='white'; ctx.strokeStyle='#2563eb'; ctx.lineWidth=2;
-    ctx.arc(x,y,5,0,Math.PI*2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle='#0f172a'; ctx.textAlign='center'; ctx.fillText(d.score, x, y-10);
-  });
-  // x labels
-  ctx.fillStyle='#475569'; ctx.textAlign='center';
-  data.forEach((d,i)=>{
-    const x = padding + (w * i / Math.max(1,data.length-1));
-    ctx.fillText((new Date(d.date)).toLocaleDateString(), x, rect.height - 6);
-  });
-}
-document.getElementById('addProgressBtn').addEventListener('click', ()=>{
-  const d=document.getElementById('progressDate').value;
-  const s=document.getElementById('progressScore').value;
-  if(!d || s === '') return alert('Enter date and score');
-  const arr=load(STORAGE.progress,[]); arr.push({date:d,score:Number(s)}); save(STORAGE.progress,arr);
-  document.getElementById('progressDate').value=''; document.getElementById('progressScore').value='';
-  drawProgress();
-});
-document.getElementById('clearProgress').addEventListener('click', ()=>{ if(confirm('Clear all progress entries?')){ save(STORAGE.progress,[]); drawProgress(); } });
-
-/* -----------------------
-  QUOTE OF THE DAY
--------------------------*/
-const QUOTES = [
-  "Practice every day — small steps compound into confidence.",
-  "Speak to learn. Speak to improve — silence won't build fluency.",
-  "Mistakes are the tuition you pay for mastery.",
-  "Listen more than you speak; notice rhythm and stress.",
-  "Fluency is built by consistency, not perfection."
-];
-function pickQuote(){
-  let idx = Math.floor(Math.random()*QUOTES.length);
-  // optional seed to keep same quote per day if wanted: using saved seed is omitted for true randomness
-  document.getElementById('quoteBox').textContent = QUOTES[idx];
-}
-document.getElementById('newQuote').addEventListener('click', pickQuote);
-document.getElementById('speakQuote').addEventListener('click', ()=>{
-  speakText(document.getElementById('quoteBox').textContent);
-});
-
-/* -----------------------
-  TTS (Web Speech API)
--------------------------*/
-let voices = [];
-function populateVoiceList(){
-  voices = speechSynthesis.getVoices() || [];
-  const sel = document.getElementById('voiceSelect'); sel.innerHTML = '';
-  voices.forEach((v,i)=>{ const opt=document.createElement('option'); opt.value=i; opt.textContent = v.name + ' (' + v.lang + (v.default? ' • default':'') + ')'; sel.appendChild(opt); });
-}
-if (speechSynthesis.onvoiceschanged !== undefined) { speechSynthesis.onvoiceschanged = populateVoiceList; }
-function speakText(text){
-  if(!text) return;
-  speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  const sel=document.getElementById('voiceSelect');
-  const idx = Number(sel.value) || 0;
-  if(voices[idx]) utter.voice = voices[idx];
-  const rate = Number(document.getElementById('rate').value) || 1;
-  utter.rate = rate;
-  speechSynthesis.speak(utter);
-}
-document.getElementById('speakBtn').addEventListener('click', ()=> speakText(document.getElementById('ttsText').value || ''));
-document.getElementById('stopBtn').addEventListener('click', ()=> speechSynthesis.cancel());
-
-/* -----------------------
-  Speech Recognition (Pronunciation check)
--------------------------*/
-let recognition = null;
-let recognizing = false;
-function createRecognition(){
-  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SpeechRec) return null;
-  const r = new SpeechRec();
-  r.lang = 'en-US';
-  r.interimResults = false;
-  r.maxAlternatives = 3;
-  r.onstart = ()=>{ recognizing=true; showRecStatus('Listening...'); }
-  r.onend = ()=>{ recognizing=false; showRecStatus('Stopped'); }
-  r.onerror = (e)=>{ recognizing=false; showRecStatus('Error: ' + e.error); }
-  r.onresult = (ev)=>{ const text = Array.from(ev.results).map(r=>r[0].transcript).join(' '); evaluatePronunciation(text); }
-  return r;
-}
-function showRecStatus(msg){ document.getElementById('recResult').textContent = msg; }
-function evaluatePronunciation(recognized){
-  const target = document.getElementById('recTarget').value.trim().toLowerCase();
-  if(!target) { showRecStatus('Set the phrase to check in the box above.'); return; }
-  const rec = recognized.trim().toLowerCase();
-  const distance = levenshtein(target, rec);
-  const len = Math.max(target.length,1);
-  const score = Math.max(0, Math.round((1 - distance/len)*100));
-  showRecStatus(`You said: "${recognized}" — similarity: ${score}%`);
-  // save quick feedback as a practice log
-  const arr=load(STORAGE.practice,[]); arr.unshift({topic:'Pronunciation: '+target,notes:`Recognized: "${recognized}" — score ${score}%`,when:Date.now()}); save(STORAGE.practice,arr); renderPractice();
-}
-document.getElementById('startRecBtn').addEventListener('click', ()=>{
-  if(!recognition) recognition = createRecognition();
-  if(!recognition) return alert('Speech Recognition not supported in this browser.');
-  try{ recognition.start(); }catch(e){ showRecStatus('Recognition error'); }
-});
-document.getElementById('stopRecBtn').addEventListener('click', ()=>{ if(recognition && recognizing) recognition.stop(); });
-
-/* Pronunciation check quick action */
-document.getElementById('startPronCheck').addEventListener('click', ()=>{
-  const phrase = prompt('Enter phrase to practice pronunciation:', document.getElementById('recTarget').value || '');
-  if(!phrase) return;
-  document.getElementById('recTarget').value = phrase;
-  document.getElementById('recResult').textContent = 'Ready — press Start Recognition to speak, or allow it to auto-start.';
-  // Try to auto-start recognition
-  if(!recognition) recognition = createRecognition();
-  if(recognition) recognition.start();
-});
-
-/* -----------------------
-  UTIL: Levenshtein (for similarity)
--------------------------*/
-function levenshtein(a,b){
-  a = a||''; b = b||'';
-  const m = a.length, n = b.length;
-  if(m==0) return n;
-  if(n==0) return m;
-  const dp = Array.from({length:m+1}, ()=> new Array(n+1).fill(0));
-  for(let i=0;i<=m;i++) dp[i][0]=i;
-  for(let j=0;j<=n;j++) dp[0][j]=j;
-  for(let i=1;i<=m;i++){
-    for(let j=1;j<=n;j++){
-      const cost = a[i-1]===b[j-1]?0:1;
-      dp[i][j] = Math.min(dp[i-1][j]+1, dp[i][j-1]+1, dp[i-1][j-1]+cost);
+    // load saved state
+    function load() {
+      try {
+        const raw = localStorage.getItem(storageKey);
+        if (!raw) return;
+        state = JSON.parse(raw);
+        // apply to UI
+        document.getElementById('ch_listening').checked = state.checklist.listening;
+        document.getElementById('ch_speaking').checked = state.checklist.speaking;
+        document.getElementById('ch_pron').checked = state.checklist.pronunciation;
+        document.getElementById('ch_vocab').checked = state.checklist.vocabulary;
+        document.getElementById('notes').value = state.notes || '';
+        if (state.recordings && state.recordings.length) recStatus.textContent = state.recordings[state.recordings.length-1].label;
+        else recStatus.textContent = 'No recording yet.';
+        document.getElementById('saveStatus').textContent = 'Progress loaded.';
+      } catch (e) { console.error(e); }
     }
-  }
-  return dp[m][n];
-}
+    load();
 
-/* -----------------------
-  Generic load all and wire up
--------------------------*/
-function loadAll(){
-  renderPlans(); renderYt(); renderVocab(); renderPractice(); drawProgress();
-}
-function wireUpButtons(){
-  // populate voices after small delay
-  setTimeout(populateVoiceList,300);
-  // initial date set
-  document.getElementById('progressDate').value = (new Date()).toISOString().substring(0,10);
-  // quick keyboard support
-  document.addEventListener('keydown', (e)=>{
-    if(e.key==='/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){ e.preventDefault(); document.getElementById('ttsText').focus(); }
-  });
-}
+    // save state
+    function save() {
+      state.checklist.listening = document.getElementById('ch_listening').checked;
+      state.checklist.speaking = document.getElementById('ch_speaking').checked;
+      state.checklist.pronunciation = document.getElementById('ch_pron').checked;
+      state.checklist.vocabulary = document.getElementById('ch_vocab').checked;
+      state.notes = document.getElementById('notes').value;
+      localStorage.setItem(storageKey, JSON.stringify(state));
+      document.getElementById('saveStatus').textContent = 'Progress saved.';
+    }
+    saveBtn.addEventListener('click', save);
 
-/* -----------------------
-  Helpers: Set default date field
--------------------------*/
-function setDefaultDate(){ document.getElementById('progressDate').value = (new Date()).toISOString().split('T')[0]; }
+    clearBtn.addEventListener('click', ()=>{
+      if (!confirm('Clear saved progress for Day 1?')) return;
+      state = { checklist: { listening:false, speaking:false, pronunciation:false, vocabulary:false }, notes:'', recordings:[] };
+      localStorage.removeItem(storageKey);
+      document.getElementById('ch_listening').checked = false;
+      document.getElementById('ch_speaking').checked = false;
+      document.getElementById('ch_pron').checked = false;
+      document.getElementById('ch_vocab').checked = false;
+      document.getElementById('notes').value = '';
+      document.getElementById('saveStatus').textContent = 'Cleared.';
+      recStatus.textContent = 'No recording yet.';
+    });
 
-/* -----------------------
-  Quick voice init: speak when clicking words in vocab list
--------------------------*/
-document.addEventListener('click', (e)=>{
-  if(e.target && e.target.matches && e.target.matches('.vocab-word')){ speakText(e.target.textContent); }
-});
+    exportCSV.addEventListener('click', ()=>{
+      const rows = [ ['field','value'],['listening',state.checklist.listening],['speaking',state.checklist.speaking],['pronunciation',state.checklist.pronunciation],['vocabulary',state.checklist.vocabulary],['notes',`"${(state.notes||'').replace(/"/g,'""')}"`]];
+      const csv = rows.map(r=>r.join(',')).join('\n');
+      navigator.clipboard.writeText(csv).then(()=>alert('CSV copied to clipboard'));
+    });
+    exportJSON.addEventListener('click', ()=>{
+      navigator.clipboard.writeText(JSON.stringify(state, null, 2)).then(()=>alert('JSON copied to clipboard'));
+    });
 
-/* -----------------------
-  Simple UI helpers (save on unload)
--------------------------*/
-window.addEventListener('beforeunload', ()=> {
-  // auto-save already done; nothing heavy here
-});
+    // Timer logic (45 mins default)
+    let totalSeconds = 45*60;
+    let timerInterval = null;
+    function renderTimer() {
+      const m = Math.floor(totalSeconds/60).toString().padStart(2,'0');
+      const s = (totalSeconds%60).toString().padStart(2,'0');
+      timerDisplay.textContent = `${m}:${s}`;
+    }
+    renderTimer();
+    timerStart.addEventListener('click', ()=>{
+      if (timerInterval) return;
+      timerInterval = setInterval(()=>{
+        if (totalSeconds>0) { totalSeconds--; renderTimer(); }
+        else { clearInterval(timerInterval); timerInterval=null; alert('Timer finished'); }
+      },1000);
+    });
+    timerPause.addEventListener('click', ()=>{ if (timerInterval) { clearInterval(timerInterval); timerInterval=null; }});
+    timerReset.addEventListener('click', ()=>{ if (timerInterval) { clearInterval(timerInterval); timerInterval=null; } totalSeconds = 45*60; renderTimer(); });
 
-/* -----------------------
-  Initial data for demo (if empty) — only if user wants sample; otherwise skip
--------------------------*/
-(function seedIfEmpty(){
-  if(!load(STORAGE.vocab,[]).length && !load(STORAGE.yt,[]).length && !load(STORAGE.plan,[]).length){
-    // leave blank — user can import sample via button
-  }
-})();
+    // Recording (simple using MediaRecorder, saved as blob URLs in-memory + persisted metadata)
+    let mediaRecorder = null;
+    let chunks = [];
+    let lastBlobUrl = null;
 
-/* -----------------------
-  Small utility: expose speak for use by UI
--------------------------*/
-window.speakText = speakText;
+    recStart.addEventListener('click', async ()=>{
+      if (!navigator.mediaDevices) return alert('Recording not supported in this browser');
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        chunks = [];
+        mediaRecorder.ondataavailable = e=>{ if (e.data && e.data.size) chunks.push(e.data); };
+        mediaRecorder.onstop = ()=>{
+          const blob = new Blob(chunks, { type: 'audio/webm' });
+          const url = URL.createObjectURL(blob);
+          lastBlobUrl = url;
+          const label = `Recording ${new Date().toLocaleString()}`;
+          state.recordings = state.recordings || [];
+          state.recordings.push({ label, url });
+          localStorage.setItem(storageKey, JSON.stringify(state));
+          recStatus.textContent = label;
+          alert('Recording saved locally in the browser. Use Download to save to your device.');
+        };
+        mediaRecorder.start();
+        recStatus.textContent = 'Recording...';
+      } catch (e) { console.error(e); alert('Could not start recording: ' + e.message); }
+    });
 
-/* -----------------------
-  End of script
--------------------------*/
-</script>
+    recStop.addEventListener('click', ()=>{
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+        try { mediaRecorder.stream.getTracks().forEach(t=>t.stop()); } catch(e){}
+      }
+    });
+
+    playLast.addEventListener('click', ()=>{
+      if (!lastBlobUrl && state.recordings && state.recordings.length) lastBlobUrl = state.recordings[state.recordings.length-1].url;
+      if (!lastBlobUrl) return alert('No recording available');
+      const a = document.createElement('audio'); a.src = lastBlobUrl; a.controls = true; a.autoplay = true; document.body.appendChild(a);
+    });
+
+    downloadLast.addEventListener('click', ()=>{
+      if (!lastBlobUrl && state.recordings && state.recordings.length) lastBlobUrl = state.recordings[state.recordings.length-1].url;
+      if (!lastBlobUrl) return alert('No recording available');
+      const a = document.createElement('a'); a.href = lastBlobUrl; a.download = 'day1_recording.webm'; a.click();
+    });
+
+  </script>
 </body>
 </html>
