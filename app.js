@@ -99,7 +99,7 @@ function setupInstallPrompt(){
       const { outcome } = await deferredPrompt.userChoice;
       deferredPrompt = null;
     } else {
-      alert('Use browser menu -> Add to Home screen.');
+      showmessage('Use browser menu -> Add to Home screen.');
     }
   });
   window.addEventListener('beforeinstallprompt', (e) => {
@@ -343,6 +343,14 @@ function drawChart(txns){
   });
 }
 
+function showMessage(msg, duration=3000){
+  const box = document.getElementById('messageBox');
+  if (!box) return;
+  box.textContent = msg;
+  box.style.display = 'block';
+  setTimeout(() => { box.style.display = 'none'; }, duration);
+}
+
 // recurring processor: create new occurrences if missing (on app load)
 async function processRecurring(){
   const txns = await idbGetAll('txns');
@@ -379,7 +387,7 @@ async function processRecurring(){
 // CSV export
 async function exportCSV(){
   const txns = await idbGetAll('txns');
-  if (!txns.length) { alert('No data to export'); return; }
+  if (!txns.length) { showmessage('No data to export'); return; }
   const header = ['id','type','amount','category','date','note','recurring'];
   const rows = txns.map(t => header.map(h => JSON.stringify(t[h]||'')).join(','));
   const csv = [header.join(','), ...rows].join('\n');
@@ -421,7 +429,7 @@ function handleCsvImport(e){
         });
       } catch (err) { continue; }
     }
-    alert('Import complete');
+    showmessage('Import complete');
     renderAll();
   };
   reader.readAsText(f);
@@ -437,3 +445,4 @@ async function seedDefaults(){
 
 // initial render
 (async ()=>{ await seedDefaults(); })();
+
