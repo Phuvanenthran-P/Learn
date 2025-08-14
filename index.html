@@ -1,234 +1,522 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Daily English Practice</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0; padding: 0;
-    background: #f4f4f4;
-    color: #222;
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1rem;
-  }
-  header {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  h1 {
-    margin-bottom: 0.2rem;
-  }
-  .topic {
-    background: #e2e8f0;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-  }
-  label {
-    display: block;
-    margin-top: 1rem;
-    font-weight: bold;
-  }
-  input[type="text"], textarea {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    margin-top: 0.3rem;
-    border-radius: 5px;
-    border: 1px solid #bbb;
-  }
-  button {
-    margin-top: 1rem;
-    background: #2d89ef;
-    color: white;
-    border: none;
-    padding: 0.7rem 1.2rem;
-    font-size: 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  button:disabled {
-    background: #999;
-    cursor: default;
-  }
-  section {
-    margin-bottom: 2rem;
-  }
-  .feedback {
-    background: #d4edda;
-    border-left: 5px solid #28a745;
-    padding: 1rem;
-    border-radius: 5px;
-    margin-top: 1rem;
-  }
-  .progress-list {
-    list-style: none;
-    padding-left: 0;
-  }
-  .progress-list li {
-    background: #fff;
-    padding: 0.7rem;
-    margin-bottom: 0.5rem;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
-  }
-  small {
-    color: #555;
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3-Month Home Full-Body Workout (No Equipment)</title>
+  <style>
+    :root {
+      --bg: #0b0f14; /* deep slate */
+      --card: #121923; /* card */
+      --muted: #8aa0b4; /* muted text */
+      --text: #e7eef7; /* primary text */
+      --accent: #4da3ff; /* blue */
+      --accent-2: #76e0a8; /* green */
+      --danger: #ff6b6b;
+      --ring: rgba(77,163,255,.45);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: linear-gradient(180deg, #0b0f14 0%, #0e141c 100%);
+      color: var(--text);
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    h1 { font-size: clamp(1.2rem, 2.8vw, 2rem); margin: 0; letter-spacing:.3px; }
+    .sub { color: var(--muted); font-size: .95rem; }
+
+    .toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .btn {
+      background: var(--card); color: var(--text); border: 1px solid #1f2a37; padding: 10px 14px; border-radius: 12px; cursor: pointer;
+      transition: transform .05s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn:hover { box-shadow: 0 0 0 3px var(--ring); }
+    .btn.primary { background: linear-gradient(180deg, #1b2736 0%, #17212d 100%); border-color:#2a3a4e; }
+    .btn.accent { background: linear-gradient(180deg, #1a2f45 0%, #14283b 100%); border-color:#2a4a6a; }
+
+    .tabs { display:flex; gap:10px; margin-top:16px; }
+    .tab { padding:10px 14px; border-radius:12px; background: #111822; border:1px solid #1f2a37; color: var(--muted); cursor:pointer; }
+    .tab.active { color:#fff; background: #172131; border-color:#2a3a4e; }
+
+    .grid { display:grid; gap:16px; }
+    @media(min-width: 860px){ .grid { grid-template-columns: 1.1fr .9fr; } }
+
+    .card { background: var(--card); border:1px solid #1b2532; border-radius: 18px; padding:16px; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+    .card h2 { margin:0 0 6px; font-size: clamp(1.1rem, 2.2vw, 1.4rem); }
+
+    .muted { color: var(--muted); font-size:.95rem; }
+    .pill { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid #263142; background:#101722; color:var(--muted); font-size:.85rem; }
+
+    .list { display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+    .row { display:flex; gap:10px; align-items:center; justify-content:space-between; padding:10px; border:1px dashed #274058; border-radius:12px; }
+    .row .label { display:flex; gap:10px; align-items:center; }
+
+    .check { width:20px; height:20px; border-radius:6px; border:1px solid #2a3a4e; background:#0e1620; display:grid; place-items:center; cursor:pointer; }
+    .check.done { background: conic-gradient(from 180deg, var(--accent-2), #46c98f); border-color:#46c98f; }
+
+    .small { font-size:.9rem; color: var(--muted); }
+    .kbd { font-variant: all-small-caps; letter-spacing:.4px; border:1px solid #2a3a4e; padding:2px 6px; border-radius:8px; color:#dfe9f6; background:#111a25; font-size:.8rem; }
+
+    .section-title { margin:6px 0 10px; font-weight:600; }
+    .chip { display:inline-block; padding:4px 8px; border-radius:999px; background:#132033; border:1px solid #25405a; color:#cfe4ff; font-size:.8rem; margin-right:6px; }
+
+    .progress { height:10px; background:#0f1722; border:1px solid #1f2a37; border-radius:999px; overflow:hidden; }
+    .bar { height:100%; width:0%; background: linear-gradient(90deg, var(--accent), #89c2ff); transition:width .5s ease; }
+
+    .divider { height:1px; background: #1c2835; margin:14px 0; border:0; }
+
+    .footnote { color:#9fb5ca; font-size:.85rem; }
+
+    details { background:#0f1721; border:1px solid #1f2a37; border-radius:12px; padding:10px 12px; }
+    summary { cursor:pointer; color:#cfe4ff; }
+
+    .right { text-align:right; }
+    .danger { color:var(--danger); }
+    .accent { color:var(--accent); }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>3-Month Home Full‑Body Workout (No Equipment)</h1>
+        <div class="sub">Built for 21y • 170 cm • 55 kg • Goal: strength, endurance, mobility. No diet plan included.</div>
+      </div>
+      <div class="toolbar">
+        <button class="btn accent" id="todayBtn">Today</button>
+        <button class="btn" id="weekBtn">Week</button>
+        <button class="btn" id="programBtn">Program</button>
+        <button class="btn" id="settingsBtn" title="Preferences">⚙️</button>
+      </div>
+    </header>
 
-<header>
-  <h1>Daily English Practice</h1>
-  <small>Track your speaking skills progress</small>
-</header>
+    <div class="tabs" id="tabs" hidden></div>
 
-<section class="topic-section">
-  <h2>Today's Topic</h2>
-  <div class="topic" id="daily-topic">
-    Loading topic...
+    <div class="grid" style="margin-top:16px;">
+      <section class="card" id="main"></section>
+      <aside class="card" id="sidebar"></aside>
+    </div>
+
+    <p class="footnote" style="margin-top:16px;">
+      Tip: Click a set to mark complete. Your progress is auto‑saved locally on your device.
+    </p>
   </div>
-</section>
 
-<section class="submission-section">
-  <h2>Submit Your Video</h2>
-  <label for="videoLink">Google Drive Video Link:</label>
-  <input type="text" id="videoLink" placeholder="Paste your video shareable link here" />
-  <label for="notes">Any notes or comments:</label>
-  <textarea id="notes" rows="3" placeholder="Optional..."></textarea>
-  <button id="submitBtn">Submit</button>
-</section>
+  <script>
+    // ---------------------------
+    // PROGRAM DATA (12 weeks)
+    // ---------------------------
+    const PROGRAM = {
+      name: "3-Month Full-Body (No Equipment)",
+      weeks: Array.from({length: 12}, (_,i)=>i+1).map(week => {
+        // Phase by week
+        let phase, rounds, notes;
+        if (week <= 4) { phase = "Foundation"; rounds = 3; notes = "Focus on form. Control tempo."; }
+        else if (week <= 8) { phase = "Strength & Volume"; rounds = 4; notes = "Reduce rest, increase reps."; }
+        else { phase = "Power & Definition"; rounds = 4 + (week>=11?1:0); notes = "Explosive intent. Land softly."; }
 
-<section class="feedback-section" style="display:none;">
-  <h2>Feedback</h2>
-  <div class="feedback" id="feedbackText">
-    No feedback yet.
-  </div>
-</section>
+        // Base exercise templates by phase
+        let block;
+        if (phase === "Foundation") {
+          block = [
+            {name:"Push-Ups", target: week < 3 ? "8–10 reps" : "10–12 reps"},
+            {name:"Bodyweight Squats", target: week < 3 ? "12–15 reps" : "15–18 reps"},
+            {name:"Plank to Shoulder Tap", target:"20–25 sec"},
+            {name:"Reverse Lunges", target:"8–10 / leg"},
+            {name:"Superman Hold", target:"15–20 sec"},
+            {name:"Mountain Climbers", target:"20–25 sec"},
+          ];
+        } else if (phase === "Strength & Volume") {
+          block = [
+            {name:"Push-Ups (add Diamond on last set)", target: week < 7 ? "12–14 reps" : "14–16 reps"},
+            {name:"Jump Squats", target:"12–15 reps"},
+            {name:"Side Plank with Hip Lift", target:"20–25 sec / side"},
+            {name:"Bulgarian Split Squat (use chair)", target:"8–10 / leg"},
+            {name:"Mountain Climbers", target:"30–35 sec"},
+            {name:"Superman (alt arm/leg)", target:"20–25 sec"},
+          ];
+        } else {
+          block = [
+            {name:"Explosive Push-Ups (Clap if safe)", target: week < 11 ? "8–10 reps" : "10–12 reps"},
+            {name:"Jump Lunges", target:"10–12 / leg"},
+            {name:"Side Plank with Rotation", target:"20–30 sec / side"},
+            {name:"Assisted Pistol Squat (chair/wall)", target:"6–8 / leg"},
+            {name:"Mountain Climbers", target:"35–45 sec"},
+            {name:"Superman → Swimmer Kicks", target:"20–30 sec"},
+          ];
+        }
 
-<section class="progress-section">
-  <h2>Progress Log</h2>
-  <ul class="progress-list" id="progressList">
-    <li>No submissions yet.</li>
-  </ul>
-</section>
+        const finisher = (phase === "Foundation")
+          ? [{name:"Burpees", target:"6–8 reps × 2 rds"}]
+          : (phase === "Strength & Volume")
+          ? [{name:"Burpees", target:"8–10 reps × 3 rds"}, {name:"Sprint in Place", target:"20–25 sec × 3 rds"}]
+          : [{name:"Burpee → Jump Squat", target:"6–8 reps × 3 rds"}, {name:"High Knees", target:"30 sec × 3 rds"}];
 
-<script>
-// Sample beginner topics cycle for demonstration:
-const topics = [
-  "Introduce Yourself and Talk About Your Hobbies",
-  "Describe Your Daily Routine",
-  "Talk About Your Favorite Food and Why You Like It",
-  "Describe Your Family Members",
-  "Explain Your Favorite Place to Visit",
-  "Talk About a Movie or Book You Recently Enjoyed",
-  "Describe Your Goals for Learning English"
-];
+        return {week, phase, rounds, notes, block, finisher};
+      })
+    };
 
-// Store data in localStorage for persistence:
-const STORAGE_KEY = 'dailyEnglishPracticeData';
+    // ---------------------------
+    // UTILITIES
+    // ---------------------------
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-// Load saved data or init:
-let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
-  submissions: [],
-  currentTopicIndex: 0,
-  feedbacks: []
-};
+    const storageKey = 'fullbody-noequip-v1';
+    const loadState = () => JSON.parse(localStorage.getItem(storageKey) || '{}');
+    const saveState = (state) => localStorage.setItem(storageKey, JSON.stringify(state));
 
-function saveData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
+    const today = new Date();
+    const startMonday = (d) => {
+      const x = new Date(d);
+      const day = x.getDay(); // 0=Sun
+      const diff = (day === 0 ? -6 : 1 - day);
+      x.setDate(x.getDate()+diff);
+      x.setHours(0,0,0,0);
+      return x;
+    };
 
-// Show current topic:
-function showTopic() {
-  const topicElem = document.getElementById('daily-topic');
-  topicElem.textContent = topics[data.currentTopicIndex] || "No topic for today.";
-}
+    // Default preferences
+    const DEFAULTS = { startDate: startMonday(today).toISOString(), daysPerWeek: 3, restBetween: 60 };
 
-// Update progress list:
-function updateProgress() {
-  const list = document.getElementById('progressList');
-  list.innerHTML = '';
-  if(data.submissions.length === 0){
-    list.innerHTML = '<li>No submissions yet.</li>';
-    return;
-  }
-  data.submissions.forEach((sub, idx) => {
-    const li = document.createElement('li');
-    li.innerHTML = `<strong>Topic:</strong> ${topics[sub.topicIndex]}<br>
-    <strong>Video Link:</strong> <a href="${sub.videoLink}" target="_blank" rel="noopener">${sub.videoLink}</a><br>
-    <strong>Notes:</strong> ${sub.notes || '-'}<br>
-    <small>Submitted on: ${new Date(sub.timestamp).toLocaleString()}</small>`;
-    list.appendChild(li);
-  });
-}
+    // ---------------------------
+    // STATE
+    // ---------------------------
+    let state = { ...DEFAULTS, ...loadState() };
 
-// Handle feedback display for last submission:
-function showFeedback() {
-  const feedbackSection = document.querySelector('.feedback-section');
-  const feedbackText = document.getElementById('feedbackText');
-  if(data.feedbacks.length === 0){
-    feedbackSection.style.display = 'none';
-    return;
-  }
-  const lastFeedback = data.feedbacks[data.feedbacks.length -1];
-  feedbackText.textContent = lastFeedback.text;
-  feedbackSection.style.display = 'block';
-}
+    // ---------------------------
+    // SCHEDULING
+    // ---------------------------
+    function getTrainingDays(daysPerWeek){
+      // Mon/Wed/Fri for 3, add Sat for 4
+      return daysPerWeek === 3 ? [1,3,5] : [1,3,5,6];
+    }
 
-// On submit:
-document.getElementById('submitBtn').addEventListener('click', () => {
-  const videoLink = document.getElementById('videoLink').value.trim();
-  const notes = document.getElementById('notes').value.trim();
-  if(!videoLink){
-    alert('Please enter your Google Drive video link.');
-    return;
-  }
-  // Add submission:
-  data.submissions.push({
-    topicIndex: data.currentTopicIndex,
-    videoLink,
-    notes,
-    timestamp: Date.now()
-  });
+    function generateCalendar(){
+      const start = new Date(state.startDate);
+      const plan = [];
+      const trainDays = getTrainingDays(state.daysPerWeek);
+      let w = 1;
+      for (let i=0; i<84; i++){ // 12 weeks
+        const d = new Date(start); d.setDate(start.getDate()+i);
+        const dow = d.getDay();
+        if (trainDays.includes(dow)){
+          const week = w;
+          const dayEntry = { date: d, week, session: PROGRAM.weeks[week-1] };
+          plan.push(dayEntry);
+        }
+        if (dow === 0 && i>0) w++; // increment at Sunday end
+      }
+      return plan;
+    }
 
-  // For demo, simulate generic feedback here:
-  const genericFeedback = "Good effort! Work on speaking clearly and expanding your sentences.";
+    function fmtDate(d){ return d.toLocaleDateString(undefined,{weekday:'short', month:'short', day:'numeric'}); }
 
-  data.feedbacks.push({
-    topicIndex: data.currentTopicIndex,
-    text: genericFeedback,
-    timestamp: Date.now()
-  });
+    // ---------------------------
+    // RENDERERS
+    // ---------------------------
+    function render(){
+      renderSidebar();
+      renderToday();
+      bindNav();
+    }
 
-  // Move to next topic:
-  data.currentTopicIndex = (data.currentTopicIndex + 1) % topics.length;
+    function renderSidebar(){
+      const cal = generateCalendar();
+      const doneCount = cal.filter(x=>isSessionDone(x)).length;
+      const total = cal.length;
+      const pct = Math.round((doneCount/total)*100);
 
-  saveData();
-  showTopic();
-  updateProgress();
-  showFeedback();
+      const currentWeek = getCurrentWeekNumber();
+      const phase = PROGRAM.weeks[Math.min(currentWeek-1, 11)].phase;
 
-  // Clear input fields:
-  document.getElementById('videoLink').value = '';
-  document.getElementById('notes').value = '';
+      $('#sidebar').innerHTML = `
+        <h2>Overview</h2>
+        <div class="pill" style="margin:8px 0 12px;">Phase: <strong>${phase}</strong> · Days/Week: <strong>${state.daysPerWeek}</strong></div>
 
-  alert('Submission received. Feedback updated.');
-});
+        <div class="section-title">Progress</div>
+        <div class="progress"><div class="bar" style="width:${pct}%"></div></div>
+        <div class="small right" style="margin-top:6px;">${doneCount} / ${total} sessions · ${pct}%</div>
 
-// Initialize page:
-showTopic();
-updateProgress();
-showFeedback();
+        <hr class="divider"/>
 
-</script>
+        <div class="section-title">Controls</div>
+        <div class="list">
+          <div class="row"><div class="label">Rest timer hint</div><div class="small">Use ⏱️ <span class="kbd">R</span> to start 60s rest</div></div>
+          <div class="row"><div class="label">Reset progress</div><button class="btn danger" id="resetBtn">Reset</button></div>
+        </div>
+      `;
 
+      $('#resetBtn').onclick = () => {
+        if (confirm('Reset all progress?')){
+          localStorage.removeItem(storageKey);
+          state = { ...DEFAULTS };
+          saveState(state);
+          render();
+        }
+      };
+    }
+
+    function getCurrentWeekNumber(){
+      const start = new Date(state.startDate);
+      const now = new Date();
+      const diff = Math.max(0, now - start);
+      const days = Math.floor(diff / (1000*60*60*24));
+      return Math.min(12, Math.floor(days/7)+1);
+    }
+
+    function isSameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+
+    function renderToday(){
+      const cal = generateCalendar();
+      const todayEntry = cal.find(x=>isSameDay(x.date, new Date()));
+      if (!todayEntry){
+        // Rest day UI
+        const next = cal.find(x=>x.date > new Date());
+        $('#main').innerHTML = `
+          <h2>Today</h2>
+          <div class="pill">Rest / Mobility Day</div>
+          <p class="muted">No scheduled session today. Next workout: <strong>${fmtDate(next?.date||cal[0].date)}</strong> · Week ${next?.week||1} · ${next?.session.phase}</p>
+          ${renderMobility()}
+        `;
+        return;
+      }
+
+      const { week, session } = todayEntry;
+      const key = sessionKey(todayEntry);
+      const doneMap = loadState().done || {};
+
+      $('#main').innerHTML = `
+        <h2>Today · ${fmtDate(todayEntry.date)} · Week ${week}</h2>
+        <div class="pill">${session.phase} · ${session.rounds} rounds</div>
+        <p class="muted" style="margin-top:6px;">${session.notes}</p>
+
+        <div class="section-title">Warm‑Up (5–7 min)</div>
+        <div class="list">
+          ${['Arm Circles 30s fwd + 30s back','High Knees 1 min','Torso Twists 1 min','Jumping Jacks 1 min','Slow Bodyweight Squats × 10'].map(w=>rowStatic(w)).join('')}
+        </div>
+
+        <div class="section-title">Main Circuit × ${session.rounds} rounds</div>
+        <div id="circuit" class="list">
+          ${session.block.map((ex, idx)=>rowCheck(key, `RND:ALL`, `${ex.name} — <span class='muted'>${ex.target}</span>`, idx)).join('')}
+        </div>
+
+        <div class="section-title">Finisher</div>
+        <div class="list">
+          ${session.finisher.map((ex, idx)=>rowCheck(key, `FIN:${idx}`, `${ex.name} — <span class='muted'>${ex.target}</span>`)).join('')}
+        </div>
+
+        <div class="section-title">Cool‑Down (5 min)</div>
+        <div class="list">
+          ${['Standing Quad Stretch 30s/leg','Hamstring Stretch 30s/leg','Chest Stretch 30s','Cat‑Cow 30s','Child’s Pose 30s'].map(w=>rowStatic(w)).join('')}
+        </div>
+
+        <hr class="divider"/>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button class="btn primary" id="restBtn">⏱️ 60s Rest (<span class="kbd">R</span>)</button>
+          <div id="restTimer" class="pill">Ready</div>
+          <div style="flex:1"></div>
+          <button class="btn accent" id="completeBtn">Mark Session Complete</button>
+        </div>
+      `;
+
+      bindChecks();
+      $('#restBtn').onclick = startRestTimer;
+      document.onkeydown = (e)=>{ if(e.key.toLowerCase()==='r') startRestTimer(); };
+      $('#completeBtn').onclick = ()=>{
+        const st = loadState();
+        st.done = st.done || {}; st.done[key] = true; saveState(st); render();
+      };
+    }
+
+    function rowStatic(text){ return `<div class="row"><div class="label">${text}</div></div>`; }
+
+    function sessionKey(entry){ return `${entry.date.toDateString()}|W${entry.week}`; }
+
+    function isSessionDone(entry){
+      const st = loadState();
+      return !!(st.done && st.done[sessionKey(entry)]);
+    }
+
+    function rowCheck(dayKey, id, label){
+      const st = loadState();
+      const checked = !!(st.marks && st.marks[dayKey] && st.marks[dayKey][id]);
+      return `
+        <div class="row" data-id="${id}">
+          <div class="label">
+            <div class="check ${checked?'done':''}"></div>
+            <div>${label}</div>
+          </div>
+          <div class="small">set</div>
+        </div>`;
+    }
+
+    function bindChecks(){
+      $$('#circuit .row, .list .row').forEach(row=>{
+        const box = row.querySelector('.check');
+        if (!box) return;
+        box.addEventListener('click', ()=>{
+          const id = row.dataset.id;
+          const st = loadState();
+          const mainEl = $('#main h2').textContent;
+          const dayKey = mainEl.includes('Week') ? mainEl : 'day'; // fallback
+
+          st.marks = st.marks || {};
+          st.marks[dayKey] = st.marks[dayKey] || {};
+          st.marks[dayKey][id] = ! (st.marks[dayKey][id]);
+          saveState(st);
+          box.classList.toggle('done');
+        });
+      });
+    }
+
+    function startRestTimer(){
+      const el = $('#restTimer');
+      let n = 60; el.textContent = `Rest: ${n}s`; el.style.color = '#fff';
+      const t = setInterval(()=>{
+        n--; el.textContent = n>0?`Rest: ${n}s`:'Go!';
+        if(n<=0){ clearInterval(t); el.style.color = 'var(--accent-2)'; }
+      },1000);
+    }
+
+    function renderWeek(){
+      const cal = generateCalendar();
+      const now = new Date();
+      const monday = startMonday(now);
+      const weekDays = Array.from({length:7},(_,i)=>{ const d = new Date(monday); d.setDate(monday.getDate()+i); return d; });
+
+      const rows = weekDays.map(day=>{
+        const entry = cal.find(x=>isSameDay(x.date, day));
+        if (!entry){
+          return `<div class="row"><div class="label"><div class="chip">${day.toLocaleDateString(undefined,{weekday:'short'})}</div> Rest / Mobility</div><div class="small">—</div></div>`;
+        }
+        const done = isSessionDone(entry);
+        return `<div class="row"><div class="label"><div class="chip">${day.toLocaleDateString(undefined,{weekday:'short'})}</div> Week ${entry.week} · ${entry.session.phase}</div><div class="small ${done?'accent':''}">${done?'Done':'Scheduled'}</div></div>`;
+      }).join('');
+
+      $('#main').innerHTML = `
+        <h2>This Week</h2>
+        <div class="pill">Days/Week: ${state.daysPerWeek}</div>
+        <div class="list" style="margin-top:8px;">${rows}</div>
+        <hr class="divider"/>
+        ${renderMobility()}
+      `;
+    }
+
+    function renderProgram(){
+      const rows = PROGRAM.weeks.map(w => `
+        <details>
+          <summary>Week ${w.week} · ${w.phase} · Rounds: ${w.rounds} — <span class="muted">${w.notes}</span></summary>
+          <div class="list" style="margin-top:8px;">
+            ${w.block.map(ex=>rowStatic(`${ex.name} — <span class='muted'>${ex.target}</span>`)).join('')}
+          </div>
+          <div class="section-title">Finisher</div>
+          <div class="list">${w.finisher.map(ex=>rowStatic(`${ex.name} — <span class='muted'>${ex.target}</span>`)).join('')}</div>
+        </details>
+      `).join('');
+
+      $('#main').innerHTML = `
+        <h2>Full 12‑Week Program</h2>
+        <p class="muted">No equipment. Alternate days. Progress by phase: Foundation → Strength & Volume → Power & Definition.</p>
+        <div class="list">${rows}</div>
+      `;
+    }
+
+    function renderSettings(){
+      $('#main').innerHTML = `
+        <h2>Settings</h2>
+        <div class="list">
+          <div class="row">
+            <div class="label">Start week (defaults to this Monday)</div>
+            <input type="date" id="startDate" class="btn" style="padding:8px;" />
+          </div>
+          <div class="row">
+            <div class="label">Days per week</div>
+            <div>
+              <label><input type="radio" name="dpw" value="3"> 3 (Mon, Wed, Fri)</label>
+              <span style="margin:0 8px;"></span>
+              <label><input type="radio" name="dpw" value="4"> 4 (Mon, Wed, Fri, Sat)</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="label">Rest between sets (sec)</div>
+            <input type="number" id="restSec" class="btn" value="60" min="20" max="180" step="5" style="width:100px; text-align:right;" />
+          </div>
+          <div class="row">
+            <div class="label">Export / Import</div>
+            <div>
+              <button class="btn" id="exportBtn">Export Progress</button>
+              <button class="btn" id="importBtn">Import</button>
+              <input type="file" id="fileIn" accept="application/json" hidden />
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <button class="btn accent" id="saveBtn">Save Settings</button>
+        </div>
+      `;
+
+      // populate
+      const d = new Date(state.startDate);
+      const iso = d.toISOString().slice(0,10);
+      $('#startDate').value = iso;
+      $$('input[name=dpw]').forEach(r=> r.checked = +r.value === +state.daysPerWeek);
+      $('#restSec').value = state.restBetween;
+
+      $('#saveBtn').onclick = ()=>{
+        const sd = $('#startDate').value ? new Date($('#startDate').value) : new Date();
+        const dpw = +document.querySelector('input[name=dpw]:checked').value;
+        const rest = Math.max(20, Math.min(180, +$('#restSec').value||60));
+        state.startDate = startMonday(sd).toISOString();
+        state.daysPerWeek = dpw;
+        state.restBetween = rest;
+        saveState(state);
+        alert('Saved.');
+        render();
+      };
+
+      $('#exportBtn').onclick = ()=>{
+        const blob = new Blob([JSON.stringify(loadState(), null, 2)], {type:'application/json'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'workout-progress.json';
+        a.click();
+      };
+
+      $('#importBtn').onclick = ()=> $('#fileIn').click();
+      $('#fileIn').onchange = (e)=>{
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try { const data = JSON.parse(reader.result); localStorage.setItem(storageKey, JSON.stringify(data)); alert('Imported.'); state={...DEFAULTS,...data}; render(); }
+          catch { alert('Invalid file.'); }
+        };
+        reader.readAsText(file);
+      };
+    }
+
+    function renderMobility(){
+      return `
+        <div class="section-title">Mobility (Optional 6–8 min)</div>
+        <div class="list">
+          ${['Hip Circles × 8 each','World’s Greatest Stretch × 4/side','Thoracic Rotations × 8','Ankle Rocks × 10/side'].map(rowStatic).join('')}
+        </div>
+      `;
+    }
+
+    function bindNav(){
+      $('#todayBtn').onclick = renderToday;
+      $('#weekBtn').onclick = renderWeek;
+      $('#programBtn').onclick = renderProgram;
+      $('#settingsBtn').onclick = renderSettings;
+    }
+
+    // init
+    if (!localStorage.getItem(storageKey)) saveState(DEFAULTS);
+    state = { ...DEFAULTS, ...loadState() };
+    render();
+  </script>
 </body>
 </html>
-
-
