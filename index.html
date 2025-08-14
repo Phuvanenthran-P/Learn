@@ -1,374 +1,133 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#000000" />
-  <title>Workout — Mobile</title>
-  <style>
-    :root{
-      --bg:#000; --fg:#fff; --muted:#b5b5b5; --line:#222; --accent:#fff; --ok:#fff; --tap:rgba(255,255,255,.08);
-      --radius:16px; --pad:14px; --padl:18px; --gap:12px; --shadow:0 8px 24px rgba(0,0,0,.5);
-    }
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;}
-    .app{min-height:100dvh;padding-bottom:84px;}
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+  <meta name="theme-color" content="#000000">
+  <title>FinSight — Personal Finance</title>
 
-    header{position:sticky;top:0;background:#000;z-index:5;border-bottom:1px solid var(--line);}
-    .bar{display:flex;align-items:center;gap:10px; padding:var(--padl) var(--padl) var(--pad);}
-    .title{font-size:20px;font-weight:700;letter-spacing:.2px}
-    .sub{font-size:12px;color:var(--muted)}
-
-    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:8px 12px;border-radius:999px;font-size:12px;color:var(--muted)}
-
-    main{padding:var(--padl);}
-
-    .card{background:#050505;border:1px solid var(--line);border-radius:var(--radius);padding:var(--padl);box-shadow:var(--shadow)}
-    h2{margin:0 0 6px 0;font-size:18px}
-    .muted{color:var(--muted)}
-
-    .list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px dashed var(--line);border-radius:14px;padding:12px}
-    .label{display:flex;align-items:center;gap:10px;}
-    .check{width:26px;height:26px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;}
-    .check.done{background:#fff;color:#000}
-    .chip{display:inline-block;border:1px solid var(--line);padding:4px 8px;border-radius:999px;font-size:12px;color:var(--muted)}
-
-    .grid{display:grid;gap:12px}
-
-    .controls{display:flex;gap:10px;align-items:center}
-    .btn{flex:1;display:inline-flex;justify-content:center;align-items:center;border:1px solid var(--fg);border-radius:14px;padding:14px 16px;background:#000;color:#fff;font-weight:600}
-    .btn:active{background:var(--tap)}
-    .btn.ghost{border-color:var(--line);color:#fff}
-
-    .progress{height:10px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#0a0a0a}
-    .bar{height:100%;width:0%;background:#fff}
-
-    nav{position:fixed;bottom:0;left:0;right:0;background:#000;border-top:1px solid var(--line);padding:8px env(safe-area-inset-left) 10px env(safe-area-inset-right);z-index:10}
-    .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .tab{padding:12px;border:1px solid var(--line);border-radius:14px;text-align:center;font-weight:600}
-    .tab.active{border-color:#fff}
-
-    .timer{font-variant-tabular-nums:tabular-nums}
-
-    .toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:#000;border:1px solid var(--line);padding:10px 12px;border-radius:12px;color:#fff;font-size:13px;display:none}
-    .toast.show{display:block}
-
-    .row:active{background:var(--tap)}
-    button{cursor:pointer}
-  </style>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./styles.css">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
-  <div class="app" id="app">
+  <main id="app" class="container">
     <header>
-      <div class="bar">
-        <div>
-          <div class="title">Full‑Body (No Equipment)</div>
-          <div class="sub">12‑week • 21y • 170 cm • 55 kg • Minimal UI</div>
-        </div>
-        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-          <button class="pill" id="installBtn" title="Install app">Install</button>
-          <span class="pill timer" id="restPill">Rest: Ready</span>
-        </div>
+      <div class="brand">
+        <div class="logo">FS</div>
+        <h1>FinSight</h1>
       </div>
+      <button id="installBtn" class="btn small">Install</button>
     </header>
 
-    <main>
-      <section class="grid" id="screen"></section>
-    </main>
+    <section id="balanceCard" class="card">
+      <div class="balanceLabel">Total Balance</div>
+      <div id="balance" class="balance">₹0.00</div>
+      <canvas id="insightChart" width="240" height="120" aria-label="Spending chart"></canvas>
+    </section>
 
-    <nav>
-      <div class="tabs">
-        <div class="tab active" data-tab="today">Today</div>
-        <div class="tab" data-tab="week">Week</div>
-        <div class="tab" data-tab="settings">Settings</div>
+    <section class="card actions">
+      <button id="addTxnBtn" class="btn block">+ Add Transaction</button>
+      <button id="addGoalBtn" class="btn block alt">+ Add Savings Goal</button>
+    </section>
+
+    <section id="transactions" class="card list">
+      <h2>Transactions</h2>
+      <div id="txnList" class="listInner">No transactions yet.</div>
+      <div class="listFooter">
+        <button id="exportCsv" class="btn small">Export CSV</button>
+        <input id="importCsv" type="file" accept=".csv" style="display:none">
+        <button id="importBtn" class="btn small">Import CSV</button>
       </div>
-    </nav>
+    </section>
 
-    <div class="toast" id="toast">Saved</div>
+    <section id="budgets" class="card list">
+      <h2>Budgets</h2>
+      <div id="budgetList">No budgets set.</div>
+    </section>
+
+    <footer class="card footer">
+      <small>Local only • Private • Minimal</small>
+    </footer>
+  </main>
+
+  <!-- Add / Edit Transaction Modal -->
+  <div id="modal" class="modal hidden">
+    <form id="txnForm" class="modalContent">
+      <h3 id="modalTitle">Add Transaction</h3>
+
+      <label>
+        Type
+        <select id="txnType" required>
+          <option value="expense">Expense</option>
+          <option value="income">Income</option>
+        </select>
+      </label>
+
+      <label>
+        Amount
+        <input id="txnAmount" type="number" step="0.01" required placeholder="0.00">
+      </label>
+
+      <label>
+        Category
+        <select id="txnCategory"></select>
+      </label>
+
+      <label>
+        Date
+        <input id="txnDate" type="date" required>
+      </label>
+
+      <label>
+        Note
+        <input id="txnNote" type="text" placeholder="Optional note">
+      </label>
+
+      <label>
+        Recurring
+        <select id="txnRecurring">
+          <option value="none">None</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+        </select>
+      </label>
+
+      <div class="modalActions">
+        <button type="submit" class="btn">Save</button>
+        <button type="button" id="closeModal" class="btn alt">Cancel</button>
+      </div>
+    </form>
   </div>
 
-  <script>
-  // -----------------------------
-  // Manifest + Service Worker (single-file PWA)
-  // Note: Full PWA install/offline works when served from HTTPS or localhost.
-  // -----------------------------
-  (function setupPWA(){
-    const manifest = {
-      name: "Workout (No Equipment)",
-      short_name: "Workout",
-      display: "standalone",
-      background_color: "#000000",
-      theme_color: "#000000",
-      start_url: ".",
-      icons: [
-        { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='black'/%3E%3Cpath d='M20 60 h60 v10 H20z M45 30 h10 v40 H45z' fill='white'/%3E%3C/svg%3E", sizes:"100x100", type:"image/svg+xml", purpose:"any maskable"}
-      ]
-    };
-    try{
-      const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('link');
-      link.rel = 'manifest'; link.href = url; document.head.appendChild(link);
-    }catch(e){}
+  <!-- Add Goal Modal -->
+  <div id="goalModal" class="modal hidden">
+    <form id="goalForm" class="modalContent">
+      <h3>Add Savings Goal</h3>
 
-    if ('serviceWorker' in navigator) {
-      const swCode = `
-        const CACHE='workout-v1';
-        self.addEventListener('install', e=>{
-          e.waitUntil((async()=>{
-            const cache = await caches.open(CACHE);
-            const req = new Request(self.registration.scope, {cache:'reload'});
-            try{ await cache.add(req); }catch(e){}
-            self.skipWaiting();
-          })());
-        });
-        self.addEventListener('activate', e=> e.waitUntil(self.clients.claim()));
-        self.addEventListener('fetch', e=>{
-          e.respondWith((async()=>{
-            const r = await caches.match(e.request);
-            return r || fetch(e.request).catch(()=>caches.match(self.registration.scope));
-          })());
-        });`;
-      const blob = new Blob([swCode], {type:'text/javascript'});
-      const swURL = URL.createObjectURL(blob);
-      navigator.serviceWorker.register(swURL).catch(()=>{});
-    }
-  })();
+      <label>
+        Name
+        <input id="goalName" type="text" required>
+      </label>
 
-  // -----------------------------
-  // Program Data (12 weeks)
-  // -----------------------------
-  const PROGRAM = Array.from({length:12}, (_,i)=>{
-    const week=i+1;
-    let phase, rounds, notes;
-    if (week<=4){ phase='Foundation'; rounds=3; notes='Form first. Controlled tempo.'; }
-    else if (week<=8){ phase='Strength & Volume'; rounds=4; notes='Shorter rests. Higher reps.'; }
-    else { phase='Power & Definition'; rounds=week>=11?5:4; notes='Explosive intent. Soft landings.'; }
+      <label>
+        Target Amount
+        <input id="goalTarget" type="number" step="0.01" required>
+      </label>
 
-    let block, finisher;
-    if (phase==='Foundation'){
-      block=[
-        {n:'Push-Ups', t: week<3? '8–10 reps':'10–12 reps'},
-        {n:'Bodyweight Squats', t: week<3? '12–15 reps':'15–18 reps'},
-        {n:'Plank → Shoulder Tap', t:'20–25 sec'},
-        {n:'Reverse Lunges', t:'8–10 / leg'},
-        {n:'Superman Hold', t:'15–20 sec'},
-        {n:'Mountain Climbers', t:'20–25 sec'}
-      ];
-      finisher=[{n:'Burpees', t:'6–8 reps × 2 rds'}];
-    } else if (phase==='Strength & Volume'){
-      block=[
-        {n:'Push-Ups (last set Diamond)', t: week<7? '12–14 reps':'14–16 reps'},
-        {n:'Jump Squats', t:'12–15 reps'},
-        {n:'Side Plank + Hip Lift', t:'20–25 sec / side'},
-        {n:'Bulgarian Split Squat (chair)', t:'8–10 / leg'},
-        {n:'Mountain Climbers', t:'30–35 sec'},
-        {n:'Superman (alt arm/leg)', t:'20–25 sec'}
-      ];
-      finisher=[{n:'Burpees', t:'8–10 reps × 3 rds'}, {n:'Sprint in Place', t:'20–25 sec × 3 rds'}];
-    } else {
-      block=[
-        {n:'Explosive Push-Ups (Clap if safe)', t: week<11? '8–10 reps':'10–12 reps'},
-        {n:'Jump Lunges', t:'10–12 / leg'},
-        {n:'Side Plank + Rotation', t:'20–30 sec / side'},
-        {n:'Assisted Pistol Squat', t:'6–8 / leg'},
-        {n:'Mountain Climbers', t:'35–45 sec'},
-        {n:'Superman → Swimmer Kicks', t:'20–30 sec'}
-      ];
-      finisher=[{n:'Burpee → Jump Squat', t:'6–8 reps × 3 rds'}, {n:'High Knees', t:'30 sec × 3 rds'}];
-    }
-    return {week, phase, rounds, notes, block, finisher};
-  });
+      <label>
+        Current Saved
+        <input id="goalCurrent" type="number" step="0.01" value="0">
+      </label>
 
-  // -----------------------------
-  // State & Storage
-  // -----------------------------
-  const KEY='wko-mobile-v1';
-  const DEFAULTS={ daysPerWeek:3, start: monday(new Date()).toISOString(), rest:60 };
-  const load=()=>{ try{return JSON.parse(localStorage.getItem(KEY))||{};}catch{return{}} };
-  const save=(s)=> localStorage.setItem(KEY, JSON.stringify(s));
-  let state = { ...DEFAULTS, ...load() };
+      <div class="modalActions">
+        <button type="submit" class="btn">Save</button>
+        <button type="button" id="closeGoalModal" class="btn alt">Cancel</button>
+      </div>
+    </form>
+  </div>
 
-  function monday(d){ const x=new Date(d); const day=x.getDay(); const diff=(day===0?-6:1-day); x.setDate(x.getDate()+diff); x.setHours(0,0,0,0); return x; }
-  const trainDays = ()=> state.daysPerWeek===3? [1,3,5]:[1,3,5,6];
-  const sameDay=(a,b)=> a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
-
-  function makeCalendar(){
-    const start=new Date(state.start);
-    const out=[]; let wk=1;
-    for(let i=0;i<84;i++){
-      const d=new Date(start); d.setDate(start.getDate()+i);
-      const dow=d.getDay();
-      if(trainDays().includes(dow)) out.push({date:d, week:wk, sess: PROGRAM[wk-1]});
-      if(dow===0 && i>0) wk++;
-    }
-    return out;
-  }
-
-  // -----------------------------
-  // UI Helpers
-  // -----------------------------
-  const $=s=>document.querySelector(s);
-  const $$=s=>Array.from(document.querySelectorAll(s));
-  const toast=(t)=>{ const el=$('#toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1200); };
-  const fmt=(d)=>d.toLocaleDateString(undefined,{weekday:'short', month:'short', day:'numeric'});
-
-  function isDone(entry){ const s=load(); s.done=s.done||{}; return !!s.done[key(entry)]; }
-  function key(entry){ return entry.date.toDateString()+"|W"+entry.week; }
-
-  // -----------------------------
-  // Screens
-  // -----------------------------
-  function render(){
-    const active=$('.tab.active')?.dataset.tab||'today';
-    if(active==='today') renderToday();
-    else if(active==='week') renderWeek();
-    else renderSettings();
-  }
-
-  function warmupList(){
-    return ['Arm Circles 30s fwd + 30s back','High Knees 1 min','Torso Twists 1 min','Jumping Jacks 1 min','Slow Squats × 10'];
-  }
-
-  function cooldownList(){
-    return ['Standing Quad Stretch 30s/leg','Hamstring Stretch 30s/leg','Chest Stretch 30s','Cat‑Cow 30s','Child’s Pose 30s'];
-  }
-
-  function rowStatic(text){ return `<div class="row"><div class="label">${text}</div></div>`; }
-  function rowCheck(dayKey,id,label){
-    const st=load(); st.marks=st.marks||{}; const checked=!!(st.marks[dayKey]&&st.marks[dayKey][id]);
-    return `<div class="row" data-id="${id}"><div class="label"><div class="check ${checked?'done':''}">✓</div><div>${label}</div></div><div class="chip">set</div></div>`;
-  }
-
-  function bindChecks(dayKey){
-    $$('#screen .row').forEach(r=>{
-      const box=r.querySelector('.check'); if(!box) return;
-      r.addEventListener('click',()=>{
-        const id=r.dataset.id; const st=load(); st.marks=st.marks||{}; st.marks[dayKey]=st.marks[dayKey]||{}; st.marks[dayKey][id]=!(st.marks[dayKey][id]); save(st); box.classList.toggle('done'); });
-    });
-  }
-
-  function renderToday(){
-    const cal=makeCalendar();
-    const today=cal.find(x=>sameDay(x.date,new Date()));
-    if(!today){
-      // Rest day
-      const next=cal.find(x=>x.date>new Date());
-      $('#screen').innerHTML = `
-        <section class="card">
-          <h2>Today</h2>
-          <div class="chip">Rest / Mobility Day</div>
-          <p class="muted">Next workout: <strong>${fmt(next?.date||cal[0].date)}</strong> · Week ${next?.week||1} · ${next?.sess.phase}</p>
-          <div class="list">${warmupList().map(rowStatic).join('')}</div>
-        </section>`;
-      return;
-    }
-
-    const {week,sess}=today; const dayKey=key(today);
-    const doneMap=load().done||{}; const sessionDone=!!doneMap[dayKey];
-
-    $('#screen').innerHTML = `
-      <section class="card">
-        <h2>Today · ${fmt(today.date)} · Week ${week}</h2>
-        <div class="chip">${sess.phase} · ${sess.rounds} rounds</div>
-        <p class="muted" style="margin-top:6px;">${sess.notes}</p>
-        <div class="list">${warmupList().map(rowStatic).join('')}</div>
-        <h3 style="margin:14px 0 6px 0">Main Circuit × ${sess.rounds}</h3>
-        <div class="list" id="circuit">${sess.block.map((ex,i)=>rowCheck(dayKey,'ALL:'+i,`${ex.n} — <span class='muted'>${ex.t}</span>`)).join('')}</div>
-        <h3 style="margin:14px 0 6px 0">Finisher</h3>
-        <div class="list">${sess.finisher.map((ex,i)=>rowCheck(dayKey,'FIN:'+i,`${ex.n} — <span class='muted'>${ex.t}</span>`)).join('')}</div>
-        <h3 style="margin:14px 0 6px 0">Cool‑Down</h3>
-        <div class="list">${cooldownList().map(rowStatic).join('')}</div>
-        <div class="controls" style="margin-top:12px">
-          <button class="btn" id="restBtn">⏱️ Rest ${state.rest}s</button>
-          <button class="btn ghost" id="doneBtn">${sessionDone? 'Completed ✓':'Mark Complete'}</button>
-        </div>
-      </section>`;
-
-    $('#restBtn').onclick=startRest;
-    $('#doneBtn').onclick=()=>{ const st=load(); st.done=st.done||{}; st.done[dayKey]=true; save(st); toast('Session marked complete'); render(); };
-    bindChecks(dayKey);
-  }
-
-  function renderWeek(){
-    const cal=makeCalendar(); const now=new Date(); const mon=monday(now); const days=[...Array(7)].map((_,i)=>{const d=new Date(mon); d.setDate(mon.getDate()+i); return d;});
-    const rows = days.map(d=>{
-      const e=cal.find(x=>sameDay(x.date,d));
-      if(!e) return `<div class="row"><div class="label"><div class="chip">${d.toLocaleDateString(undefined,{weekday:'short'})}</div> Rest / Mobility</div><div class="chip">—</div></div>`;
-      const done=isDone(e);
-      return `<div class="row"><div class="label"><div class="chip">${d.toLocaleDateString(undefined,{weekday:'short'})}</div> Week ${e.week} · ${e.sess.phase}</div><div class="chip">${done? 'Done':'Scheduled'}</div></div>`;
-    }).join('');
-
-    const stats = (()=>{ const total=cal.length; const done=cal.filter(isDone).length; const pct=Math.round(done/total*100); return {total,done,pct}; })();
-
-    $('#screen').innerHTML=`
-      <section class="card">
-        <h2>This Week</h2>
-        <div class="progress" style="margin:8px 0 10px 0"><div class="bar" style="width:${stats.pct}%"></div></div>
-        <div class="list">${rows}</div>
-      </section>`;
-  }
-
-  function renderSettings(){
-    $('#screen').innerHTML=`
-      <section class="card">
-        <h2>Settings</h2>
-        <div class="list">
-          <div class="row"><div class="label">Start week</div><input id="startDate" type="date" class="btn" style="width:160px"></div>
-          <div class="row"><div class="label">Days / week</div><div>
-            <label style="margin-right:10px"><input type="radio" name="dpw" value="3"> 3</label>
-            <label><input type="radio" name="dpw" value="4"> 4</label>
-          </div></div>
-          <div class="row"><div class="label">Rest timer (sec)</div><input id="restSec" type="number" min="20" max="180" step="5" class="btn" style="width:120px" value="${state.rest}"></div>
-          <div class="row"><div class="label">Data</div><div>
-            <button class="btn ghost" id="exportBtn">Export</button>
-            <button class="btn ghost" id="importBtn">Import</button>
-            <button class="btn ghost" id="resetBtn">Reset</button>
-            <input type="file" id="fileIn" accept="application/json" hidden>
-          </div></div>
-        </div>
-      </section>`;
-
-    const d=new Date(state.start); $('#startDate').value=d.toISOString().slice(0,10);
-    $$('input[name=dpw]').forEach(r=> r.checked=(+r.value===+state.daysPerWeek));
-
-    $('#exportBtn').onclick=()=>{ const blob=new Blob([JSON.stringify(load(),null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='workout-progress.json'; a.click(); };
-    $('#importBtn').onclick=()=>$('#fileIn').click();
-    $('#fileIn').onchange=(e)=>{ const f=e.target.files[0]; if(!f) return; const rd=new FileReader(); rd.onload=()=>{ try{ const data=JSON.parse(rd.result); localStorage.setItem(KEY, JSON.stringify(data)); state={...DEFAULTS,...data}; toast('Imported'); render(); }catch{ alert('Invalid file'); } }; rd.readAsText(f); };
-    $('#resetBtn').onclick=()=>{ if(confirm('Reset all progress?')){ localStorage.removeItem(KEY); state={...DEFAULTS}; toast('Reset'); render(); } };
-
-    // Save when fields change
-    $('#startDate').onchange=()=>{ const sd=$('#startDate').value? new Date($('#startDate').value): new Date(); state.start=monday(sd).toISOString(); save(state); toast('Saved'); };
-    $$('input[name=dpw]').forEach(r=> r.onchange=()=>{ state.daysPerWeek=+document.querySelector('input[name=dpw]:checked').value; save(state); toast('Saved'); });
-    $('#restSec').onchange=()=>{ const v=Math.max(20,Math.min(180,+$('#restSec').value||60)); state.rest=v; save(state); toast('Saved'); };
-  }
-
-  // -----------------------------
-  // Rest Timer (60s default, adjustable in Settings)
-  // -----------------------------
-  let restT=null, restN=0;
-  function startRest(){
-    clearInterval(restT); restN=state.rest; $('#restPill').textContent='Rest: '+restN+'s';
-    restT=setInterval(()=>{ restN--; $('#restPill').textContent = restN>0? ('Rest: '+restN+'s') : 'Go!'; if(restN<=0){ clearInterval(restT); navigator.vibrate?.(120); } },1000);
-  }
-
-  // Keyboard helper (desktop testing)
-  document.addEventListener('keydown',e=>{ if(e.key.toLowerCase()==='r') startRest(); });
-
-  // Bottom nav
-  $$('.tab').forEach(t=> t.addEventListener('click',()=>{ $$('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active'); render(); }));
-
-  // Install prompt (when eligible)
-  let deferredPrompt;
-  window.addEventListener('beforeinstallprompt',(e)=>{ e.preventDefault(); deferredPrompt=e; $('#installBtn').style.display='inline-flex'; });
-  $('#installBtn').addEventListener('click', async ()=>{ if(!deferredPrompt){ toast('Install unavailable (open via HTTPS)'); return; } deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; toast(outcome==='accepted'?'Installing…':'Install canceled'); deferredPrompt=null; });
-
-  // Init
-  if(!localStorage.getItem(KEY)) save(DEFAULTS);
-  state={...DEFAULTS,...load()};
-  render();
-  </script>
+  <script src="./app.js" defer></script>
 </body>
 </html>
