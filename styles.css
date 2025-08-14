@@ -1,0 +1,93 @@
+:root{
+  --bg:#fff;
+  --fg:#000;
+  --muted:#666;
+  --card:#fafafa;
+  --accent:#000;
+  --radius:12px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout:none;
+}
+
+.container{
+  padding:12px;
+  max-width:480px;
+  margin:0 auto;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.brand{display:flex;align-items:center;gap:10px}
+.logo{
+  width:44px;height:44px;border-radius:10px;background:#000;color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;
+}
+h1{font-size:18px;margin:0;font-weight:600}
+
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:12px;
+  margin-bottom:10px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+
+.balanceLabel{font-size:12px;color:var(--muted)}
+.balance{font-size:28px;font-weight:700;margin-top:6px}
+
+.actions .btn{margin-bottom:8px}
+.btn{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  display:inline-block;
+  border:1px solid #000;
+  background:transparent;
+  color:var(--fg);
+  font-weight:600;
+  font-size:15px;
+  text-align:center;
+}
+.btn.small{width:auto;padding:8px 10px;font-size:13px}
+.btn.alt{background:#000;color:#fff}
+
+.list h2{margin:0 0 8px 0;font-size:16px}
+.listInner{max-height:220px;overflow:auto;padding:4px 0}
+
+.txn{
+  display:flex;justify-content:space-between;align-items:center;padding:8px 6px;border-radius:8px;
+}
+.txn .meta{display:flex;flex-direction:column}
+.txn .amt{font-weight:700}
+
+.footer{text-align:center;padding:8px;opacity:0.7}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:40}
+.hidden{display:none}
+.modalContent{background:#fff;padding:14px;border-radius:12px;width:min(420px,94%);box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+.modalContent h3{margin-top:0}
+label{display:block;margin:8px 0;font-size:13px}
+input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #999;font-size:15px}
+.modalActions{display:flex;gap:8px;margin-top:12px}
+.listFooter{display:flex;gap:6px;justify-content:flex-end;margin-top:8px}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#000;--fg:#fff;--card:#111}
+  .logo{background:#fff;color:#000}
+  .btn.alt{background:#fff;color:#000;border-color:#fff}
+}
